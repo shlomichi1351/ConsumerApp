@@ -61,7 +61,7 @@ public class login extends AppCompatActivity {
 
         final TextView pss = findViewById(R.id.pswd);
         final TextView sendpss = findViewById(R.id.sendpassword);
-        //sendpss.setTextColor(Color.parseColor("#888888"));
+
         sendpss.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
