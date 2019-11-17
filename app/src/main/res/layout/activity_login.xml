@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="260dp">
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center|bottom"
+                android:background="#70000000">
+                <TextView
+                    android:id="@+id/sin"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Sign in"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="16dp"/>
+                <TextView
+                    android:id="@+id/sup"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Sign up"
+                    android:textColor="#fff"
+                    android:textSize="16dp"
+                    android:padding="16dp"/>
+            </LinearLayout>
+        </FrameLayout>
+        <EditText
+            android:id="@+id/mal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Name"
+            android:inputType="textEmailAddress"
+            android:textColor="#000"
+            android:background="@drawable/rounded_text"
+            android:padding="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:drawableLeft="@drawable/user"
+            android:drawablePadding="16dp"
+            />
+        <EditText
+            android:id="@+id/pswd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:background="@drawable/rounded_text"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:padding="12dp"
+            android:drawablePadding="16dp"
+            android:visibility="gone"
+            android:drawableLeft="@drawable/lockers"
+            />
+        <TextView
+            android:id="@+id/sendpassword"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Click on me to get your password!"
+            android:textSize="17dp"
+            android:textColor="#A9A9A9"
+            android:layout_marginBottom="2dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
+
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/sinnp"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btnformate"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:textAlignment="center"
+        android:padding="14dp"
+        android:gravity="center"
+        android:text="Sign in!"
+        android:textSize="16dp"
+        android:textColor="#fff"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>
+
