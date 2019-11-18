@@ -20,8 +20,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.Calendar;
 
-public class login extends AppCompatActivity {
-
+public class login extends AppCompatActivity
+{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +31,32 @@ public class login extends AppCompatActivity {
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
-        TextView textView = findViewById(R.id.sup);
+        final TextView textView = findViewById(R.id.sup);
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(login.this, signup.class);
                 startActivity(it);
+            }
+        });
+
+        textView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    // When the user clicks the Button
+                    case MotionEvent.ACTION_DOWN:
+                        textView.setTypeface(Typeface.DEFAULT_BOLD);
+                        break;
+
+                    // When the user releases the Button
+                    case MotionEvent.ACTION_UP:
+                        textView.setTypeface(Typeface.DEFAULT);
+                        break;
+                }
+                return false;
             }
         });
 
@@ -65,10 +85,18 @@ public class login extends AppCompatActivity {
         sendpss.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(sendpss.isInTouchMode())
-                    sendpss.setTypeface(null, Typeface.BOLD);
-                else
-                    sendpss.setTypeface(null, Typeface.NORMAL);
+
+                switch (event.getAction()) {
+                    // When the user clicks the Button
+                    case MotionEvent.ACTION_DOWN:
+                        sendpss.setTypeface(Typeface.DEFAULT_BOLD);
+                        break;
+
+                    // When the user releases the Button
+                    case MotionEvent.ACTION_UP:
+                        sendpss.setTypeface(Typeface.DEFAULT);
+                        break;
+                }
                 return false;
             }
         });
@@ -82,6 +110,7 @@ public class login extends AppCompatActivity {
                     public void onTick(long millisUntilFinished) {
                         //remember to check what the user choose!!!!!!!!!!!
                         sendpss.setEnabled(false);
+                        sendpss.setTypeface(null, Typeface.NORMAL);
                         sendpss.setText("We've sent you Email/SMS with the password.\nPlease enter the code below.\nYou will be able to request the password again in " + millisUntilFinished / 1000);
                     }
 
@@ -93,6 +122,4 @@ public class login extends AppCompatActivity {
             }
         });
     }
-
-
 }
