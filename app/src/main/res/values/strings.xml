@@ -3,4 +3,7 @@
     <string name="createaccount">
     <font size="25">Create an account\n\n</font><font size="13"> For a higher quality of life!</font>
 </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
