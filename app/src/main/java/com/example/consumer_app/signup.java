@@ -1,5 +1,4 @@
 package com.example.consumer_app;
-
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.bumptech.glide.Glide;
 
 public class signup extends AppCompatActivity implements TextWatcher {
     // test
@@ -28,6 +30,9 @@ public class signup extends AppCompatActivity implements TextWatcher {
         getSupportActionBar().hide();
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
+        ImageView imageView = findViewById(R.id.gif_background);
+        Glide.with(this).load(R.drawable.gif_background).into(imageView);
 
         final TextView back = findViewById(R.id.back);
         //back to login
@@ -61,22 +66,16 @@ public class signup extends AppCompatActivity implements TextWatcher {
         final Button nxt = findViewById(R.id.next);
         final EditText id = findViewById(R.id.id_person);
         final EditText fname = findViewById(R.id.fname);
-        final EditText lname = findViewById(R.id.lname);
         final EditText phone = findViewById(R.id.phone_number);
         id.addTextChangedListener(this);
         fname.addTextChangedListener(this);
-        lname.addTextChangedListener(this);
         phone.addTextChangedListener(this);
 
         nxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                Fragment fragment = new FragmentSignUp2();
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft=fm.beginTransaction();
-                ft.replace(R.id.fragment_place, fragment);
-                ft.commit();
+
             }
         });
     }
@@ -100,7 +99,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
         final Button nxt = findViewById(R.id.next);
         final EditText id = findViewById(R.id.id_person);
         final EditText fname = findViewById(R.id.fname);
-        final EditText lname = findViewById(R.id.lname);
         final TextView warning = findViewById(R.id.error_messege);
         final EditText phone = findViewById(R.id.phone_number);
 
@@ -111,10 +109,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
         } else if (fname.getText().toString().isEmpty()) {
             warning.setVisibility(View.VISIBLE);
             warning.setText("Please enter your first name!");
-
-        } else if (lname.getText().toString().isEmpty()) {
-            warning.setVisibility(View.VISIBLE);
-            warning.setText("Please enter your last name!");
 
         } else if (!(phone.getText().toString().matches("05[0-9]{8}"))) {
             warning.setVisibility(View.VISIBLE);
