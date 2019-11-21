@@ -106,8 +106,10 @@ public class login extends AppCompatActivity
             public void onClick(View v) {
                 pss.setVisibility(View.VISIBLE);
                 //btn.setText("Sign In!");
-                new CountDownTimer(30000, 1000) {
-                    public void onTick(long millisUntilFinished) {
+                new CountDownTimer(30000, 1000)
+                {
+                    public void onTick(long millisUntilFinished)
+                    {
                         //remember to check what the user choose!!!!!!!!!!!
                         sendpss.setEnabled(false);
                         sendpss.setTypeface(null, Typeface.NORMAL);
@@ -121,5 +123,6 @@ public class login extends AppCompatActivity
                 }.start();
             }
         });
+
     }
 }

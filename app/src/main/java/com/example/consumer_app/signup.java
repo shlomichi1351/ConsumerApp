@@ -1,4 +1,5 @@
 package com.example.consumer_app;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
 
         ImageView imageView = findViewById(R.id.gif_background);
         Glide.with(this).load(R.drawable.gif_background).into(imageView);
+
 
         final TextView back = findViewById(R.id.back);
         //back to login
@@ -75,7 +77,8 @@ public class signup extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View v)
             {
-
+                Intent it = new Intent(signup.this, MapsActivity.class);
+                startActivity(it);
             }
         });
     }
