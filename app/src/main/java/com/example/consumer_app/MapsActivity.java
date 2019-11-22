@@ -70,10 +70,11 @@ public class MapsActivity extends FragmentActivity implements
 
     public void onClick(View view)
     {
-        EditText addressField=findViewById(R.id.enter_address);
+        final EditText addressField=findViewById(R.id.enter_address);
         String address=addressField.getText().toString();
         List<Address> addressList = null;
         MarkerOptions userMarkerOptions = new MarkerOptions();
+
 
 
         if(!TextUtils.isEmpty(address))
@@ -81,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements
             Geocoder geocoder = new Geocoder(this);
             try
             {
-                addressList=geocoder.getFromLocationName(address,6);
+                addressList=geocoder.getFromLocationName(address,1);
 
                 if(addressList != null && !addressList.isEmpty())
                 {
@@ -112,6 +113,16 @@ public class MapsActivity extends FragmentActivity implements
 
                 //paint the text with red color(the address uncorrect)
             }
+
+            //when the api return number of results, the user will pick one...
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker)
+                {
+                    addressField.setText(marker.getTitle());
+                    return false;
+                }
+            });
         }
         else
         {
@@ -241,7 +252,8 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     //this func call whenever the connection is failed...
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
+    {
+        //write messege to user
     }
 }

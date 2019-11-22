@@ -107,15 +107,21 @@ public class signup extends AppCompatActivity implements TextWatcher {
 
         if (!(id.getText().toString().length() == 9)) {
             warning.setVisibility(View.VISIBLE);
-            warning.setText("There is no ID with " + id.getText().length() + " digits!");
+            nxt.setEnabled(false);
+            nxt.setTextColor(Color.parseColor("#796D6D"));
+            warning.setText("  לא קיימת תעודת זהות עם " + id.getText().length() + " ספרות");
 
         } else if (fname.getText().toString().isEmpty()) {
             warning.setVisibility(View.VISIBLE);
-            warning.setText("Please enter your first name!");
+            nxt.setEnabled(false);
+            nxt.setTextColor(Color.parseColor("#796D6D"));
+            warning.setText("  נא כתוב את שמך המלא!");
 
         } else if (!(phone.getText().toString().matches("05[0-9]{8}"))) {
             warning.setVisibility(View.VISIBLE);
-            warning.setText("Please enter correct cellphone!");
+            warning.setText("  נא הכנס מספר טלפון תקין!");
+            nxt.setEnabled(false);
+            nxt.setTextColor(Color.parseColor("#796D6D"));
             scrollView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -126,6 +132,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
             warning.setVisibility(View.GONE);
             nxt.setEnabled(true);
             nxt.setTextColor(Color.parseColor("#000000"));
+
         }
     }
 }

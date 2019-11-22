@@ -14,7 +14,7 @@
                 android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
-                android:layout_height="80pt"
+                android:layout_height="60pt"
                 />
             <!--LinearLayout
                 android:layout_width="match_parent"
@@ -50,8 +50,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
+            android:layout_marginTop="12dp"
             android:textAlignment="center"
             android:text="Hello World"/>
+        <TextView
+            android:id="@+id/title_login2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:layout_marginTop="1dp"
+            android:layout_marginHorizontal="21pt"
+            android:textAlignment="center"
+            android:text="אנא הכנס את הפרטים הבאים לצורך התחברות:"/>
         <EditText
             android:layout_marginTop="20dp"
             android:id="@+id/username"

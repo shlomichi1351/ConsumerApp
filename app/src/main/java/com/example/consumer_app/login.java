@@ -62,19 +62,27 @@ public class login extends AppCompatActivity
 
 
         ImageView imageView = findViewById(R.id.img);
-        Calendar c = Calendar.getInstance();
-        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
         Glide.with(this).load(R.drawable.day).into(imageView);
+
+        Calendar c = Calendar.getInstance();
+        TextView title=findViewById(R.id.title_login);
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
         if (timeOfDay >= 0 && timeOfDay < 12) {
+            title.setText("בוקר טוב!");
             Toast.makeText(this, "Good Morning", Toast.LENGTH_SHORT).show();
             // Glide.with(this).load(R.drawable.day).into(imageView);
         } else if (timeOfDay >= 12 && timeOfDay < 16) {
+            title.setText("צהריים טובים!");
+
             Toast.makeText(this, "Good Afternoon", Toast.LENGTH_SHORT).show();
             // Glide.with(this).load(R.drawable.day).into(imageView);
         } else if (timeOfDay >= 16 && timeOfDay < 21) {
+            title.setText("ערב טוב!");
+
             Toast.makeText(this, "Good Evening", Toast.LENGTH_SHORT).show();
             // Glide.with(this).load(R.drawable.night).into(imageView);
         } else if (timeOfDay >= 21 && timeOfDay < 24) {
+            title.setText("לילה טוב!");
             Toast.makeText(this, "Good Night", Toast.LENGTH_SHORT).show();
             // Glide.with(this).load(R.drawable.night).into(imageView);
         }
