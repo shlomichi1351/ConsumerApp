@@ -32,8 +32,8 @@ public class signup extends AppCompatActivity implements TextWatcher {
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
-        ImageView imageView = findViewById(R.id.gif_background);
-        Glide.with(this).load(R.drawable.gif_background).into(imageView);
+//        ImageView imageView = findViewById(R.id.gif_background);
+//        Glide.with(this).load(R.drawable.gif_background).into(imageView);
 
 
         final TextView back = findViewById(R.id.back);

@@ -2,12 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/gif_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+    android:layout_height="match_parent"
+    android:background="@drawable/signup_background">
 
     <ScrollView
         android:id="@+id/scroll"
@@ -20,41 +16,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <Button
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="70pt"
-            android:background="@drawable/top_background_sign_up"
-            android:text="@string/createaccount"
+            android:layout_height="match_parent"
+            android:textSize="15pt"
+            android:layout_marginTop="12pt"
+            android:fontFamily="@font/heebo_black"
+            android:text="יצירת חשבון"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textStyle="normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="8pt"
+            android:fontFamily="@font/heebo_black"
+            android:text="בשביל איכות חיים גבוהה יותר!"
+            android:textAlignment="center"
             android:textColor="#ffffff"
             android:textStyle="normal" />
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="22pt"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/sendpassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:text="נא מלא את הפרטים הבאים"
-                android:textAlignment="center"
-                android:textColor="#484848"
-                android:textSize="17dp" />
 
             <EditText
                 android:id="@+id/fname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_text"
-                android:drawableRight="@drawable/user"
-                android:drawablePadding="16dp"
+                android:drawableRight="@drawable/ic_person"
+                android:drawablePadding="12dp"
                 android:hint="שם מלא"
                 android:inputType="textPersonName"
                 android:padding="12dp"
@@ -70,7 +70,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_text"
                 android:drawableRight="@drawable/id_icon"
-                android:drawablePadding="16dp"
+                android:drawablePadding="12dp"
                 android:maxLength="9"
                 android:hint="תעודת זהות"
                 android:inputType="number"
@@ -83,12 +83,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_text"
                 android:drawableRight="@drawable/phone_number_icon"
-                android:drawablePadding="16dp"
+                android:drawablePadding="12dp"
                 android:hint="מספר פלאפון"
                 android:inputType="textPersonName"
                 android:maxLength="10"
@@ -103,6 +103,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="15dp"
+                android:fontFamily="@font/heebo_black"
                 android:drawableRight="@drawable/error_icon"
                 android:textColor="#cc0000"
                 android:textSize="17dp" />
@@ -161,8 +162,9 @@
             android:layout_marginRight="9dp"
             android:layout_weight="1"
             android:background="@drawable/prev"
-            android:drawableLeft="@drawable/arrow_previos"
+            android:drawableLeft="@drawable/ic_keyboard_arrow_left_black_24dp"
             android:gravity="center"
+            android:fontFamily="@font/heebo_black"
             android:padding="16dp"
             android:text="חזור"
             android:textColor="#000000"
@@ -175,9 +177,10 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/next"
-            android:drawableRight="@drawable/arrow_next"
+            android:drawableRight="@drawable/ic_arrow_right"
             android:enabled="false"
             android:gravity="center"
+            android:fontFamily="@font/heebo_black"
             android:padding="16dp"
             android:text="הבא"
             android:textColor="#796D6D"
