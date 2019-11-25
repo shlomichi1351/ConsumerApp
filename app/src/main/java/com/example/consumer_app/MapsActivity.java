@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.List;
@@ -86,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements
 
                 if(addressList != null && !addressList.isEmpty())
                 {
+                    currentUserLocationMarker.remove();
                     for (int i=0; i<addressList.size(); i++)
                     {
                         Address userAddress = addressList.get(i);
@@ -96,22 +98,19 @@ public class MapsActivity extends FragmentActivity implements
                         userMarkerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
                         mMap.addMarker(userMarkerOptions);
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
                     }
                 }
                 else
                 {
-                    Toast.makeText(this,"הכתובת לא נמצאה",Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), "הכתובת לא נמצאה", Snackbar.LENGTH_LONG).show();
                 }
             }
 
             catch (IOException e)
             {
                 e.printStackTrace();
-                addressField.setTextColor(Color.parseColor("#FF0000"));
-                Toast.makeText(this,"הכתובת לא נמצאה",Toast.LENGTH_SHORT).show();
-
-                //paint the text with red color(the address uncorrect)
+                Snackbar.make(findViewById(android.R.id.content), "הכתובת לא נמצאה", Snackbar.LENGTH_LONG).show();
             }
 
             //when the api return number of results, the user will pick one...
@@ -126,7 +125,7 @@ public class MapsActivity extends FragmentActivity implements
         }
         else
         {
-            Toast.makeText(this,"נא הכנס כתובת",Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "נא הכנס כתובת", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -199,7 +198,7 @@ public class MapsActivity extends FragmentActivity implements
                     }
                 } else
                 {
-                    Toast.makeText(this,"Permission Denied...", Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), "Permission Denied...", Snackbar.LENGTH_LONG).show();
                 }
                 return;
         }
@@ -216,8 +215,22 @@ public class MapsActivity extends FragmentActivity implements
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
+        List<Address> addressList = null;
+
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
+
+        Geocoder geocoder = new Geocoder(this);
+        final EditText addressField=findViewById(R.id.enter_address);
+        try
+        {
+            addressList=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);     //move the current address to the list
+            String address=addressList.get(0).getAddressLine(0)+" "+ addressList.get(0).getAddressLine(1)+" " +addressList.get(0).getAddressLine(2);
+            addressField.setText(address);
+        } catch (IOException e) {
+            Snackbar.make(findViewById(android.R.id.content), "לא ניתן למצוא את מיקומך הנוכחי", Snackbar.LENGTH_LONG).show();
+        }
+
         markerOptions.title("מיקומך הנוכחי");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
 

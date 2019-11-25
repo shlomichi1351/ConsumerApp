@@ -95,6 +95,7 @@
                 android:padding="12dp"
                 android:textColor="#000" />
 
+
             <TextView
                 android:visibility="gone"
                 android:id="@+id/error_messege"

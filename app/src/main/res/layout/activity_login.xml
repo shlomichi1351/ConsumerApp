@@ -73,6 +73,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginHorizontal="15pt"
         android:padding="9dp"
+        android:visibility="gone"
         android:drawablePadding="16dp"
         android:drawableLeft="@drawable/ic_lock"
         />
@@ -88,6 +89,7 @@
         android:layout_marginBottom="2dp"
         android:layout_gravity="center"
         android:textAlignment="center"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
