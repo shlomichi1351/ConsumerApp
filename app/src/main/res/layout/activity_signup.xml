@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signup_background">
+    android:background="@drawable/signup_background_blur">
 
     <ScrollView
         android:id="@+id/scroll"
@@ -23,7 +23,7 @@
             android:textSize="15pt"
             android:layout_marginTop="12pt"
             android:fontFamily="@font/heebo_black"
-            android:text="יצירת חשבון"
+            android:text="הצטרף אלינו"
             android:textAlignment="center"
             android:textColor="#ffffff"
             android:textStyle="normal" />

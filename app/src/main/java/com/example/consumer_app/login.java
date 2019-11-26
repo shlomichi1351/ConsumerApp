@@ -33,6 +33,8 @@ public class login extends AppCompatActivity
         //this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         final TextView textView = findViewById(R.id.sup);
+        textView.setTypeface(Typeface.DEFAULT);
+
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +92,7 @@ public class login extends AppCompatActivity
 
         final TextView pss = findViewById(R.id.pswd);
         final TextView sendpss = findViewById(R.id.sendpassword);
+        sendpss.setTypeface(Typeface.DEFAULT);
 
         sendpss.setOnTouchListener(new View.OnTouchListener() {
             @Override

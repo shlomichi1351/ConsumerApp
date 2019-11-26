@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements
     private Location lastLocation;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code =99;
+    protected Button sup;
 
 
     @Override
@@ -75,6 +77,8 @@ public class MapsActivity extends FragmentActivity implements
         String address=addressField.getText().toString();
         List<Address> addressList = null;
         MarkerOptions userMarkerOptions = new MarkerOptions();
+        Button signup=findViewById(R.id.sinnp);
+
 
 
 
@@ -100,16 +104,19 @@ public class MapsActivity extends FragmentActivity implements
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
                     }
+                    signup.setEnabled(true);
                 }
                 else
                 {
                     Snackbar.make(findViewById(android.R.id.content), "הכתובת לא נמצאה", Snackbar.LENGTH_LONG).show();
+                    signup.setEnabled(false);
                 }
             }
 
             catch (IOException e)
             {
                 e.printStackTrace();
+                signup.setEnabled(false);
                 Snackbar.make(findViewById(android.R.id.content), "הכתובת לא נמצאה", Snackbar.LENGTH_LONG).show();
             }
 
@@ -187,7 +194,9 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        Button signup=findViewById(R.id.sinnp);
         switch (requestCode) {
             case Request_User_Location_Code:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -198,6 +207,7 @@ public class MapsActivity extends FragmentActivity implements
                     }
                 } else
                 {
+                    signup.setEnabled(false);
                     Snackbar.make(findViewById(android.R.id.content), "Permission Denied...", Snackbar.LENGTH_LONG).show();
                 }
                 return;
@@ -208,6 +218,8 @@ public class MapsActivity extends FragmentActivity implements
     public void onLocationChanged(Location location)
     {
         lastLocation=location;
+        Button signup=findViewById(R.id.sinnp);
+
         if(currentUserLocationMarker != null)   //the location connect to another location
         {
             currentUserLocationMarker.remove();
@@ -227,8 +239,10 @@ public class MapsActivity extends FragmentActivity implements
             addressList=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);     //move the current address to the list
             String address=addressList.get(0).getAddressLine(0)+" "+ addressList.get(0).getAddressLine(1)+" " +addressList.get(0).getAddressLine(2);
             addressField.setText(address);
+            signup.setEnabled(true);
         } catch (IOException e) {
             Snackbar.make(findViewById(android.R.id.content), "לא ניתן למצוא את מיקומך הנוכחי", Snackbar.LENGTH_LONG).show();
+            signup.setEnabled(false);
         }
 
         markerOptions.title("מיקומך הנוכחי");
@@ -269,4 +283,5 @@ public class MapsActivity extends FragmentActivity implements
     {
         //write messege to user
     }
+
 }

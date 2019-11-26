@@ -1,103 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout android:layout_width="match_parent"
+
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/signup_background"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15pt"
-        android:layout_marginTop="14pt"
-        android:fontFamily="@font/heebo_regular"
-        android:text="שלב אחרון..."
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:textStyle="normal" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="8pt"
-        android:layout_marginTop="2pt"
-        android:fontFamily="@font/heebo_regular"
-        android:text="הכנס את הכתובת אליה יגיעו החבילות"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:textStyle="normal" />
+    android:gravity="center"
+    android:background="@drawable/signup_background_blur">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15pt"
-        android:background="@drawable/rounded_text"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical">
 
-
-        <Button
-            android:id="@+id/search_button"
-            android:layout_width="0dp"
-            android:layout_weight="0.10"
-            android:layout_height="12pt"
-            android:layout_marginLeft="3dp"
-            android:background="@drawable/ic_search"
-            android:onClick="onClick"/>
-
-        <EditText
-            android:id="@+id/enter_address"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="0.9"
-            android:layout_marginLeft="10pt"
-            android:inputType="text"
-            android:padding="7dp"
-            android:background="@drawable/rounded_text"
-            android:layout_alignParentTop="true"
-            android:hint="אנא הכנס את כתובת מגוריך" />
+            android:textSize="15pt"
+            android:layout_marginTop="14pt"
+            android:fontFamily="@font/heebo_regular"
+            android:text="שלב אחרון..."
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textStyle="normal" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8pt"
+            android:layout_marginTop="2pt"
+            android:fontFamily="@font/heebo_regular"
+            android:text="הכנס את הכתובת אליה יגיעו החבילות"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15pt"
+            android:layout_marginHorizontal="2pt"
+            android:background="@drawable/rounded_text"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="0dp"
+                android:layout_weight="0.10"
+                android:layout_height="12pt"
+                android:layout_marginLeft="3dp"
+                android:background="@drawable/ic_search"
+                android:onClick="onClick"/>
+
+            <EditText
+                android:id="@+id/enter_address"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_marginLeft="10pt"
+                android:inputType="text"
+                android:padding="7dp"
+                android:background="@drawable/rounded_text"
+                android:layout_alignParentTop="true"
+                android:hint="אנא הכנס את כתובת מגוריך" />
+
+        </LinearLayout>
+
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="180pt"
+            android:layout_marginBottom="2dp"
+            tools:context=".MapsActivity" />
     </LinearLayout>
 
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="180pt"
-        android:layout_marginBottom="2dp"
-        tools:context=".MapsActivity" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical">
 
     <Button
         android:id="@+id/sinnp"
-        android:gravity="center|bottom"
-        android:layout_width="match_parent"
+        android:layout_width="150pt"
         android:layout_height="wrap_content"
         android:background="@drawable/btnformate"
         android:layout_marginTop="18pt"
-        android:layout_marginHorizontal="20pt"
+        android:layout_marginHorizontal="2pt"
         android:textAlignment="center"
         android:padding="14dp"
-        android:layout_alignParentBottom="true"
-        android:text="Sign in!"
+        android:text="Sign Up!"
         android:textSize="16dp"
         android:textColor="#fff"
         />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="12pt"
         android:fontFamily="cursive"
-        android:layout_marginTop="8pt"
+        android:layout_marginTop="4pt"
+        android:layout_marginBottom="4pt"
         android:text="Thank you for signing up!"
         android:textAlignment="center"
         android:textColor="#ffffff"
         android:textStyle="normal" />
 
+    </LinearLayout>
 
-
-</LinearLayout>
+</RelativeLayout>
