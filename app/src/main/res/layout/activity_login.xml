@@ -90,6 +90,19 @@
         android:layout_gravity="center"
         android:textAlignment="center"/>
 
+    <TextView
+        android:id="@+id/parcel"
+        android:layout_marginHorizontal="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20dp"
+        android:textColor="#ffffff"
+        android:fontFamily="@font/heebo_medium"
+        android:layout_marginBottom="2dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
@@ -109,6 +122,7 @@
             android:gravity="center"
             android:text="Sign in!"
             android:textSize="16dp"
+
             android:fontFamily="@font/heebo_medium"
             android:textColor="#fff"
             />

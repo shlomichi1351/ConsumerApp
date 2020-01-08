@@ -1,193 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signup_background_blur">
+    android:fillViewport="true">
 
-    <ScrollView
-        android:id="@+id/scroll"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/backnext">
+        android:background="@drawable/signup_background_blur">
 
-    <LinearLayout
-        android:id="@+id/details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
+        <ScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="15pt"
-            android:layout_marginTop="12pt"
-            android:fontFamily="@font/heebo_black"
-            android:text="הצטרף אלינו"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textStyle="normal" />
+            android:layout_above="@+id/backnext">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="8pt"
-            android:fontFamily="@font/heebo_black"
-            android:text="בשביל איכות חיים גבוהה יותר!"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textStyle="normal" />
+            <LinearLayout
+                android:id="@+id/details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="15pt"
+                    android:layout_marginTop="12pt"
+                    android:fontFamily="@font/heebo_black"
+                    android:text="הצטרף אלינו"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="8pt"
+                    android:fontFamily="@font/heebo_black"
+                    android:text="בשביל איכות חיים גבוהה יותר!"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textStyle="normal" />
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22pt"
+                    android:orientation="vertical">
+
+
+                    <EditText
+                        android:id="@+id/fname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_text"
+                        android:drawableRight="@drawable/ic_person"
+                        android:drawablePadding="12dp"
+                        android:hint="שם מלא"
+                        android:inputType="textPersonName"
+                        android:padding="12dp"
+                        android:textColor="#000" />
+
+                    <EditText
+                        android:id="@+id/id_person"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_text"
+                        android:drawableRight="@drawable/id_icon"
+                        android:drawablePadding="12dp"
+                        android:maxLength="9"
+                        android:hint="תעודת זהות"
+                        android:inputType="number"
+                        android:padding="12dp"
+                        android:textColor="#000" />
+
+
+                    <EditText
+                        android:id="@+id/phone_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_text"
+                        android:drawableRight="@drawable/ic_phone"
+                        android:drawablePadding="12dp"
+                        android:hint="מספר פלאפון"
+                        android:inputType="textPersonName"
+                        android:maxLength="10"
+                        android:padding="12dp"
+                        android:textColor="#000" />
+
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/error_messege"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="15dp"
+                        android:fontFamily="@font/heebo_black"
+                        android:drawableRight="@drawable/error_icon"
+                        android:textColor="#cc0000"
+                        android:textSize="17dp" />
+                    <!--LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center|bottom"
+                android:background="#80000000">
+                <TextView
+                    android:id="@+id/sing"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Sign in"
+                    android:textColor="#fff"
+                    android:textSize="16dp"
+                    android:padding="16dp"/>
+                <TextView
+                    android:id="@+id/sup"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Sign Up"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="16dp"/>
+                </LinearLayout-->
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </ScrollView>
+
+
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/backnext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22pt"
-            android:orientation="vertical">
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layoutDirection="ltr">
 
-
-            <EditText
-                android:id="@+id/fname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_text"
-                android:drawableRight="@drawable/ic_person"
-                android:drawablePadding="12dp"
-                android:hint="שם מלא"
-                android:inputType="textPersonName"
-                android:padding="12dp"
-                android:textColor="#000" />
-
-            <EditText
-                android:id="@+id/id_person"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_text"
-                android:drawableRight="@drawable/id_icon"
-                android:drawablePadding="12dp"
-                android:maxLength="9"
-                android:hint="תעודת זהות"
-                android:inputType="number"
-                android:padding="12dp"
-                android:textColor="#000" />
-
-
-            <EditText
-                android:id="@+id/phone_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_text"
-                android:drawableRight="@drawable/phone_number_icon"
-                android:drawablePadding="12dp"
-                android:hint="מספר פלאפון"
-                android:inputType="textPersonName"
-                android:maxLength="10"
-                android:padding="12dp"
-                android:textColor="#000" />
-
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/error_messege"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/back"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginRight="9dp"
+                android:layout_weight="1"
+                android:background="@drawable/prev"
+                android:drawableLeft="@drawable/ic_keyboard_arrow_left_black_24dp"
+                android:gravity="center"
                 android:fontFamily="@font/heebo_black"
-                android:drawableRight="@drawable/error_icon"
-                android:textColor="#cc0000"
-                android:textSize="17dp" />
-            <!--LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center|bottom"
-        android:background="#80000000">
-        <TextView
-            android:id="@+id/sing"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Sign in"
-            android:textColor="#fff"
-            android:textSize="16dp"
-            android:padding="16dp"/>
-        <TextView
-            android:id="@+id/sup"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Sign Up"
-            android:textColor="#000000"
-            android:textSize="16dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="16dp"/>
-        </LinearLayout-->
+                android:padding="16dp"
+                android:text="חזור"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/next"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/next"
+                android:drawableRight="@drawable/ic_arrow_right"
+                android:enabled="false"
+                android:gravity="center"
+                android:fontFamily="@font/heebo_black"
+                android:padding="16dp"
+                android:text="הבא"
+                android:textColor="#796D6D"
+                android:textSize="16dp" />
+
+
         </LinearLayout>
+    </RelativeLayout>
 
-
-
-    </LinearLayout>
-    </ScrollView>
-
-
-    <LinearLayout
-        android:id="@+id/backnext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:layoutDirection="ltr">
-
-        <Button
-            android:id="@+id/back"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="9dp"
-            android:layout_weight="1"
-            android:background="@drawable/prev"
-            android:drawableLeft="@drawable/ic_keyboard_arrow_left_black_24dp"
-            android:gravity="center"
-            android:fontFamily="@font/heebo_black"
-            android:padding="16dp"
-            android:text="חזור"
-            android:textColor="#000000"
-            android:textSize="16dp" />
-
-        <Button
-            android:id="@+id/next"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@drawable/next"
-            android:drawableRight="@drawable/ic_arrow_right"
-            android:enabled="false"
-            android:gravity="center"
-            android:fontFamily="@font/heebo_black"
-            android:padding="16dp"
-            android:text="הבא"
-            android:textColor="#796D6D"
-            android:textSize="16dp" />
-
-
-    </LinearLayout>
-</RelativeLayout>
-
+</ScrollView>

@@ -1,24 +1,20 @@
-package com.example.consumer_app;
+package com.example.consumer_app.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
-import java.util.Calendar;
+import com.example.consumer_app.Model.Parcel;
+import com.example.consumer_app.Model.ParcelRepository;
+import com.example.consumer_app.R;
+import com.example.consumer_app.ui.SignUp.signup;
 
 public class login extends AppCompatActivity
 {
@@ -27,6 +23,7 @@ public class login extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        viewModelLogin viewModelLogin=new viewModelLogin(getApplication());
 
         getSupportActionBar().hide();
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -62,6 +59,12 @@ public class login extends AppCompatActivity
                 return false;
             }
         });
+
+
+        Parcel parcel=new Parcel(Parcel.Type.LargePackage,false,3.5,"haifa","jerus","moshe","0584647888","550");
+        viewModelLogin.insert(parcel);
+        TextView parc=findViewById(R.id.parcel);
+        parc.setText(viewModelLogin.getAllparcels().getValue().size());
 
 
         // ImageView imageView = findViewById(R.id.img);

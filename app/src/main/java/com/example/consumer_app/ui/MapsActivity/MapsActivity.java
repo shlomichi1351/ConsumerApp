@@ -1,4 +1,4 @@
-package com.example.consumer_app;
+package com.example.consumer_app.ui.MapsActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,19 +8,17 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.example.consumer_app.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationListener;
 
@@ -31,7 +29,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -237,7 +234,7 @@ public class MapsActivity extends FragmentActivity implements
         try
         {
             addressList=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);     //move the current address to the list
-            String address=addressList.get(0).getAddressLine(0)+" "+ addressList.get(0).getAddressLine(1)+" " +addressList.get(0).getAddressLine(2);
+            String address=(addressList.get(0).getAddressLine(0)+" "+ addressList.get(0).getAddressLine(1)+" " +addressList.get(0).getAddressLine(2)).replaceAll("null","");
             addressField.setText(address);
             signup.setEnabled(true);
         } catch (IOException e) {

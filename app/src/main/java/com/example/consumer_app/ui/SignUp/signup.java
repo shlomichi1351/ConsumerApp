@@ -1,4 +1,4 @@
-package com.example.consumer_app;
+package com.example.consumer_app.ui.SignUp;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -10,16 +10,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.bumptech.glide.Glide;
+import com.example.consumer_app.R;
+import com.example.consumer_app.ui.MapsActivity.MapsActivity;
 
 public class signup extends AppCompatActivity implements TextWatcher {
     // test
