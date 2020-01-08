@@ -21,7 +21,8 @@ public class ParcelRepository
         allParcels = parcelDao.getAllParcel();
     }
 
-    public void insert(Parcel parcel){
+    public void insert(Parcel parcel)
+    {
         new InsertParcelAsyncTask(parcelDao).execute(parcel);
     }
 

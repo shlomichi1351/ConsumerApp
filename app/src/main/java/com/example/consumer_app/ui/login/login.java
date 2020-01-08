@@ -1,6 +1,8 @@
 package com.example.consumer_app.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -16,6 +18,8 @@ import com.example.consumer_app.Model.ParcelRepository;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.SignUp.signup;
 
+import java.util.List;
+
 public class login extends AppCompatActivity
 {
     @Override
@@ -23,7 +27,7 @@ public class login extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        viewModelLogin viewModelLogin=new viewModelLogin(getApplication());
+        viewModelLogin viewModelLogin = ViewModelProviders.of(this).get(com.example.consumer_app.ui.login.viewModelLogin.class);
 
         getSupportActionBar().hide();
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -61,10 +65,15 @@ public class login extends AppCompatActivity
         });
 
 
-        Parcel parcel=new Parcel(Parcel.Type.LargePackage,false,3.5,"haifa","jerus","moshe","0584647888","550");
+        Parcel parcel=new Parcel(Parcel.Type.LargePackage,false,3.5,"haifa","jerus","moshe","0584647888","57750");
         viewModelLogin.insert(parcel);
-        TextView parc=findViewById(R.id.parcel);
-        parc.setText(viewModelLogin.getAllparcels().getValue().size());
+        final TextView parc=findViewById(R.id.parcel);
+        viewModelLogin.getAllparcels().observe(this, new Observer<List<Parcel>>() {
+            @Override
+            public void onChanged(List<Parcel> parcels) {
+                parc.setText(parcels.size() + "");
+            }
+        });
 
 
         // ImageView imageView = findViewById(R.id.img);

@@ -24,6 +24,7 @@ public interface DAO
     @Query("DELETE FROM parcel_table")
     void deleteAllParcels();
 
-    @Query("SELECT * FROM parcel_table ORDER BY parcelId Desc")
+    //  ORDER BY parcelId Desc
+    @Query("SELECT * FROM parcel_table")
     LiveData<List<Parcel>> getAllParcel();
 }

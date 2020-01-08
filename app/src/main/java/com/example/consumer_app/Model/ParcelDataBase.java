@@ -4,9 +4,11 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 
 @Database(entities = {Parcel.class}, version = 1)
+@TypeConverters({convertor.class})
 public abstract class ParcelDataBase extends RoomDatabase
 {
     private static ParcelDataBase instance;

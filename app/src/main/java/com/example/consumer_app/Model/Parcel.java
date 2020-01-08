@@ -7,7 +7,6 @@ import androidx.room.TypeConverters;
 
 
 @Entity(tableName = "Parcel_table")
-@TypeConverters({convertor.class})
 public class Parcel {
     public enum Type{
         Envelope,SmallPackage, LargePackage
