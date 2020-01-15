@@ -1,8 +1,11 @@
 package com.example.consumer_app.ui.SignUp;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -17,13 +20,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.MapsActivity.MapsActivity;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.io.IOException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class signup extends AppCompatActivity implements TextWatcher {
-    // test
+    private CircleImageView ProfileImage;
+    private static final int PICK_IMAGE = 1;
+    Uri imageUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+
+        ProfileImage = (CircleImageView) findViewById(R.id.Profile_Image);
+        ProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+              func();
+            }
+        });
+
 
         getSupportActionBar().hide();
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -72,8 +95,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
 
         nxt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent it = new Intent(signup.this, MapsActivity.class);
                 startActivity(it);
             }
@@ -86,15 +108,13 @@ public class signup extends AppCompatActivity implements TextWatcher {
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count)
-    {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
     }
 
     @Override
-    public void afterTextChanged(Editable s)
-    {
-        final ScrollView scrollView=findViewById(R.id.scroll);
+    public void afterTextChanged(Editable s) {
+        final ScrollView scrollView = findViewById(R.id.scroll);
 
         final Button nxt = findViewById(R.id.next);
         final EditText id = findViewById(R.id.id_person);
@@ -132,4 +152,40 @@ public class signup extends AppCompatActivity implements TextWatcher {
 
         }
     }
+
+    public void func()
+    {
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(1, 1)
+                .start(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1, 1)
+                    .start(this);
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            Uri resultUri = result.getUri();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
+                ProfileImage.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
 }

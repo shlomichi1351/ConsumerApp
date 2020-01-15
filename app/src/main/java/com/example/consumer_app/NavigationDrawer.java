@@ -20,11 +20,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.ImageView;
 
 public class NavigationDrawer extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -32,6 +34,9 @@ public class NavigationDrawer extends AppCompatActivity {
         setContentView(R.layout.activity_navigation_drawer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        imageView=findViewById(R.id.image_user);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

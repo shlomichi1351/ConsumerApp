@@ -1,5 +1,7 @@
 package com.example.consumer_app.Model;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 public class User
@@ -10,6 +12,7 @@ public class User
     String password;
     String PhoneNumber;
     ArrayList<User> friendsList;
+    Uri imageLocalUri;
 
     public User(String firstName,String lastName,
             String userName,
@@ -24,6 +27,8 @@ public class User
         this.PhoneNumber=PhoneNumber;
         this.friendsList=new ArrayList<>(friendsList);
     }
+
+  //  public String getImageFirebaseUrl() {         return imageFirebaseUrl;     }     public void setImageFirebaseUrl(String imageFirebaseUrl) {         this.imageFirebaseUrl = imageFirebaseUrl;     }
 
     public String getFirstName() {
         return firstName;
@@ -72,5 +77,4 @@ public class User
     public void setFriendsList(ArrayList<User> friendsList) {
         this.friendsList = friendsList;
     }
-    //user name, nickname, pass, picture, phone number,
 }
