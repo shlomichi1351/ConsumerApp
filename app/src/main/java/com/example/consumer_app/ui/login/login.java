@@ -65,13 +65,16 @@ public class login extends AppCompatActivity
         });
 
 
-        Parcel parcel=new Parcel(Parcel.Type.LargePackage,false,3.5,"haifa","jerus","moshe","0584647888","57750");
+        Parcel parcel=new Parcel(Parcel.Type.LargePackage,false,3.5,"haifa","jerus","moshe","0584647888","07508");
         viewModelLogin.insert(parcel);
         final TextView parc=findViewById(R.id.parcel);
-        viewModelLogin.getAllparcels().observe(this, new Observer<List<Parcel>>() {
+
+        viewModelLogin.getAllparcels().observe(this, new Observer<List<Parcel>>()
+        {
             @Override
-            public void onChanged(List<Parcel> parcels) {
-                parc.setText(parcels.size() + "");
+            public void onChanged(List<Parcel> parcels)
+            {
+                parc.setText(parcels.get(0).getStatus() + "");
             }
         });
 

@@ -13,10 +13,10 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_home">בית</string>
+    <string name="menu_my_freind">החברים שלי</string>
+    <string name="menu_freind_package">חבילות של חבריי</string>
+    <string name="menu_information_package">מידע על חבילות</string>
+    <string name="menu_share">שתף</string>
+    <string name="menu_send">כתוב לנו!</string>
 </resources>
