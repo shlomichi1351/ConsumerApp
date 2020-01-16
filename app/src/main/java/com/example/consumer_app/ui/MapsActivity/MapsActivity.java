@@ -5,19 +5,24 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.consumer_app.Model.Action;
+import com.example.consumer_app.Model.Firebase_DBManager;
+import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationListener;
@@ -36,9 +41,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 //
 public class MapsActivity extends FragmentActivity implements
+        Serializable,
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,    //to the that the connection succesful
         GoogleApiClient.OnConnectionFailedListener,    //when the connection is faild
@@ -52,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code =99;
     protected Button sup;
-
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,9 @@ public class MapsActivity extends FragmentActivity implements
         {
             checkUserLocationPermission();
         }
+
+        Intent intent= getIntent();
+        user=(User)intent.getSerializableExtra("Parcel");
     }
 
     public void onClick(View view)
@@ -281,4 +291,39 @@ public class MapsActivity extends FragmentActivity implements
         //write messege to user
     }
 
+
+    private void addUser()
+    {
+        try {
+            User userToFireBase = user;
+            //addStudentButton.setEnabled(false);
+            Firebase_DBManager.addUser(user, new Action<String>()
+            {
+                @Override
+                public void onSuccess(String obj) {
+                    Toast.makeText(getBaseContext(),"insert id " + obj, Toast.LENGTH_LONG).show();
+                    //addStudentButton.setEnabled(true);
+                }
+
+                @Override
+                public void onFailure(Exception exception)
+                {
+                    Toast.makeText(getBaseContext(),"Error \n" + exception.getMessage(), Toast.LENGTH_LONG).show();
+                    //addStudentButton.setEnabled(true);
+                }
+                @Override
+                public void onProgress(String status, double percent)
+                {
+                    if (percent != 100)
+                        //addStudentButton.setEnabled(false);
+                    //addStudentProgressBar.setProgress((int) percent);
+                        ;
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), "Error ", Toast.LENGTH_LONG).show();
+            //addStudentButton.setEnabled(true);
+
+        }
+    }
 }

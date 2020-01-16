@@ -1,6 +1,5 @@
 package com.example.consumer_app.ui.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +55,7 @@ public class HomeFragment extends Fragment {
 
         try {
 
-            Firebase_DBManager.addParcel(a, new Action<String>()
+            Firebase_DBManager.addUserToFirebase(a, new Action<String>()
             {
                 @Override
                 public void onSuccess(String obj) {

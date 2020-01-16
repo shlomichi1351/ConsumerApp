@@ -2,6 +2,8 @@ package com.example.consumer_app.Model;
 
 import android.net.Uri;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 
 public class User
@@ -13,6 +15,7 @@ public class User
     String PhoneNumber;
     ArrayList<User> friendsList;
     Uri imageLocalUri;
+    String imageFirebaseUrl;
 
     public User(String firstName,String lastName,
             String userName,
@@ -36,6 +39,26 @@ public class User
 
     public String getLastName() {
         return lastName;
+    }
+
+    @Exclude
+    public Uri getImageLocalUri()
+    {
+        return imageLocalUri;
+    }
+    public void setImageLocalUri(Uri imageLocalUri)
+    {
+        this.imageLocalUri = imageLocalUri;
+    }
+
+    public String getImageFirebaseUrl()
+    {
+        return imageFirebaseUrl;
+    }
+
+    public void setImageFirebaseUrl(String imageFirebaseUrl)
+    {
+        this.imageFirebaseUrl = imageFirebaseUrl;
     }
 
     public String getUserName() {

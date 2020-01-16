@@ -27,4 +27,5 @@ public interface DAO
     //  ORDER BY parcelId Desc
     @Query("SELECT * FROM parcel_table")
     LiveData<List<Parcel>> getAllParcel();
+
 }

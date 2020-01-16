@@ -18,19 +18,24 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.consumer_app.Model.Parcel;
+import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.MapsActivity.MapsActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class signup extends AppCompatActivity implements TextWatcher {
+public class signup extends AppCompatActivity implements TextWatcher,Serializable {
     private CircleImageView ProfileImage;
     private static final int PICK_IMAGE = 1;
     Uri imageUri;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
         setContentView(R.layout.activity_signup);
 
 
+        final User user=new User("dan","cohen","dandan","1234","0501234567",new ArrayList<User>());
         ProfileImage = (CircleImageView) findViewById(R.id.Profile_Image);
         ProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +103,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(signup.this, MapsActivity.class);
+                it.putExtra("User", (Serializable) user);
                 startActivity(it);
             }
         });
@@ -173,9 +180,11 @@ public class signup extends AppCompatActivity implements TextWatcher {
                     .setAspectRatio(1, 1)
                     .start(this);
         }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
+        {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             Uri resultUri = result.getUri();
+            user.setImageLocalUri(resultUri);
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
@@ -183,9 +192,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
-
-
 }
