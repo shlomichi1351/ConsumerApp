@@ -6,24 +6,24 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.consumer_app.Model.Action;
-import com.example.consumer_app.Model.Firebase_DBManager;
+import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
+import com.example.consumer_app.ui.SignUp.signup;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationListener;
 
@@ -58,13 +58,19 @@ public class MapsActivity extends FragmentActivity implements
     private Location lastLocation;
     private Marker currentUserLocationMarker;
     private static final int Request_User_Location_Code =99;
-    protected Button sup;
-    User user;
+    Button signup_btn;
+    public static User user;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+
+        progressBar=findViewById(R.id.progressbar);
+        signup_btn =findViewById(R.id.sinnp);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -74,9 +80,17 @@ public class MapsActivity extends FragmentActivity implements
             checkUserLocationPermission();
         }
 
-        Intent intent= getIntent();
-        user=(User)intent.getSerializableExtra("Parcel");
+        user= signup.UserDetails();
+        signup_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addUser(user);
+            }
+        });
+
     }
+
+
 
     public void onClick(View view)
     {
@@ -84,7 +98,6 @@ public class MapsActivity extends FragmentActivity implements
         String address=addressField.getText().toString();
         List<Address> addressList = null;
         MarkerOptions userMarkerOptions = new MarkerOptions();
-        Button signup=findViewById(R.id.sinnp);
 
 
 
@@ -111,19 +124,21 @@ public class MapsActivity extends FragmentActivity implements
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
                     }
-                    signup.setEnabled(true);
+                    signup_btn.setEnabled(true);
+                    user.setAddress(address);
                 }
                 else
                 {
                     Snackbar.make(findViewById(android.R.id.content), "הכתובת לא נמצאה", Snackbar.LENGTH_LONG).show();
-                    signup.setEnabled(false);
+                    signup_btn.setEnabled(false);
+                    user.setAddress("");
                 }
             }
 
             catch (IOException e)
             {
                 e.printStackTrace();
-                signup.setEnabled(false);
+                signup_btn.setEnabled(false);
                 Snackbar.make(findViewById(android.R.id.content), "הכתובת לא נמצאה", Snackbar.LENGTH_LONG).show();
             }
 
@@ -225,7 +240,6 @@ public class MapsActivity extends FragmentActivity implements
     public void onLocationChanged(Location location)
     {
         lastLocation=location;
-        Button signup=findViewById(R.id.sinnp);
 
         if(currentUserLocationMarker != null)   //the location connect to another location
         {
@@ -246,10 +260,12 @@ public class MapsActivity extends FragmentActivity implements
             addressList=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);     //move the current address to the list
             String address=(addressList.get(0).getAddressLine(0)+" "+ addressList.get(0).getAddressLine(1)+" " +addressList.get(0).getAddressLine(2)).replaceAll("null","");
             addressField.setText(address);
-            signup.setEnabled(true);
+            user.setAddress(address);
+            signup_btn.setEnabled(true);
         } catch (IOException e) {
             Snackbar.make(findViewById(android.R.id.content), "לא ניתן למצוא את מיקומך הנוכחי", Snackbar.LENGTH_LONG).show();
-            signup.setEnabled(false);
+            signup_btn.setEnabled(false);
+            user.setAddress("");
         }
 
         markerOptions.title("מיקומך הנוכחי");
@@ -292,38 +308,37 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
-    private void addUser()
+    private void addUser(User user)
     {
-        try {
-            User userToFireBase = user;
-            //addStudentButton.setEnabled(false);
-            Firebase_DBManager.addUser(user, new Action<String>()
+        try
+        {
+            Firebase_DBManager_User.addUser(user, new Action<String>()
             {
                 @Override
-                public void onSuccess(String obj) {
-                    Toast.makeText(getBaseContext(),"insert id " + obj, Toast.LENGTH_LONG).show();
-                    //addStudentButton.setEnabled(true);
+                public void onSuccess(String obj)
+                {
+                    signup_btn.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onFailure(Exception exception)
                 {
+                    signup_btn.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getBaseContext(),"Error \n" + exception.getMessage(), Toast.LENGTH_LONG).show();
-                    //addStudentButton.setEnabled(true);
                 }
                 @Override
                 public void onProgress(String status, double percent)
                 {
-                    if (percent != 100)
-                        //addStudentButton.setEnabled(false);
-                    //addStudentProgressBar.setProgress((int) percent);
-                        ;
+                    signup_btn.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.VISIBLE);
                 }
             });
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Toast.makeText(getBaseContext(), "Error ", Toast.LENGTH_LONG).show();
-            //addStudentButton.setEnabled(true);
-
         }
     }
 }

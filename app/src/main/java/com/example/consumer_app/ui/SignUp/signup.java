@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.consumer_app.Model.Parcel;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.MapsActivity.MapsActivity;
@@ -26,16 +25,22 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class signup extends AppCompatActivity implements TextWatcher,Serializable {
+public class signup extends AppCompatActivity implements TextWatcher {
     private CircleImageView ProfileImage;
     private static final int PICK_IMAGE = 1;
     Uri imageUri;
-    User user;
+    public static User user;
+    Button nxt;
+    EditText username;
+    EditText fname;
+    EditText lname;
+    EditText phone;
+    TextView warning;
+    ScrollView scrollView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +48,17 @@ public class signup extends AppCompatActivity implements TextWatcher,Serializabl
         setContentView(R.layout.activity_signup);
 
 
-        final User user=new User("dan","cohen","dandan","1234","0501234567",new ArrayList<User>());
+        nxt = findViewById(R.id.next);
+        username = findViewById(R.id.user_name);
+        fname = findViewById(R.id.fname);
+        lname = findViewById(R.id.lname);
         ProfileImage = (CircleImageView) findViewById(R.id.Profile_Image);
+        warning = findViewById(R.id.error_messege);
+        phone = findViewById(R.id.phone_number);
+        scrollView = findViewById(R.id.scroll);
+
+
+        user=new User();
         ProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +72,7 @@ public class signup extends AppCompatActivity implements TextWatcher,Serializabl
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
-//        ImageView imageView = findViewById(R.id.gif_background);
+//        ImageView imageView = findViewById(R.username.gif_background);
 //        Glide.with(this).load(R.drawable.gif_background).into(imageView);
 
 
@@ -91,11 +105,7 @@ public class signup extends AppCompatActivity implements TextWatcher,Serializabl
             }
         });
 
-        final Button nxt = findViewById(R.id.next);
-        final EditText id = findViewById(R.id.id_person);
-        final EditText fname = findViewById(R.id.fname);
-        final EditText phone = findViewById(R.id.phone_number);
-        id.addTextChangedListener(this);
+        username.addTextChangedListener(this);
         fname.addTextChangedListener(this);
         phone.addTextChangedListener(this);
 
@@ -103,7 +113,6 @@ public class signup extends AppCompatActivity implements TextWatcher,Serializabl
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(signup.this, MapsActivity.class);
-                it.putExtra("User", (Serializable) user);
                 startActivity(it);
             }
         });
@@ -121,41 +130,50 @@ public class signup extends AppCompatActivity implements TextWatcher,Serializabl
 
     @Override
     public void afterTextChanged(Editable s) {
-        final ScrollView scrollView = findViewById(R.id.scroll);
 
-        final Button nxt = findViewById(R.id.next);
-        final EditText id = findViewById(R.id.id_person);
-        final EditText fname = findViewById(R.id.fname);
-        final TextView warning = findViewById(R.id.error_messege);
-        final EditText phone = findViewById(R.id.phone_number);
 
-        if (!(id.getText().toString().length() == 9)) {
+
+
+        if (username.getText().toString().isEmpty()) {
             warning.setVisibility(View.VISIBLE);
             nxt.setEnabled(false);
             nxt.setTextColor(Color.parseColor("#796D6D"));
-            warning.setText("  לא קיימת תעודת זהות עם " + id.getText().length() + " ספרות");
+            warning.setText("  נא הכנס שם משתמש");
 
         } else if (fname.getText().toString().isEmpty()) {
             warning.setVisibility(View.VISIBLE);
             nxt.setEnabled(false);
             nxt.setTextColor(Color.parseColor("#796D6D"));
-            warning.setText("  נא כתוב את שמך המלא!");
+            warning.setText("  נא הכנס שם פרטי");
+
+        }
+        else if (lname.getText().toString().isEmpty()) {
+            warning.setVisibility(View.VISIBLE);
+            nxt.setEnabled(false);
+            nxt.setTextColor(Color.parseColor("#796D6D"));
+            warning.setText("  נא הכנס שם משפחה");
 
         } else if (!(phone.getText().toString().matches("05[0-9]{8}"))) {
             warning.setVisibility(View.VISIBLE);
             warning.setText("  נא הכנס מספר טלפון תקין!");
             nxt.setEnabled(false);
             nxt.setTextColor(Color.parseColor("#796D6D"));
+
+
+        } else {
             scrollView.post(new Runnable() {
                 @Override
                 public void run() {
                     scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });
-        } else {
             warning.setVisibility(View.GONE);
             nxt.setEnabled(true);
             nxt.setTextColor(Color.parseColor("#000000"));
+            user.setFirstName(lname.getText().toString());
+            user.setLastName(fname.getText().toString());
+            user.setUserName(username.getText().toString());
+            user.setPhoneNumber(phone.getText().toString());
 
         }
     }
@@ -193,5 +211,10 @@ public class signup extends AppCompatActivity implements TextWatcher,Serializabl
                 e.printStackTrace();
             }
         }
+    }
+
+    public static User UserDetails()
+    {
+        return user;
     }
 }

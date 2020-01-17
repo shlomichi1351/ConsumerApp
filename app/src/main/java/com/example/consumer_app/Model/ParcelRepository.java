@@ -56,6 +56,7 @@ public class ParcelRepository
             return null;
         }
     }
+
     public static class UpdateParcelAsyncTask extends AsyncTask<Parcel,Void,Void>
     {
         private DAO ParcelDao;
@@ -69,6 +70,8 @@ public class ParcelRepository
             return null;
         }
     }
+
+
     public static class DeleteParcelAsyncTask extends AsyncTask<Parcel,Void,Void>
     {
         private DAO parcelDao;

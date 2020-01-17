@@ -1,12 +1,15 @@
 package com.example.consumer_app.Model;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User
+public class User implements Serializable
 {
     String firstName;
     String lastName;
@@ -16,6 +19,11 @@ public class User
     ArrayList<User> friendsList;
     Uri imageLocalUri;
     String imageFirebaseUrl;
+    String address;
+
+
+
+
 
     public User(String firstName,String lastName,
             String userName,
@@ -31,7 +39,9 @@ public class User
         this.friendsList=new ArrayList<>(friendsList);
     }
 
-  //  public String getImageFirebaseUrl() {         return imageFirebaseUrl;     }     public void setImageFirebaseUrl(String imageFirebaseUrl) {         this.imageFirebaseUrl = imageFirebaseUrl;     }
+    public User(){
+        friendsList=new ArrayList<User>();
+    }
 
     public String getFirstName() {
         return firstName;
@@ -77,6 +87,10 @@ public class User
         return friendsList;
     }
 
+    public String getAddress() {    return address; }
+
+    public void setAddress(String address) {    this.address = address; }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -100,4 +114,5 @@ public class User
     public void setFriendsList(ArrayList<User> friendsList) {
         this.friendsList = friendsList;
     }
+
 }

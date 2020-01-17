@@ -5,16 +5,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_home"
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_text"
+        android:drawablePadding="12dp"
+        android:hint="מספר חבילה או שם נמען"
+        android:inputType="text"
+        android:padding="7dp"
+        android:textColor="#040E69" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/parcelsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-  />
+        android:layout_marginBottom="10dp"
+        />
+
 
     <Button
         android:id="@+id/button_test"
