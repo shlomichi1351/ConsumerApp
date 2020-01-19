@@ -66,10 +66,24 @@ public class HomeFragment extends Fragment {
             public void OnDataChanged(List<Parcel> obj)
             {
                 parcels=obj;
+
+                if(parcels != null) {
+
+                    for (Parcel p : parcels) {
+
+                        if (!p.getRecipientName().contains("ד")) {
+                            Firebase_DBManager_Parcel.r(p);
+                        }
+
+                    }
+
+                }
+
                 if (parcelRecyclerView.getAdapter() == null) {
                     parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
                 }
                 else {
+
                     parcelRecyclerView.getAdapter().notifyDataSetChanged();
                 }
             }
@@ -122,6 +136,7 @@ public class HomeFragment extends Fragment {
                 }
                 else {
                     parcels = new ArrayList<>();
+
                     for (Parcel p : parcelsCopy)
                     {
                         if (p.getRecipientAddress().contains(search.getText().toString()) || p.getRecipientName().contains(search.getText().toString()) || p.getRecipientPhoneNumber().contains(search.getText().toString()))
@@ -129,6 +144,7 @@ public class HomeFragment extends Fragment {
                     }
                     Firebase_DBManager_Parcel.stopNotifyToParcelList();
                     parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
+
                 }
             }
         });

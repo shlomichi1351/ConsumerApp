@@ -127,6 +127,7 @@ public class Firebase_DBManager_Parcel {
                 {
                     for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
                         Parcel parcel = uniqueKeySnapshot.getValue(Parcel.class);
+
                         parcelList.add(parcel);
                     }
 
@@ -188,5 +189,9 @@ public class Firebase_DBManager_Parcel {
             parcelsRef.removeEventListener(parcelRefChildEventListener);
             parcelRefChildEventListener = null;
         }
+    }
+
+    public static void r(Parcel p) {
+        parcelList.remove(p);
     }
 }
