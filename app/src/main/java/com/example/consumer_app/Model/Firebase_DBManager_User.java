@@ -5,7 +5,6 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import com.example.consumer_app.Model.Parcel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -14,7 +13,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -24,10 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Firebase_DBManager_User {
-    static DatabaseReference usersRef;
-    static DatabaseReference parcelsRef;
+    static public DatabaseReference usersRef;
 
-    static List<User> usereList;
+    static List<User> userList;
     static List<User> friendsList;
 
 
@@ -36,8 +33,8 @@ public class Firebase_DBManager_User {
         usersRef = databaseUsers.getReference("Users");
         FirebaseDatabase databaseParcels = FirebaseDatabase.getInstance();
 
-        parcelsRef=databaseParcels.getReference("RegisteredPackages");
-        usereList = new ArrayList<User>();
+        //parcelsRef=databaseParcels.getReference("RegisteredPackages");
+        userList = new ArrayList<User>();
         friendsList=new ArrayList<User>();
     }
 
@@ -110,5 +107,90 @@ public class Firebase_DBManager_User {
 
         }
         else action.onFailure(new Exception("select image first ..."));
+    }
+
+
+
+
+
+    //setting the listener to the changes.
+    private static ChildEventListener userRefChildEventListener;
+    public static void notifyToUserList(final NotifyDataChange<List<User>> notifyDataChange)
+    {
+        if (notifyDataChange != null)
+        {
+            if (userRefChildEventListener != null)
+            {
+                notifyDataChange.onFailure(new Exception("first unNotify user list"));
+                return;
+            }
+            userList.clear();
+
+            userRefChildEventListener = new ChildEventListener()
+            {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s)
+                {
+                    for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
+                        User user = uniqueKeySnapshot.getValue(User.class);
+
+                        userList.add(user);
+                    }
+
+                    notifyDataChange.OnDataChanged(userList);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s)
+                {
+
+                    for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren())
+                    {
+                        User user = uniqueKeySnapshot.getValue(User.class);
+                        boolean flag = true;
+                        for (int i = 0; i < userList.size(); i++) {
+                            if (userList.get(i).getUserName().equals(user.getUserName())) {
+                                userList.set(i, user);
+                                flag = false;
+                                break;
+                            }
+                        }
+                        if (flag)
+                            userList.add(user);
+                    }
+
+                    notifyDataChange.OnDataChanged(userList);
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    //Parcel parcel = dataSnapshot.child(id).getValue(Parcel.class);
+                    String userName = dataSnapshot.child(dataSnapshot.getKey()).getKey();
+
+                    for (int i = 0; i < userList.size(); i++) {
+                        if (userList.get(i).getUserName().equals( userName)) {
+                            userList.remove(i);
+                            break;
+                        }
+                    }
+
+                    notifyDataChange.OnDataChanged(userList);
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    notifyDataChange.onFailure(databaseError.toException());
+                }
+            };
+            usersRef.addChildEventListener(userRefChildEventListener);
+        }
+    }
+
+    public static void r(User user) {
+        userList.remove(user);
     }
 }

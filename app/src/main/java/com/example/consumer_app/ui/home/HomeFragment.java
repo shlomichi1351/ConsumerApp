@@ -67,16 +67,14 @@ public class HomeFragment extends Fragment {
             {
                 parcels=obj;
 
-                if(parcels != null) {
-
+                if(parcels != null)
+                {
                     for (Parcel p : parcels) {
 
                         if (!p.getRecipientName().contains("ד")) {
                             Firebase_DBManager_Parcel.r(p);
                         }
-
                     }
-
                 }
 
                 if (parcelRecyclerView.getAdapter() == null) {

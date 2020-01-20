@@ -37,7 +37,8 @@
                 android:fontFamily="@font/heebo_bold"
                 android:textColor="#0B0863"
                 android:layout_marginEnd="1dp"
-                android:text="מספר החבילה: " />
+                android:text="מספר החבילה: "
+                android:layout_marginRight="1dp" />
 
         </LinearLayout>
 
@@ -49,7 +50,8 @@
             android:layout_marginTop="10dp"
             android:layout_below="@id/idparcel"
             android:layout_marginRight="4dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true">
 
             <TextView
                 android:id="@+id/name_sender"
@@ -76,7 +78,8 @@
             android:id="@+id/phonenumber"
             android:layout_below="@id/namesender"
             android:layout_marginRight="4dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true">
 
             <TextView
                 android:id="@+id/phone_"
@@ -90,7 +93,8 @@
                 android:fontFamily="@font/heebo_bold"
                 android:textColor="#000000"
                 android:layout_marginEnd="1dp"
-                android:text="מספר פלאפון:  " />
+                android:text="מספר פלאפון:  "
+                android:layout_marginRight="1dp" />
 
         </LinearLayout>
 
@@ -103,7 +107,8 @@
             android:layout_below="@id/phonenumber"
             android:layout_marginTop="10dp"
             android:layout_marginRight="4dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true">
 
             <TextView
                 android:id="@+id/address_parcel"
@@ -118,7 +123,8 @@
                 android:fontFamily="@font/heebo_bold"
                 android:textColor="#000000"
                 android:layout_marginEnd="1dp"
-                android:text="כתובת החבילה: " />
+                android:text="כתובת החבילה: "
+                android:layout_marginRight="1dp" />
 
         </LinearLayout>
 

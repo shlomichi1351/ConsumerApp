@@ -110,7 +110,8 @@ public class Firebase_DBManager_Parcel {
 
     //setting the listener to the changes.
     private static ChildEventListener parcelRefChildEventListener;
-    public static void notifyToParcelList(final NotifyDataChange<List<Parcel>> notifyDataChange) {
+    public static void notifyToParcelList(final NotifyDataChange<List<Parcel>> notifyDataChange)
+    {
         if (notifyDataChange != null)
         {
             if (parcelRefChildEventListener != null)

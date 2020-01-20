@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+<LinearLayout
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/Profile_Image_recycle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/user"
+        />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:layout_marginRight="20dp"
+
+        android:orientation="vertical">
+
+        <TextView android:id="@+id/user_name_exmaple_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/heebo_medium"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:text="דניאל בידרמן"/>
+
+        <TextView android:id="@+id/user_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/heebo_regular"
+            android:layout_below="@id/user_name"
+            android:textSize="10dp"
+            android:textColor="#000000"
+            android:text="פתח תקווה, 1 חברים משותפים"/>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical">
+    <Button
+        android:id="@+id/friend"
+        android:layout_width="80dp"
+        android:text="הוסף"
+        android:textSize="12dp"
+        android:textColor="#ffffff"
+        android:fontFamily="@font/heebo_medium"
+        android:layout_height="28dp"
+        android:background="@drawable/rounded_add_freind"
+        android:layout_alignParentLeft="true"/>
+    <ImageButton
+        android:id="@+id/not_friend"
+        android:layout_below="@id/friend"
+        android:layout_marginLeft="14dp"
+        android:layout_width="40dp"
+        android:layout_gravity=""
+        android:layout_height="40dp"
+        android:background="@drawable/rounded_picture"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_v" />
+
+    </LinearLayout>
+</RelativeLayout>
