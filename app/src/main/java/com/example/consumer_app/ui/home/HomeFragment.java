@@ -180,7 +180,6 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             Toast.makeText(getContext(),e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
     }
 
 
@@ -265,7 +264,6 @@ public class HomeFragment extends Fragment {
 
                         }
                     });
-                    //MenuItem update= menu.add(Menu.NONE,2,1,"עדכון");
                 } });
         }
     }

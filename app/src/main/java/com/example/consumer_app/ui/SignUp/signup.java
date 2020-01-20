@@ -49,7 +49,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
     private static final int PICK_IMAGE = 1;
     Uri imageUri;
     public static User user;
-    List<User> userList;
     Button nxt;
     EditText username;
     EditText fname;
@@ -57,7 +56,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
     EditText phone;
     TextView warning;
     ScrollView scrollView;
-    private RecyclerView userRecyclerView;
 
 
 
@@ -67,32 +65,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
         setContentView(R.layout.activity_signup);
 
 
-        userRecyclerView=findViewById(R.id.userList);
-        userRecyclerView.setHasFixedSize(true);
-        userRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
-        Firebase_DBManager_User.notifyToUserList(new NotifyDataChange<List<User>>()
-        {
-            @Override
-            public void OnDataChanged(List<User> obj)
-            {
-
-                if (userRecyclerView.getAdapter() == null) {
-                    userList=obj;
-                    userRecyclerView.setAdapter(new UserRecycleViewAdapter());
-                }
-                else {
-
-                    userRecyclerView.getAdapter().notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Exception exception) {
-                Toast.makeText(getBaseContext(), "error to get user list\n" + exception.toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
 
 
         nxt = findViewById(R.id.next);
@@ -267,55 +240,4 @@ public class signup extends AppCompatActivity implements TextWatcher {
 
 
 
-    public class UserRecycleViewAdapter extends RecyclerView.Adapter<signup.UserViewHolder>
-    {
-        @NonNull
-        @Override
-        public signup.UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
-            View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.example_user, parent,false);
-            return new signup.UserViewHolder(v);
-        }
-
-
-        @Override
-        public void onBindViewHolder(@NonNull signup.UserViewHolder holder, int position) {
-            User user = userList.get(position);
-
-            Glide.with(getBaseContext())
-                    .load(user.getImageFirebaseUrl())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(holder.profile_image_recycle);
-
-            holder.name_user.setText(user.getFirstName() + " " + user.getLastName());
-
-            holder.details_user.setText(", 0 חברים משותפים" + user.getAddress());
-
-        }
-
-        @Override
-        public int getItemCount()
-        {
-            return userList.size();
-        }
-    }
-
-    //represent the information in every card in the recycle view
-    class UserViewHolder extends RecyclerView.ViewHolder
-    {
-        TextView name_user;
-        TextView details_user;
-        CircleImageView profile_image_recycle;
-
-        UserViewHolder(View itemView)
-        {
-            super(itemView);
-
-            name_user=findViewById(R.id.user_name_exmaple_card);
-            details_user=findViewById(R.id.user_details);
-            profile_image_recycle=findViewById(R.id.Profile_Image_recycle);
-
-
-        }
-    }
 }
