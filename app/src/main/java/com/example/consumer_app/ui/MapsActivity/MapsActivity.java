@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -61,12 +62,23 @@ public class MapsActivity extends FragmentActivity implements
     Button signup_btn;
     public static User user;
     ProgressBar progressBar;
-
+    String fname;
+    String lname;
+    String phone;
+    String userName;
+    Uri mImageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        fname = getIntent().getStringExtra("fname");
+        lname = getIntent().getStringExtra("lname");
+        phone = getIntent().getStringExtra("phone");
+        userName = getIntent().getStringExtra("userName");
+        String imageUrl = getIntent().getStringExtra("imageUri");
+
+        mImageUri = Uri.parse(imageUrl);
 
 
         progressBar=findViewById(R.id.progressbar);
