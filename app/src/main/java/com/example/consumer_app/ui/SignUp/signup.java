@@ -131,6 +131,12 @@ public class signup extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(signup.this, MapsActivity.class);
+                it.putExtra("fname", fname.getText().toString());
+                it.putExtra("lname", lname.getText().toString());
+                it.putExtra("userName", username.getText().toString());
+                it.putExtra("phone", phone.getText().toString());
+                it.putExtra("imageUri", imageUri.toString());
+
                 startActivity(it);
             }
         });
@@ -149,10 +155,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s)
     {
-
-
-
-
         if (username.getText().toString().isEmpty()) {
             warning.setVisibility(View.VISIBLE);
             nxt.setEnabled(false);
