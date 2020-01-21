@@ -63,7 +63,8 @@ public class MapsActivity extends FragmentActivity implements
     ProgressBar progressBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
@@ -80,18 +81,49 @@ public class MapsActivity extends FragmentActivity implements
             checkUserLocationPermission();
         }
 
-        user= signup.UserDetails();
+        user=new User();
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 addUser(user);
             }
         });
-
     }
 
 
 
+    public void  addUser(User a)
+    {
+        try
+        {
+            Firebase_DBManager_User.addUser(a, new Action<String>()
+            {
+                @Override
+                public void onSuccess(String obj) {
+
+
+
+                    Toast.makeText(getBaseContext(),obj, Toast.LENGTH_LONG).show();
+
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    Toast.makeText(getBaseContext(), "Error \n" + exception.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+
+                @Override
+                public void onProgress(String status, double percent) {
+
+
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(),e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
     public void onClick(View view)
     {
         final EditText addressField=findViewById(R.id.enter_address);
@@ -305,40 +337,5 @@ public class MapsActivity extends FragmentActivity implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
     {
         //write messege to user
-    }
-
-
-    private void addUser(User user)
-    {
-        try
-        {
-            Firebase_DBManager_User.addUser(user, new Action<String>()
-            {
-                @Override
-                public void onSuccess(String obj)
-                {
-                    signup_btn.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onFailure(Exception exception)
-                {
-                    signup_btn.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getBaseContext(),"Error \n" + exception.getMessage(), Toast.LENGTH_LONG).show();
-                }
-                @Override
-                public void onProgress(String status, double percent)
-                {
-                    signup_btn.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-            });
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(getBaseContext(), "Error ", Toast.LENGTH_LONG).show();
-        }
     }
 }
