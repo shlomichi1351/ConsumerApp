@@ -21,7 +21,12 @@ import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.NotifyDataChange;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,48 +39,78 @@ public class GalleryFragment extends Fragment {
     View view;
 
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
         view = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-        userRecyclerView=view.findViewById(R.id.userList);
+        userList = new ArrayList<User>();
+        userRecyclerView = view.findViewById(R.id.userList);
         userRecyclerView.setHasFixedSize(true);
         userRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Firebase_DBManager_User.notifyToUserList(new NotifyDataChange<List<User>>()
-        {
-            @Override
-            public void OnDataChanged(List<User> obj)
-            {
 
-                if (userRecyclerView.getAdapter() == null) {
-                    userList=obj;
-                    userRecyclerView.setAdapter(new UserRecycleViewAdapter());
-                }
-                else {
+        getFriendsList();
+//        Firebase_DBManager_User.notifyToUserList(new NotifyDataChange<List<User>>()
+//        {
+//            @Override
+//            public void OnDataChanged(List<User> obj)
+//            {
+//
+//                if (userRecyclerView.getAdapter() == null) {
+//                    userList=obj;
+//                    userRecyclerView.setAdapter(new UserRecycleViewAdapter());
+//                }
+//                else {
+//
+//                    userRecyclerView.getAdapter().notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Exception exception) {
+//                Toast.makeText(getContext(), "error to get user list\n" + exception.toString(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
 
-                    userRecyclerView.getAdapter().notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Exception exception) {
-                Toast.makeText(getContext(), "error to get user list\n" + exception.toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
 
         return view;
     }
 
-    class UserRecycleViewAdapter extends RecyclerView.Adapter<GalleryFragment.UserViewHolder>
-    {
+
+    public void getFriendsList() {
+        Query query = Firebase_DBManager_User.usersRef
+                .orderByChild("userName");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.getValue() != null)
+                        userList.add(child.getValue(User.class));
+
+                }
+                if (userRecyclerView.getAdapter() == null) {
+                    userRecyclerView.setAdapter(new UserRecycleViewAdapter());
+                } else {
+
+                    userRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    class UserRecycleViewAdapter extends RecyclerView.Adapter<GalleryFragment.UserViewHolder> {
         @NonNull
         @Override
-        public GalleryFragment.UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
-            View v = LayoutInflater.from(getContext()).inflate(R.layout.example_user, parent,false);
+        public GalleryFragment.UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(getContext()).inflate(R.layout.example_user, parent, false);
             return new UserViewHolder(v);
         }
 
@@ -84,10 +119,10 @@ public class GalleryFragment extends Fragment {
         public void onBindViewHolder(@NonNull GalleryFragment.UserViewHolder holder, int position) {
             User user = userList.get(position);
 
-            Glide.with(getContext())
+            /*Glide.with(getContext())
                     .load(user.getImageFirebaseUrl())
                     .apply(RequestOptions.circleCropTransform())
-                    .into(holder.profile_image_recycle);
+                    .into(holder.profile_image_recycle);*/
 
             holder.name_user.setText(user.getFirstName() + " " + user.getLastName());
 
@@ -96,26 +131,23 @@ public class GalleryFragment extends Fragment {
         }
 
         @Override
-        public int getItemCount()
-        {
+        public int getItemCount() {
             return userList.size();
         }
     }
 
     //represent the information in every card in the recycle view
-    class UserViewHolder extends RecyclerView.ViewHolder
-    {
+    class UserViewHolder extends RecyclerView.ViewHolder {
         TextView name_user;
         TextView details_user;
         CircleImageView profile_image_recycle;
 
-        UserViewHolder(View itemView)
-        {
+        UserViewHolder(View itemView) {
             super(itemView);
 
-            name_user=view.findViewById(R.id.user_name_exmaple_card);
-            details_user=view.findViewById(R.id.user_details);
-            profile_image_recycle=view.findViewById(R.id.Profile_Image_recycle);
+            name_user = view.findViewById(R.id.user_name_exmaple_card);
+            details_user = view.findViewById(R.id.user_details);
+            profile_image_recycle = view.findViewById(R.id.Profile_Image_recycle);
 
 
         }

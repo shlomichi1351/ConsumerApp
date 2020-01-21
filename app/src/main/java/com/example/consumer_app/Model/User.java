@@ -16,7 +16,7 @@ public class User implements Serializable
     String userName;
     String password;
     String PhoneNumber;
-    ArrayList<User> friendsList;
+    ArrayList<String> friendsList;
     Uri imageLocalUri;
     String imageFirebaseUrl;
     String address;
@@ -29,7 +29,7 @@ public class User implements Serializable
             String userName,
             String password,
             String PhoneNumber,
-            ArrayList<User> friendsList)
+            ArrayList<String> friendsList)
     {
         this.firstName=firstName;
         this.lastName=lastName;
@@ -40,7 +40,7 @@ public class User implements Serializable
     }
 
     public User(){
-        friendsList=new ArrayList<User>();
+        friendsList=new ArrayList<String>();
     }
 
     public String getFirstName() {
@@ -83,7 +83,7 @@ public class User implements Serializable
         return PhoneNumber;
     }
 
-    public ArrayList<User> getFriendsList() {
+    public ArrayList<String> getFriendsList() {
         return friendsList;
     }
 
@@ -111,7 +111,7 @@ public class User implements Serializable
         PhoneNumber = phoneNumber;
     }
 
-    public void setFriendsList(ArrayList<User> friendsList) {
+    public void setFriendsList(ArrayList<String> friendsList) {
         this.friendsList = friendsList;
     }
 

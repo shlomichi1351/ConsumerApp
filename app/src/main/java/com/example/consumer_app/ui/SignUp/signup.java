@@ -90,10 +90,8 @@ public class signup extends AppCompatActivity implements TextWatcher {
 
         getSupportActionBar().hide();
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
-//        ImageView imageView = findViewById(R.username.gif_background);
-//        Glide.with(this).load(R.drawable.gif_background).into(imageView);
 
 
         final TextView back = findViewById(R.id.back);
@@ -149,7 +147,8 @@ public class signup extends AppCompatActivity implements TextWatcher {
     }
 
     @Override
-    public void afterTextChanged(Editable s) {
+    public void afterTextChanged(Editable s)
+    {
 
 
 
@@ -237,7 +236,5 @@ public class signup extends AppCompatActivity implements TextWatcher {
     {
         return user;
     }
-
-
 
 }

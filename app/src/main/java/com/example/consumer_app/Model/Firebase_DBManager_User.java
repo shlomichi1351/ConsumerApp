@@ -19,6 +19,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Firebase_DBManager_User {
@@ -115,80 +116,77 @@ public class Firebase_DBManager_User {
 
     //setting the listener to the changes.
     private static ChildEventListener userRefChildEventListener;
-    public static void notifyToUserList(final NotifyDataChange<List<User>> notifyDataChange)
-    {
-        if (notifyDataChange != null)
-        {
-            if (userRefChildEventListener != null)
-            {
-                notifyDataChange.onFailure(new Exception("first unNotify user list"));
-                return;
-            }
-            userList.clear();
-
-            userRefChildEventListener = new ChildEventListener()
-            {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s)
-                {
-                    for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
-                        User user = uniqueKeySnapshot.getValue(User.class);
-
-                        userList.add(user);
-                    }
-
-                    notifyDataChange.OnDataChanged(userList);
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s)
-                {
-
-                    for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren())
-                    {
-                        User user = uniqueKeySnapshot.getValue(User.class);
-                        boolean flag = true;
-                        for (int i = 0; i < userList.size(); i++) {
-                            if (userList.get(i).getUserName().equals(user.getUserName())) {
-                                userList.set(i, user);
-                                flag = false;
-                                break;
-                            }
-                        }
-                        if (flag)
-                            userList.add(user);
-                    }
-
-                    notifyDataChange.OnDataChanged(userList);
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    //Parcel parcel = dataSnapshot.child(id).getValue(Parcel.class);
-                    String userName = dataSnapshot.child(dataSnapshot.getKey()).getKey();
-
-                    for (int i = 0; i < userList.size(); i++) {
-                        if (userList.get(i).getUserName().equals( userName)) {
-                            userList.remove(i);
-                            break;
-                        }
-                    }
-
-                    notifyDataChange.OnDataChanged(userList);
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    notifyDataChange.onFailure(databaseError.toException());
-                }
-            };
-            usersRef.addChildEventListener(userRefChildEventListener);
-        }
-    }
+//    public static void notifyToUserList(final NotifyDataChange<List<User>> notifyDataChange)
+//    {
+//        if (notifyDataChange != null)
+//        {
+//            if (userRefChildEventListener != null)
+//            {
+//                notifyDataChange.onFailure(new Exception("first unNotify user list"));
+//                return;
+//            }
+//            userList.clear();
+//
+//            userRefChildEventListener = new ChildEventListener()
+//            {
+//                @Override
+//                public void onChildAdded(DataSnapshot dataSnapshot, String s)
+//                {
+//                    User user;
+//                    user = dataSnapshot.getValue(User.class);
+//                    userList.add(user);
+//                    notifyDataChange.OnDataChanged(userList);
+//                }
+//
+//                @Override
+//                public void onChildChanged(DataSnapshot dataSnapshot, String s)
+//                {
+//
+//                    for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren())
+//                    {
+//                        User user = uniqueKeySnapshot.getValue(User.class);
+//                        boolean flag = true;
+//                        for (int i = 0; i < userList.size(); i++) {
+//                            if (userList.get(i).getUserName().equals(user.getUserName())) {
+//                                userList.set(i, user);
+//                                flag = false;
+//                                break;
+//                            }
+//                        }
+//                        if (flag)
+//                            userList.add(user);
+//                    }
+//
+//                    notifyDataChange.OnDataChanged(userList);
+//                }
+//
+//                @Override
+//                public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                    //Parcel parcel = dataSnapshot.child(id).getValue(Parcel.class);
+//                    String userName = dataSnapshot.child(dataSnapshot.getKey()).getKey();
+//
+//                    for (int i = 0; i < userList.size(); i++) {
+//                        if (userList.get(i).getUserName().equals( userName)) {
+//                            userList.remove(i);
+//                            break;
+//                        }
+//                    }
+//
+//                    notifyDataChange.OnDataChanged(userList);
+//                }
+//
+//                @Override
+//                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//                    notifyDataChange.onFailure(databaseError.toException());
+//                }
+//            };
+//            usersRef.addChildEventListener(userRefChildEventListener);
+//        }
+//    }
 
     public static void r(User user) {
         userList.remove(user);
