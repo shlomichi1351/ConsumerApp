@@ -14,10 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,8 +109,10 @@ public class Firebase_DBManager_Parcel {
     private static ChildEventListener parcelRefChildEventListener;
     public static void notifyToParcelList(final NotifyDataChange<List<Parcel>> notifyDataChange)
     {
+
         if (notifyDataChange != null)
         {
+            stopNotifyToParcelList();
             if (parcelRefChildEventListener != null)
             {
                 notifyDataChange.onFailure(new Exception("first unNotify parcel list"));
@@ -191,6 +190,7 @@ public class Firebase_DBManager_Parcel {
             parcelRefChildEventListener = null;
         }
     }
+
 
     public static void r(Parcel p) {
         parcelList.remove(p);

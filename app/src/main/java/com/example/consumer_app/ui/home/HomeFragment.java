@@ -28,6 +28,10 @@ import com.example.consumer_app.Model.NotifyDataChange;
 import com.example.consumer_app.Model.Parcel;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +48,7 @@ public class HomeFragment extends Fragment {
     EditText search;
     static boolean  updateFlag;
     String temp_phone_user;
-
+    Button btn_test;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -52,6 +56,7 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         search=view.findViewById(R.id.search);
+        btn_test=view.findViewById(R.id.button_test);
 
         parcels=new ArrayList<Parcel>();
 
@@ -92,8 +97,22 @@ public class HomeFragment extends Fragment {
 
             }
         });
+        btn_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                ArrayList<String> kuku=new ArrayList<String>();
+                getFriendsList("dandan",kuku);
+                */
 
 
+                ArrayList<String> array_test=new ArrayList<String>();
+                array_test.add("yossi");
+                array_test.add("dandan");
+                User a=new User("dana","bid","dahnad", "1234", "0522222222", array_test);
+                addUser(a);
+             }
+        });
         search.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -180,6 +199,31 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             Toast.makeText(getContext(),e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void getFriendsList(String user,final ArrayList<String> returnedList)
+    {
+        Query query =  Firebase_DBManager_User.usersRef
+                .orderByChild("userName").equalTo("dandan");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User value = new User();
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    value = child.getValue(User.class);
+                }
+                for (String s: value.getFriendsList())
+                {
+                    returnedList.add(s);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
