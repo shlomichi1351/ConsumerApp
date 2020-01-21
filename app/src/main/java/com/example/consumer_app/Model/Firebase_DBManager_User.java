@@ -107,7 +107,7 @@ public class Firebase_DBManager_User {
             });
 
         }
-        else action.onFailure(new Exception("select image first ..."));
+        else addUserToFirebase(user, action);
     }
 
 

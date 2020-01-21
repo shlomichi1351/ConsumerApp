@@ -170,9 +170,8 @@ public class HomeFragment extends Fragment {
 
     public void  addUser(User a)
     {
-
-        try {
-
+        try
+        {
             Firebase_DBManager_User.addUserToFirebase(a, new Action<String>()
             {
                 @Override
