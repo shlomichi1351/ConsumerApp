@@ -84,7 +84,7 @@ public class login extends AppCompatActivity implements TextWatcher {
             public void onClick(View v) {
                 try {
 
-
+/**/
                     //verifying the code entered manually
                     verifyVerificationCode(passwordUser.getText().toString());
 
@@ -96,7 +96,8 @@ public class login extends AppCompatActivity implements TextWatcher {
             }
         });
 
-        if (mAuth.getCurrentUser() == null) {
+        if (mAuth.getCurrentUser() == null)
+        {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS)) {
 
@@ -185,7 +186,8 @@ public class login extends AppCompatActivity implements TextWatcher {
 
         sendpss.setTypeface(Typeface.DEFAULT);
 
-        sendpss.setOnTouchListener(new View.OnTouchListener() {
+        sendpss.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -262,7 +264,6 @@ public class login extends AppCompatActivity implements TextWatcher {
 
             String code = phoneAuthCredential.getSmsCode();
             if (code != null) {
-                passwordUser.setText(code);
                 verifyVerificationCode(code);
             }
         }
