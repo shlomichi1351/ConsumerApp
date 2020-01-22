@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -25,6 +26,7 @@ import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.SignUp.signup;
+import com.example.consumer_app.ui.login.login;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationListener;
 
@@ -78,6 +80,7 @@ public class MapsActivity extends FragmentActivity implements
 
         progressBar=findViewById(R.id.progressbar);
         signup_btn =findViewById(R.id.sinnp);
+        user=new User();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -114,11 +117,10 @@ public class MapsActivity extends FragmentActivity implements
             {
                 @Override
                 public void onSuccess(String obj) {
-
-
-
-                    Toast.makeText(getBaseContext(),obj, Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(getBaseContext(),"נרשמת בהצלחה!", Toast.LENGTH_LONG).show();
+                    Intent it = new Intent(MapsActivity.this, login.class);
+                    startActivity(it);
+                    finish();
                 }
 
                 @Override
@@ -299,30 +301,30 @@ public class MapsActivity extends FragmentActivity implements
         markerOptions.position(latLng);
 
         Geocoder geocoder = new Geocoder(this);
-        final EditText addressField=findViewById(R.id.enter_address);
-        try
-        {
-            addressList=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);     //move the current address to the list
-            String address=(addressList.get(0).getAddressLine(0)+" "+ addressList.get(0).getAddressLine(1)+" " +addressList.get(0).getAddressLine(2)).replaceAll("null","");
-            addressField.setText(address);
-            user.setAddress(address);
-            signup_btn.setEnabled(true);
-        } catch (IOException e) {
-            Snackbar.make(findViewById(android.R.id.content), "לא ניתן למצוא את מיקומך הנוכחי", Snackbar.LENGTH_LONG).show();
-            signup_btn.setEnabled(false);
-            user.setAddress("");
+        if(Geocoder.isPresent()) {
+            final EditText addressField = findViewById(R.id.enter_address);
+            try {
+                addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);     //move the current address to the list
+                String address = (addressList.get(0).getAddressLine(0) + " " + addressList.get(0).getAddressLine(1) + " " + addressList.get(0).getAddressLine(2)).replaceAll("null", "");
+                addressField.setText(address);
+                user.setAddress(address);
+                signup_btn.setEnabled(true);
+            } catch (IOException e) {
+                Snackbar.make(findViewById(android.R.id.content), "לא ניתן למצוא את מיקומך הנוכחי", Snackbar.LENGTH_LONG).show();
+                signup_btn.setEnabled(false);
+                user.setAddress("");
+            }
+
+            markerOptions.title("מיקומך הנוכחי");
+            mMap.getCameraPosition();
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+            currentUserLocationMarker = mMap.addMarker(markerOptions);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.animateCamera(CameraUpdateFactory.zoomBy(12));
+
+            if (googleApiClient != null)
+                LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
         }
-
-        markerOptions.title("מיקומך הנוכחי");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
-
-        currentUserLocationMarker=mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(12));
-
-        if(googleApiClient != null)
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,this);
-
 
     }
 

@@ -84,7 +84,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
         });
 
 
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
@@ -92,9 +92,11 @@ public class signup extends AppCompatActivity implements TextWatcher {
 
         final TextView back = findViewById(R.id.back);
         //back to login
-        back.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 onBackPressed();
             }
         });
@@ -122,15 +124,16 @@ public class signup extends AppCompatActivity implements TextWatcher {
         fname.addTextChangedListener(this);
         phone.addTextChangedListener(this);
 
-        nxt.setOnClickListener(new View.OnClickListener() {
+        nxt.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent it = new Intent(signup.this, MapsActivity.class);
                 it.putExtra("fname", fname.getText().toString());
                 it.putExtra("lname", lname.getText().toString());
                 it.putExtra("phone", phone.getText().toString());
                 it.putExtra("imageUri", resultUri.toString());
-
                 startActivity(it);
             }
         });

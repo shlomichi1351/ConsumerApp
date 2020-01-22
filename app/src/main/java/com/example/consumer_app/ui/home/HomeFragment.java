@@ -1,6 +1,7 @@
 package com.example.consumer_app.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -33,6 +34,10 @@ import com.example.consumer_app.Model.Parcel;
 import com.example.consumer_app.Model.ParcelRepository;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
+import com.example.consumer_app.ui.MapsActivity.MapsActivity;
+import com.example.consumer_app.ui.login.login;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -46,6 +51,8 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private List<Parcel> parcels;
     private RecyclerView parcelRecyclerView;
+    private FirebaseAuth mAuth;
+
     private List<Parcel> roomUpdateParcels; //the parcels we update in the sq
 
     private List<Parcel> parcelsCopy;
@@ -55,7 +62,8 @@ public class HomeFragment extends Fragment {
     String temp_phone_user;
     Button btn_test;
     ParcelRepository repository;
-
+    User user;
+    FirebaseUser userFireBase;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -65,7 +73,35 @@ public class HomeFragment extends Fragment {
 
         parcels=new ArrayList<Parcel>();
 
-        temp_phone_user="0522222222";
+        mAuth = FirebaseAuth.getInstance();
+        user = new User();
+        userFireBase = mAuth.getCurrentUser();
+        temp_phone_user=userFireBase.getPhoneNumber();
+
+        Query query =  Firebase_DBManager_User.usersRef
+                .orderByChild("phoneNumber").equalTo(temp_phone_user);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    user = child.getValue(User.class);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        if (mAuth.getCurrentUser() == null)
+        {
+            Intent it = new Intent(getActivity(), login.class);
+            startActivity(it);
+            getActivity().finish();
+        }
 
 
 
