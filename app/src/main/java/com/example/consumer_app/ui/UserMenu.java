@@ -1,7 +1,8 @@
-package com.example.consumer_app;
+package com.example.consumer_app.ui;
 
 import android.os.Bundle;
 
+import com.example.consumer_app.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -22,7 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.widget.ImageView;
 
-public class NavigationDrawer extends AppCompatActivity {
+public class UserMenu extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
