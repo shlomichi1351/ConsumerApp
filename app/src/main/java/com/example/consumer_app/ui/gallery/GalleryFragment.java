@@ -77,6 +77,10 @@ public class GalleryFragment extends Fragment {
         return view;
     }
 
+    private void filteringFriendsParcels(String phone) {
+
+    }
+
     public void getFriendsList() {
         Query query = Firebase_DBManager_User.usersRef
                 .orderByChild("userName");
