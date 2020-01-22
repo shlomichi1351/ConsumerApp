@@ -64,7 +64,7 @@ public class UserMenu extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
+                R.id.nav_home, R.id.nav_home, R.layout.fragment_offered_parcels, R.id.nav_gallery, R.id.nav_slideshow,
                 R.id.nav_tools, R.id.nav_share, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
@@ -90,7 +90,7 @@ public class UserMenu extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.logOut:
+            case R.id.logout_menu:
                 if(userFireBase != null) {
                     mAuth.signOut();
                     Intent it = new Intent(UserMenu.this, login.class);

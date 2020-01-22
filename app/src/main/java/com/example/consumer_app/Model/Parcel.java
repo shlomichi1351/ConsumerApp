@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.util.List;
+
 
 @Entity(tableName = "Parcel_table")
 public class Parcel {
@@ -22,6 +24,8 @@ public class Parcel {
     private String recipientAddress;
     private String recipientName;
     private String recipientPhoneNumber;
+    List<User> suggesters;
+
     @PrimaryKey
     @NonNull
     private String parcelId;
