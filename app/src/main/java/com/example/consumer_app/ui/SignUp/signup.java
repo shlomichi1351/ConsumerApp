@@ -33,10 +33,15 @@ import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.MapsActivity.MapsActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -129,6 +134,34 @@ public class signup extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View v)
             {
+
+
+                final ArrayList<String> phoneList=new ArrayList<String>();
+                Query query =  Firebase_DBManager_User.usersRef
+                        .orderByChild("phoneNumber");
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User value = new User();
+                        for (DataSnapshot child : dataSnapshot.getChildren()){
+                            value = child.getValue(User.class);
+                            if(value.getPhoneNumber() == phone.getText().toString())
+                            {
+                                Toast.makeText(getBaseContext(),"המשתמש קיים במערכת. נסה מס' פלאפון אחר.", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
                 Intent it = new Intent(signup.this, MapsActivity.class);
                 it.putExtra("fname", fname.getText().toString());
                 it.putExtra("lname", lname.getText().toString());
@@ -185,6 +218,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
             user.setFirstName(lname.getText().toString());
             user.setLastName(fname.getText().toString());
             user.setPhoneNumber(phone.getText().toString());
+
 
         }
     }
