@@ -152,7 +152,7 @@ public class GalleryFragment extends Fragment {
                     .into(holder.profile_image_recycle);
 
             holder.name_user.setText(user.getFirstName() + " " + user.getLastName());
-            user.setAddress("כתובת נורמלית");
+            user.setAddress(user.getAddress());
             holder.details_user.setText(", 0 חברים משותפים" + user.getAddress());
 
         }
@@ -175,14 +175,14 @@ public class GalleryFragment extends Fragment {
             name_user = itemView.findViewById(R.id.user_name_exmaple_card);
             details_user = itemView.findViewById(R.id.user_details);
             profile_image_recycle = itemView.findViewById(R.id.Profile_Image_recycle);
-            addFriend=itemView.findViewById(R.id.not_friend);
+            addFriend = itemView.findViewById(R.id.not_friend);
             addFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    User a=new User(); //
-                    int position= getAdapterPosition();
-                    ArrayList<String> updateFriends=new ArrayList<String>();
-                    for(String s: a.getFriendsList())
+                    User a = new User(); //
+                    int position = getAdapterPosition();
+                    ArrayList<String> updateFriends = new ArrayList<String>();
+                    for (String s : a.getFriendsList())
                         updateFriends.add(s);
                     updateFriends.add(userList.get(position).getPhoneNumber());
                     a.setFriendsList(updateFriends);
@@ -196,20 +196,16 @@ public class GalleryFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Exception exception) {                     }
+                        public void onFailure(Exception exception) {
+                        }
+
                         @Override
-                        public void onProgress(String status, double percent) {                      }                 });
+                        public void onProgress(String status, double percent) {
+                        }
+                    });
                 }
             });
 
         }
-
-
-
-
-
     }
-
-
-
 }

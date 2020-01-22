@@ -24,7 +24,7 @@ public class Parcel {
     private String recipientAddress;
     private String recipientName;
     private String recipientPhoneNumber;
-    List<User> suggesters;
+    //List<User> suggesters;
 
     @PrimaryKey
     @NonNull

@@ -35,6 +35,7 @@ import com.example.consumer_app.Model.ParcelRepository;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.MapsActivity.MapsActivity;
+import com.example.consumer_app.ui.UserMenu;
 import com.example.consumer_app.ui.login.login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -75,33 +76,8 @@ public class HomeFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         user = new User();
-        userFireBase = mAuth.getCurrentUser();
-        temp_phone_user=userFireBase.getPhoneNumber();
+        user=((UserMenu)getActivity()).getUser();
 
-        Query query =  Firebase_DBManager_User.usersRef
-                .orderByChild("phoneNumber").equalTo(temp_phone_user);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()){
-                    user = child.getValue(User.class);
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        if (mAuth.getCurrentUser() == null)
-        {
-            Intent it = new Intent(getActivity(), login.class);
-            startActivity(it);
-            getActivity().finish();
-        }
 
 
 
@@ -132,14 +108,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void OnDataChanged(List<Parcel> obj)
             {
-                roomUpdateParcels=obj;
+                roomUpdateParcels=new ArrayList<Parcel>();
 
-                if(roomUpdateParcels != null)
+                if(obj != null )
                 {
-                    for (Parcel p : roomUpdateParcels) {
+                    for (Parcel p : obj) {
 
-                        if (!p.getRecipientName().contains("ד")) {
-                            Firebase_DBManager_Parcel.r(p);
+                        if (p.getRecipientPhoneNumber().equals(user.getPhoneNumber())) {
+                            roomUpdateParcels.add(p);
                         }
                     }
                 }
@@ -296,7 +272,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ParcelViewHolder holder, int position) {
-            Parcel parcel = parcels.get(position);
+            Parcel parcel = roomUpdateParcels.get(position);
 
             holder.nameTextView.setText(parcel.getRecipientName());
 
@@ -315,7 +291,7 @@ public class HomeFragment extends Fragment {
         @Override
         public int getItemCount()
         {
-            return parcels.size();
+            return roomUpdateParcels.size();
         }
     }
 
