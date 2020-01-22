@@ -13,7 +13,6 @@ public class User implements Serializable
 {
     String firstName;
     String lastName;
-    String userName;
     String password;
     String PhoneNumber;
     ArrayList<String> friendsList;
@@ -33,7 +32,6 @@ public class User implements Serializable
     {
         this.firstName=firstName;
         this.lastName=lastName;
-        this.userName=userName;
         this.password=password;
         this.PhoneNumber=PhoneNumber;
         this.friendsList=new ArrayList<>(friendsList);
@@ -71,9 +69,6 @@ public class User implements Serializable
         this.imageFirebaseUrl = imageFirebaseUrl;
     }
 
-    public String getUserName() {
-        return userName;
-    }
 
     public String getPassword() {
         return password;
@@ -97,10 +92,6 @@ public class User implements Serializable
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public void setPassword(String password) {

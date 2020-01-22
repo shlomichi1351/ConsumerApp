@@ -106,7 +106,6 @@ public class MapsActivity extends FragmentActivity implements
             user.setFirstName(getIntent().getStringExtra("fname"));
             user.setLastName(getIntent().getStringExtra("lname"));
             user.setPhoneNumber(getIntent().getStringExtra("phone"));
-            user.setUserName(getIntent().getStringExtra("userName"));
             String imageUri = getIntent().getStringExtra("imageUri");
             user.setImageLocalUri(Uri.parse(imageUri));
 

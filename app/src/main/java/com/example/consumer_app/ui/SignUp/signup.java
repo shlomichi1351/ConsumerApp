@@ -193,7 +193,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
             nxt.setTextColor(Color.parseColor("#000000"));
             user.setFirstName(lname.getText().toString());
             user.setLastName(fname.getText().toString());
-            user.setUserName(username.getText().toString());
             user.setPhoneNumber(phone.getText().toString());
 
         }

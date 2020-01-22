@@ -45,13 +45,13 @@ public class Firebase_DBManager_User {
 
     public static void addUserToFirebase(final User a, final Action<String> action)
     {
-        String userName = a.getUserName();
+        String phoneNumber = a.getPhoneNumber();
 
         //String key = parcel.getParcelId();
-        usersRef.child(userName).setValue(a).addOnSuccessListener(new OnSuccessListener<Void>() {
+        usersRef.child(phoneNumber).setValue(a).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                action.onSuccess(a.getUserName());
+                action.onSuccess(a.getPhoneNumber());
                 action.onProgress("upload student data", 100);
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -148,7 +148,7 @@ public class Firebase_DBManager_User {
                         User user = uniqueKeySnapshot.getValue(User.class);
                         boolean flag = true;
                         for (int i = 0; i < userList.size(); i++) {
-                            if (userList.get(i).getUserName().equals(user.getUserName())) {
+                            if (userList.get(i).getPhoneNumber().equals(user.getPhoneNumber())) {
                                 userList.set(i, user);
                                 flag = false;
                                 break;
@@ -167,7 +167,7 @@ public class Firebase_DBManager_User {
                     String userName = dataSnapshot.child(dataSnapshot.getKey()).getKey();
 
                     for (int i = 0; i < userList.size(); i++) {
-                       if (userList.get(i).getUserName().equals( userName)) {
+                       if (userList.get(i).getPhoneNumber().equals( userName)) {
                             userList.remove(i);
                             break;
                         }
