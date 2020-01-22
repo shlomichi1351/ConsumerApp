@@ -72,13 +72,7 @@ public class MapsActivity extends FragmentActivity implements
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        fname = getIntent().getStringExtra("fname");
-        lname = getIntent().getStringExtra("lname");
-        phone = getIntent().getStringExtra("phone");
-        userName = getIntent().getStringExtra("userName");
-        String imageUrl = getIntent().getStringExtra("imageUri");
 
-        mImageUri = Uri.parse(imageUrl);
 
 
         progressBar=findViewById(R.id.progressbar);
@@ -93,23 +87,31 @@ public class MapsActivity extends FragmentActivity implements
             checkUserLocationPermission();
         }
 
-        user=new User();
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                addUser(user);
+                addUser();
             }
         });
     }
 
 
 
-    public void  addUser(User a)
+    public void  addUser()
     {
         try
         {
-            Firebase_DBManager_User.addUser(a, new Action<String>()
+            user=new User();
+            user.setFirstName(getIntent().getStringExtra("fname"));
+            user.setLastName(getIntent().getStringExtra("lname"));
+            user.setPhoneNumber(getIntent().getStringExtra("phone"));
+            user.setUserName(getIntent().getStringExtra("userName"));
+            String imageUri = getIntent().getStringExtra("imageUri");
+            user.setImageLocalUri(Uri.parse(imageUri));
+
+
+            Firebase_DBManager_User.addUser(user, new Action<String>()
             {
                 @Override
                 public void onSuccess(String obj) {
