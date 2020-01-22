@@ -1,5 +1,8 @@
 package com.example.consumer_app.ui.home;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +30,7 @@ import com.example.consumer_app.Model.Firebase_DBManager_Parcel;
 import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.NotifyDataChange;
 import com.example.consumer_app.Model.Parcel;
+import com.example.consumer_app.Model.ParcelRepository;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +46,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private List<Parcel> parcels;
     private RecyclerView parcelRecyclerView;
-
+    private List<Parcel> roomUpdateParcels; //the parcels we update in the sq
 
     private List<Parcel> parcelsCopy;
 
@@ -49,7 +54,7 @@ public class HomeFragment extends Fragment {
     static boolean  updateFlag;
     String temp_phone_user;
     Button btn_test;
-
+    ParcelRepository repository;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -62,6 +67,27 @@ public class HomeFragment extends Fragment {
 
         temp_phone_user="0522222222";
 
+
+
+        homeViewModel.getAllParcel().observe(this, new Observer<List<Parcel>>() {
+            @Override
+            public void onChanged(List<Parcel> p) {
+                // TODO here is the data loading
+                //noteAdapter.setNotes(notes);
+                parcels=p;
+                // load data to adapter.
+                if (parcelRecyclerView.getAdapter() == null) {
+                    parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
+                }
+                else {
+
+                    parcelRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+
+            }
+        });
+
+
         parcelRecyclerView=view.findViewById(R.id.parcelsList);
         parcelRecyclerView.setHasFixedSize(true);
         parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -70,25 +96,21 @@ public class HomeFragment extends Fragment {
             @Override
             public void OnDataChanged(List<Parcel> obj)
             {
-                parcels=obj;
+                roomUpdateParcels=obj;
 
-                if(parcels != null)
+                if(roomUpdateParcels != null)
                 {
-                    for (Parcel p : parcels) {
+                    for (Parcel p : roomUpdateParcels) {
 
                         if (!p.getRecipientName().contains("ד")) {
                             Firebase_DBManager_Parcel.r(p);
                         }
                     }
                 }
+                homeViewModel.deleteAllNotes();
+                for(Parcel p: roomUpdateParcels)
+                    homeViewModel.insert(p);
 
-                if (parcelRecyclerView.getAdapter() == null) {
-                    parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
-                }
-                else {
-
-                    parcelRecyclerView.getAdapter().notifyDataSetChanged();
-                }
             }
 
             @Override
@@ -310,6 +332,7 @@ public class HomeFragment extends Fragment {
                 } });
         }
     }
+
 
 
 
