@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/heebo_regular"
-            android:layout_below="@id/user_name"
+            android:layout_below="@id/user_name_exmaple_card"
             android:textSize="10dp"
             android:textColor="#000000"
             android:text="פתח תקווה, 1 חברים משותפים"/>

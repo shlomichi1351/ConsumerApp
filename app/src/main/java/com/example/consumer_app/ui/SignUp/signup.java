@@ -29,13 +29,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.consumer_app.Model.Action;
 import com.example.consumer_app.Model.Firebase_DBManager_User;
-import com.example.consumer_app.Model.NotifyDataChange;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.MapsActivity.MapsActivity;
-import com.example.consumer_app.ui.home.HomeFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -50,7 +47,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
     Uri imageUri;
     public static User user;
     Button nxt;
-    EditText username;
     EditText fname;
     EditText lname;
     EditText phone;
@@ -69,7 +65,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
 
 
         nxt = findViewById(R.id.next);
-        username = findViewById(R.id.user_name);
         fname = findViewById(R.id.fname);
         lname = findViewById(R.id.lname);
         ProfileImage = (CircleImageView) findViewById(R.id.Profile_Image);
@@ -123,7 +118,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
             }
         });
 
-        username.addTextChangedListener(this);
         fname.addTextChangedListener(this);
         phone.addTextChangedListener(this);
 
@@ -133,7 +127,6 @@ public class signup extends AppCompatActivity implements TextWatcher {
                 Intent it = new Intent(signup.this, MapsActivity.class);
                 it.putExtra("fname", fname.getText().toString());
                 it.putExtra("lname", lname.getText().toString());
-                it.putExtra("userName", username.getText().toString());
                 it.putExtra("phone", phone.getText().toString());
                 it.putExtra("imageUri", imageUri.toString());
 
@@ -155,13 +148,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s)
     {
-        if (username.getText().toString().isEmpty()) {
-            warning.setVisibility(View.VISIBLE);
-            nxt.setEnabled(false);
-            nxt.setTextColor(Color.parseColor("#796D6D"));
-            warning.setText("  נא הכנס שם משתמש");
-
-        } else if (fname.getText().toString().isEmpty()) {
+        if (fname.getText().toString().isEmpty()) {
             warning.setVisibility(View.VISIBLE);
             nxt.setEnabled(false);
             nxt.setTextColor(Color.parseColor("#796D6D"));
