@@ -45,6 +45,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
     private CircleImageView ProfileImage;
     private static final int PICK_IMAGE = 1;
     Uri imageUri;
+    Uri resultUri;
     public static User user;
     Button nxt;
     EditText fname;
@@ -128,7 +129,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
                 it.putExtra("fname", fname.getText().toString());
                 it.putExtra("lname", lname.getText().toString());
                 it.putExtra("phone", phone.getText().toString());
-                it.putExtra("imageUri", imageUri.toString());
+                it.putExtra("imageUri", resultUri.toString());
 
                 startActivity(it);
             }
@@ -208,7 +209,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
         {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            Uri resultUri = result.getUri();
+            resultUri = result.getUri();
             user.setImageLocalUri(resultUri);
 
             try {

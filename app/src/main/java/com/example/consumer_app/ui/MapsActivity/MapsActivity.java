@@ -74,6 +74,7 @@ public class MapsActivity extends FragmentActivity implements
         setContentView(R.layout.activity_maps);
 
 
+        user=new User();
 
         progressBar=findViewById(R.id.progressbar);
         signup_btn =findViewById(R.id.sinnp);
@@ -102,7 +103,6 @@ public class MapsActivity extends FragmentActivity implements
     {
         try
         {
-            user=new User();
             user.setFirstName(getIntent().getStringExtra("fname"));
             user.setLastName(getIntent().getStringExtra("lname"));
             user.setPhoneNumber(getIntent().getStringExtra("phone"));
