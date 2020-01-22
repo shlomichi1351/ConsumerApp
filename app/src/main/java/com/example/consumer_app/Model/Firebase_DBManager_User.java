@@ -111,6 +111,22 @@ public class Firebase_DBManager_User {
     }
 
 
+    public static void updateUser(final User toUpdate, final Action<String> action) {
+
+        usersRef.child(toUpdate.getPhoneNumber()).setValue(toUpdate).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                action.onSuccess(toUpdate.getPhoneNumber());
+                action.onProgress("updated user data", 100);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                action.onFailure(e);
+            }
+        });
+
+    }
 
 
 

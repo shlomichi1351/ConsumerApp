@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.consumer_app.Model.Action;
 import com.example.consumer_app.Model.Firebase_DBManager_Parcel;
 import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.NotifyDataChange;
@@ -38,17 +41,38 @@ public class GalleryFragment extends Fragment {
     List<User> userList;
     private RecyclerView userRecyclerView;
     View view;
-
+    ImageButton addFriend;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
         view = inflater.inflate(R.layout.fragment_gallery, container, false);
 
+        final ArrayList<String> phoneList=new ArrayList<String>();
+        Query query =  Firebase_DBManager_User.usersRef
+                .orderByChild("phoneNumber");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User value = new User();
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    value = child.getValue(User.class);
+                    phoneList.add(value.getPhoneNumber());
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         userList = new ArrayList<User>();
         userRecyclerView = view.findViewById(R.id.userList);
         userRecyclerView.setHasFixedSize(true);
         userRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         //getFriendsList();
         Firebase_DBManager_User.notifyToUserList(new NotifyDataChange<List<User>>()
@@ -122,10 +146,10 @@ public class GalleryFragment extends Fragment {
         public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
             User user = userList.get(position);
 
-            /*Glide.with(getContext())
+            Glide.with(getContext())
                     .load(user.getImageFirebaseUrl())
                     .apply(RequestOptions.circleCropTransform())
-                    .into(holder.profile_image_recycle);*/
+                    .into(holder.profile_image_recycle);
 
             holder.name_user.setText(user.getFirstName() + " " + user.getLastName());
             user.setAddress("כתובת נורמלית");
@@ -151,8 +175,41 @@ public class GalleryFragment extends Fragment {
             name_user = itemView.findViewById(R.id.user_name_exmaple_card);
             details_user = itemView.findViewById(R.id.user_details);
             profile_image_recycle = itemView.findViewById(R.id.Profile_Image_recycle);
+            addFriend=itemView.findViewById(R.id.not_friend);
+            addFriend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    User a=new User(); //
+                    int position= getAdapterPosition();
+                    ArrayList<String> updateFriends=new ArrayList<String>();
+                    for(String s: a.getFriendsList())
+                        updateFriends.add(s);
+                    updateFriends.add(userList.get(position).getPhoneNumber());
+                    a.setFriendsList(updateFriends);
 
+                    Firebase_DBManager_User.updateUser(a, new Action<String>() {
+
+
+                        @Override
+                        public void onSuccess(String obj) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {                     }
+                        @Override
+                        public void onProgress(String status, double percent) {                      }                 });
+                }
+            });
 
         }
+
+
+
+
+
     }
+
+
+
 }
