@@ -3,6 +3,8 @@ package com.example.consumer_app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.consumer_app.Model.Firebase_DBManager_User;
+import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.login.login;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,6 +23,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -35,6 +41,8 @@ public class UserMenu extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
     FirebaseUser userFireBase;
+    String temp_phone_user;
+    User user;
 
     ImageView imageView;
     @Override
@@ -47,8 +55,26 @@ public class UserMenu extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         userFireBase = mAuth.getCurrentUser();
+        temp_phone_user=userFireBase.getPhoneNumber();
+        temp_phone_user=temp_phone_user.substring(4);
+        temp_phone_user="0"+temp_phone_user;
+        Query query =  Firebase_DBManager_User.usersRef
+                .orderByChild("phoneNumber").equalTo(temp_phone_user);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    user = child.getValue(User.class);
+                }
 
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         imageView=findViewById(R.id.image_user);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -100,5 +126,10 @@ public class UserMenu extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public User getUser()
+    {
+        return user;
     }
 }

@@ -78,7 +78,8 @@ public class HomeFragment extends Fragment {
         userFireBase = mAuth.getCurrentUser();
 
         temp_phone_user=userFireBase.getPhoneNumber();
-
+        temp_phone_user=temp_phone_user.substring(4);
+        temp_phone_user="0"+temp_phone_user;
         Query query =  Firebase_DBManager_User.usersRef
                 .orderByChild("phoneNumber").equalTo(temp_phone_user);
         query.addValueEventListener(new ValueEventListener() {
