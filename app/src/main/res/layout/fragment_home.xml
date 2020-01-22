@@ -6,16 +6,7 @@
     android:orientation="vertical">
 
 
-    <ImageButton
-        android:id="@+id/logOut"
-        android:layout_below="@id/friend"
-        android:layout_marginLeft="14dp"
-        android:layout_width="40dp"
-        android:layout_gravity=""
-        android:layout_height="40dp"
-        android:background="@drawable/rounded_picture"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/ic_v" />
+
     <EditText
         android:id="@+id/search"
         android:layout_width="230dp"
