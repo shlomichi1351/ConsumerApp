@@ -1,19 +1,26 @@
 package com.example.consumer_app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.consumer_app.R;
+import com.example.consumer_app.ui.login.login;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -26,6 +33,8 @@ import android.widget.ImageView;
 public class UserMenu extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private FirebaseAuth mAuth;
+    FirebaseUser userFireBase;
 
     ImageView imageView;
     @Override
@@ -35,6 +44,10 @@ public class UserMenu extends AppCompatActivity {
         setContentView(R.layout.activity_navigation_drawer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+        userFireBase = mAuth.getCurrentUser();
+
 
         imageView=findViewById(R.id.image_user);
 
@@ -61,17 +74,31 @@ public class UserMenu extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
-        return true;
-    }
-
-    @Override
     public boolean onSupportNavigateUp()
     {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_options,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.logOut:
+                if(userFireBase != null) {
+                    mAuth.signOut();
+                    Intent it = new Intent(UserMenu.this, login.class);
+                    startActivity(it);
+                    finish();
+                }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -76,6 +76,10 @@ public class HomeFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         user = new User();
         userFireBase = mAuth.getCurrentUser();
+
+
+       // mAuth.signOut();
+
         temp_phone_user=userFireBase.getPhoneNumber();
 
         Query query =  Firebase_DBManager_User.usersRef
