@@ -91,29 +91,6 @@ public class login extends AppCompatActivity implements TextWatcher {
             public void onClick(View v) {
                 try
                 {
-
-                    Query query =  Firebase_DBManager_User.usersRef
-                            .orderByChild("phoneNumber");
-                    query.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot child : dataSnapshot.getChildren()){
-                                if(child.getValue(User.class).getPhoneNumber().equals(phone.getText().toString())) {
-                                    user_exist = true;
-                                    break;
-                                }
-                            }
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                    if(!user_exist)
-                        throw new Exception("המשתמש לא קיים");
                     verifyVerificationCode(passwordUser.getText().toString());
 
                 }catch (Exception e){
@@ -236,6 +213,34 @@ public class login extends AppCompatActivity implements TextWatcher {
         sendpss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+                    Query query =  Firebase_DBManager_User.usersRef
+                            .orderByChild("phoneNumber");
+                    query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot child : dataSnapshot.getChildren()){
+                                if(child.getValue(User.class).getPhoneNumber().equals(phone.getText().toString())) {
+                                    user_exist = true;
+                                    break;
+                                }
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    if(!user_exist)
+                        throw new Exception("המשתמש לא קיים");
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 passwordUser.setVisibility(View.VISIBLE);
                 //btn.setText("Sign In!");
                 new CountDownTimer(30000, 1000) {
