@@ -84,24 +84,22 @@ public class login extends AppCompatActivity implements TextWatcher {
         wrongPhone = findViewById(R.id.wrong_phone);
         phone.addTextChangedListener(this);
         mAuth = FirebaseAuth.getInstance();
-        singIn=findViewById(R.id.singIn);
+        singIn = findViewById(R.id.singIn);
 
         singIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
+                try {
                     verifyVerificationCode(passwordUser.getText().toString());
 
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), e.toString(),Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
                     //EditText code = findViewById(R.id.code);
                 }
             }
         });
 
-        if (mAuth.getCurrentUser() == null)
-        {
+        if (mAuth.getCurrentUser() == null) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS)) {
 
@@ -190,8 +188,7 @@ public class login extends AppCompatActivity implements TextWatcher {
 
         sendpss.setTypeface(Typeface.DEFAULT);
 
-        sendpss.setOnTouchListener(new View.OnTouchListener()
-        {
+        sendpss.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -213,62 +210,56 @@ public class login extends AppCompatActivity implements TextWatcher {
         sendpss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Query query =  Firebase_DBManager_User.usersRef
-                            .orderByChild("phoneNumber");
-                    query.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot child : dataSnapshot.getChildren()){
-                                if(child.getValue(User.class).getPhoneNumber().equals(phone.getText().toString())) {
-                                    user_exist = true;
-                                    break;
+                Query query = Firebase_DBManager_User.usersRef
+                        .orderByChild("phoneNumber");
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            if (child.getValue(User.class).getPhoneNumber().equals(phone.getText().toString()))
+                                user_exist = true;
+                        }
+                            if(user_exist)
+                            {
+                                passwordUser.setVisibility(View.VISIBLE);
+                                //btn.setText("Sign In!");
+                                new CountDownTimer(30000, 1000) {
+                                    public void onTick(long millisUntilFinished) {
+                                        //remember to check what the user choose!!!!!!!!!!!
+                                        sendpss.setEnabled(false);
+                                        sendpss.setTypeface(null, Typeface.NORMAL);
+                                        sendpss.setText("We've sent you Email/SMS with the password.\nPlease enter the code below.\nYou will be able to request the password again in " + millisUntilFinished / 1000);
+                                    }
+
+                                    public void onFinish() {
+                                        sendpss.setEnabled(true);
+                                        sendpss.setText("send me the password again!");
+                                    }
+                                }.start();
+
+
+                                if (mAuth.getCurrentUser() == null) {
+                                    try {
+                                        String t = phone.getText().toString();
+                                        sendVerificationCode(t);
+                                    } catch (Exception e) {
+                                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+
+                                    Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getPhoneNumber(), Toast.LENGTH_SHORT).show();
                                 }
-                            }
 
-
+                            } else
+                                Toast.makeText(getApplicationContext(), "משתמש לא קיים", Toast.LENGTH_SHORT).show();
                         }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
-                    if(!user_exist)
-                        throw new Exception("המשתמש לא קיים");
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                passwordUser.setVisibility(View.VISIBLE);
-                //btn.setText("Sign In!");
-                new CountDownTimer(30000, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        //remember to check what the user choose!!!!!!!!!!!
-                        sendpss.setEnabled(false);
-                        sendpss.setTypeface(null, Typeface.NORMAL);
-                        sendpss.setText("We've sent you Email/SMS with the password.\nPlease enter the code below.\nYou will be able to request the password again in " + millisUntilFinished / 1000);
                     }
-
-                    public void onFinish() {
-                        sendpss.setEnabled(true);
-                        sendpss.setText("send me the password again!");
-                    }
-                }.start();
-
-
-                if (mAuth.getCurrentUser() == null) {
-                    try {
-                        String t = phone.getText().toString();
-                        sendVerificationCode(t);
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-
-                    Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getPhoneNumber(), Toast.LENGTH_SHORT).show();
-                }
+                });
 
             }
         });
