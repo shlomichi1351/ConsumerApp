@@ -4,15 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.consumer_app.Model.Action;
-import com.example.consumer_app.Model.Firebase_DBManager_Parcel;
 import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.NotifyDataChange;
 import com.example.consumer_app.Model.User;
@@ -35,16 +31,16 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class GalleryFragment extends Fragment {
+public class myFriendFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private myFriendViewModel galleryViewModel;
     List<User> userList;
     private RecyclerView userRecyclerView;
     View view;
     ImageButton addFriend;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
+        galleryViewModel = ViewModelProviders.of(this).get(myFriendViewModel.class);
         view = inflater.inflate(R.layout.fragment_gallery, container, false);
 
         final ArrayList<String> phoneList=new ArrayList<String>();

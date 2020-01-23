@@ -1,4 +1,4 @@
-package com.example.consumer_app.ui;
+package com.example.consumer_app.ui.send;
 
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -21,6 +21,7 @@ import com.example.consumer_app.Model.NotifyDataChange;
 import com.example.consumer_app.Model.Parcel;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
+import com.example.consumer_app.ui.UserMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,47 +33,47 @@ public class friendParcels extends Fragment
     User user;
     private RecyclerView parcelRecyclerView;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_send, container, false);
+
+        user=((UserMenu)getActivity()).getUser();
+        parcelRecyclerView=view.findViewById(R.id.parcelsFreindList);
+        parcelRecyclerView.setHasFixedSize(true);
+        parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Firebase_DBManager_Parcel.notifyToParcelList(new NotifyDataChange<List<Parcel>>()
         {
-            View view = inflater.inflate(R.layout.fragment_freind_parcels, container, false);
-
-            user=((UserMenu)getActivity()).getUser();
-            parcelRecyclerView=view.findViewById(R.id.parcelsFreindList);
-            parcelRecyclerView.setHasFixedSize(true);
-            parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            Firebase_DBManager_Parcel.notifyToParcelList(new NotifyDataChange<List<Parcel>>()
+            @Override
+            public void OnDataChanged(List<Parcel> obj)
             {
-                @Override
-                public void OnDataChanged(List<Parcel> obj)
-                {
-                    parcels=obj;
-                    friendsParcelsList=new ArrayList<Parcel>();
-                    if(parcels != null && user.getFriendsList() != null)
-                        for(String phone : user.getFriendsList())
-                            for (Parcel parcel : parcels)
-                                if(phone.equals(parcel.getRecipientPhoneNumber()))
-                                    friendsParcelsList.add(parcel);
-                }
+                parcels=obj;
+                friendsParcelsList=new ArrayList<Parcel>();
+                if(parcels != null && user.getFriendsList() != null)
+                    for(String phone : user.getFriendsList())
+                        for (Parcel parcel : parcels)
+                            if(phone.equals(parcel.getRecipientPhoneNumber()))
+                                friendsParcelsList.add(parcel);
+            }
 
-                @Override
-                public void onFailure(Exception exception) {
-                    Toast.makeText(getContext(), "error to get friend list\n" + exception.toString(), Toast.LENGTH_LONG).show();
+            @Override
+            public void onFailure(Exception exception) {
+                Toast.makeText(getContext(), "error to get friend list\n" + exception.toString(), Toast.LENGTH_LONG).show();
 
-                }
-            });
-            return view;
-        }
+            }
+        });
+        return view;
+    }
 
 
 
 
 
 
-    public class ParcelRecycleViewAdapter extends RecyclerView.Adapter<friendParcels.ParcelViewHolder>
+    public class ParcelRecycleViewAdapter extends RecyclerView.Adapter<ParcelViewHolder>
     {
         @NonNull
         @Override
-        public friendParcels.ParcelViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        public ParcelViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             View v = LayoutInflater.from(getContext()).inflate(R.layout.example_parcel, parent,false);
             return new ParcelViewHolder(v);
@@ -80,7 +81,7 @@ public class friendParcels extends Fragment
 
 
         @Override
-        public void onBindViewHolder(@NonNull friendParcels.ParcelViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ParcelViewHolder holder, int position) {
             Parcel parcel = friendsParcelsList.get(position);
 
             holder.nameTextView.setText(parcel.getRecipientName());

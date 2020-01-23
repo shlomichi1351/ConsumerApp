@@ -72,23 +72,22 @@ public class Firebase_DBManager_User {
             // upload image
             StorageReference imagesRef = FirebaseStorage.getInstance().getReference();
             imagesRef = imagesRef.child("images").child(System.currentTimeMillis() + ".jpg");
+            final StorageReference finalImagesRef = imagesRef;
             imagesRef.putFile(user.getImageLocalUri())
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            action.onProgress("upload user data", 90);
-                            // Get a URL to the uploaded content
-
-                            Task<Uri> result = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                            result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                        {
+                            finalImagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                            {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    user.setImageFirebaseUrl(uri.toString());
+                                    String url = uri.toString();
+
+                                    user.setImageFirebaseUrl(url);
+                                    addUserToFirebase(user, action);
                                 }
                             });
-
-                            // add user
-                            addUserToFirebase(user, action);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

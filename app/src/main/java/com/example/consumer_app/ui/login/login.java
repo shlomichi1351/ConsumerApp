@@ -292,7 +292,8 @@ public class login extends AppCompatActivity implements TextWatcher {
             else
             {
                 mAuth.signInWithCredential(phoneAuthCredential);
-                Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getPhoneNumber() + "התחברתי בלי סיסמא!", Toast.LENGTH_LONG);
+                signInWithPhoneAuthCredential(phoneAuthCredential);
+             //   Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getPhoneNumber() + "התחברתי בלי סיסמא!", Toast.LENGTH_LONG);
             }
         }
 
