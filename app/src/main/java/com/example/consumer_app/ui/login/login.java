@@ -112,7 +112,7 @@ public class login extends AppCompatActivity implements TextWatcher {
         }
         getSupportActionBar().hide();
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+       // this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         final TextView textView = findViewById(R.id.sup);
         textView.setTypeface(Typeface.DEFAULT);
@@ -288,6 +288,11 @@ public class login extends AppCompatActivity implements TextWatcher {
             String code = phoneAuthCredential.getSmsCode();
             if (code != null) {
                 verifyVerificationCode(code);
+            }
+            else
+            {
+                mAuth.signInWithCredential(phoneAuthCredential);
+                Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getPhoneNumber() + "התחברתי בלי סיסמא!", Toast.LENGTH_LONG);
             }
         }
 
