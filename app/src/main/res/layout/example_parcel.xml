@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="4dp"
     android:layout_marginHorizontal="6dp"
     app:cardCornerRadius="17dp">
 
@@ -11,7 +11,7 @@
     <RelativeLayout
         android:id="@+id/parcel_view_item"
         android:layout_width="match_parent"
-        android:layout_height="245dp"
+        android:layout_height="wrap_content"
         android:layout_margin="2dp">
 
 
@@ -129,17 +129,47 @@
         </LinearLayout>
 
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/details_parcel_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addressparcel"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="4dp"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+
+
+        <ImageView
+            android:id="@+id/parcel_type"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_phone"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/other_details"
+
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"/>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_marginHorizontal="12dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:textColor="#A71B45"
+            android:textSize="15dp"
+            android:text="fvffv"
             android:id="@+id/other_details"
-            android:layout_alignParentBottom="true"
             android:fontFamily="@font/heebo_regular"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dp" />
+            android:layout_marginRight="4dp"
+            android:layout_alignParentBottom="true"/>
+
+
+
+</LinearLayout>
 
     </RelativeLayout>
 

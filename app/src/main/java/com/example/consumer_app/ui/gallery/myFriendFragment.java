@@ -38,7 +38,8 @@ public class myFriendFragment extends Fragment {
     List<User> userList;
     private RecyclerView userRecyclerView;
     View view;
-    Button addFriend;
+    Button addOrDelete;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = ViewModelProviders.of(this).get(myFriendViewModel.class);
@@ -172,8 +173,10 @@ public class myFriendFragment extends Fragment {
             name_user = itemView.findViewById(R.id.user_name_exmaple_card);
             details_user = itemView.findViewById(R.id.user_details);
             profile_image_recycle = itemView.findViewById(R.id.Profile_Image_recycle);
-            addFriend = itemView.findViewById(R.id.not_friend);
-            addFriend.setOnClickListener(new View.OnClickListener() {
+            addOrDelete = itemView.findViewById(R.id.add_or_delete_friend);
+
+
+            addOrDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     User a = new User(); //
@@ -183,7 +186,6 @@ public class myFriendFragment extends Fragment {
                         updateFriends.add(s);
                     updateFriends.add(userList.get(position).getPhoneNumber());
                     a.setFriendsList(updateFriends);
-
                     Firebase_DBManager_User.updateUser(a, new Action<String>() {
 
 
@@ -206,3 +208,9 @@ public class myFriendFragment extends Fragment {
         }
     }
 }
+
+
+
+/*
+addOrDelete.setText("ff");
+ */

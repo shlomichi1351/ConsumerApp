@@ -73,7 +73,8 @@ public class UserMenu extends AppCompatActivity {
             query.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot child : dataSnapshot.getChildren()){
+                    for (DataSnapshot child : dataSnapshot.getChildren())
+                    {
                         if(child.getValue(User.class).getPhoneNumber().equals(temp_phone_user))
                             user = child.getValue(User.class);
                     }
