@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.consumer_app.Model.Firebase_DBManager_User;
+import com.example.consumer_app.Model.User;
 import com.example.consumer_app.ui.UserMenu;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.SignUp.signup;
@@ -35,6 +37,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,6 +57,7 @@ public class login extends AppCompatActivity implements TextWatcher {
     TextView wrongPhone;
     TextView sendpss;
     String mVerificationId;
+    boolean user_exist=false;
 
     public static login instance()
     {
@@ -82,12 +89,32 @@ public class login extends AppCompatActivity implements TextWatcher {
         singIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
+                try
+                {
 
-/**/
-                    //verifying the code entered manually
+                    Query query =  Firebase_DBManager_User.usersRef
+                            .orderByChild("phoneNumber");
+                    query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot child : dataSnapshot.getChildren()){
+                                if(child.getValue(User.class).getPhoneNumber().equals(phone.getText().toString())) {
+                                    user_exist = true;
+                                    break;
+                                }
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    if(!user_exist)
+                        throw new Exception("המשתמש לא קיים");
                     verifyVerificationCode(passwordUser.getText().toString());
-
 
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), e.toString(),Toast.LENGTH_SHORT).show();

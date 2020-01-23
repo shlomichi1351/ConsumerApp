@@ -10,7 +10,16 @@
         android:name="com.example.consumer_app.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
-
+    <fragment
+        android:id="@+id/offered_parcels"
+        android:name="com.example.consumer_app.ui.offeredParcels.OfferedParcels"
+        android:label="חבילות מוצעות"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/my_friends_parcels"
+        android:name="com.example.consumer_app.ui.friendParcels"
+        android:label="החבילות של חברים שלי"
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.consumer_app.ui.gallery.GalleryFragment"

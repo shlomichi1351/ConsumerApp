@@ -13,6 +13,14 @@
             android:icon="@drawable/ic_my_freinds"
             android:title="@string/menu_my_freind" />
         <item
+            android:id="@+id/offered_parcels"
+            android:icon="@drawable/ic_my_freinds"
+            android:title="@string/menu_my_freind" />
+        <item
+            android:id="@+id/my_friends_parcels"
+            android:icon="@drawable/ic_my_freinds"
+            android:title="@string/menu_my_freind" />
+        <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_package"
             android:title="@string/menu_freind_package" />

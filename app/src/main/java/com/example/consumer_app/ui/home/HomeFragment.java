@@ -81,56 +81,56 @@ public class HomeFragment extends Fragment {
 
 
 
-        homeViewModel.getAllParcel().observe(this, new Observer<List<Parcel>>() {
-            @Override
-            public void onChanged(List<Parcel> p) {
-                // TODO here is the data loading
-                //noteAdapter.setNotes(notes);
-                parcels=p;
-                // load data to adapter.
-                if (parcelRecyclerView.getAdapter() == null) {
-                    parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
-                }
-                else {
-
-                    parcelRecyclerView.getAdapter().notifyDataSetChanged();
-                }
-
-            }
-        });
-
-
-        parcelRecyclerView=view.findViewById(R.id.parcelsList);
-        parcelRecyclerView.setHasFixedSize(true);
-        parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Firebase_DBManager_Parcel.notifyToParcelList(new NotifyDataChange<List<Parcel>>()
-        {
-            @Override
-            public void OnDataChanged(List<Parcel> obj)
-            {
-                roomUpdateParcels=new ArrayList<Parcel>();
-
-                if(obj != null )
-                {
-                    for (Parcel p : obj) {
-
-                        if (p.getRecipientPhoneNumber().equals(user.getPhoneNumber())) {
-                            roomUpdateParcels.add(p);
-                        }
-                    }
-                }
-                homeViewModel.deleteAllNotes();
-                for(Parcel p: roomUpdateParcels)
-                    homeViewModel.insert(p);
-
-            }
-
-            @Override
-            public void onFailure(Exception exception) {
-                Toast.makeText(getContext(), "error to get parcel list\n" + exception.toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });
+//        homeViewModel.getAllParcel().observe(this, new Observer<List<Parcel>>() {
+//            @Override
+//            public void onChanged(List<Parcel> p) {
+//                // TODO here is the data loading
+//                //noteAdapter.setNotes(notes);
+//                parcels=p;
+//                // load data to adapter.
+//                if (parcelRecyclerView.getAdapter() == null) {
+//                    parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
+//                }
+//                else {
+//
+//                    parcelRecyclerView.getAdapter().notifyDataSetChanged();
+//                }
+//
+//            }
+//        });
+//
+//
+//        parcelRecyclerView=view.findViewById(R.id.parcelsList);
+//        parcelRecyclerView.setHasFixedSize(true);
+//        parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        Firebase_DBManager_Parcel.notifyToParcelList(new NotifyDataChange<List<Parcel>>()
+//        {
+//            @Override
+//            public void OnDataChanged(List<Parcel> obj)
+//            {
+//                roomUpdateParcels=new ArrayList<Parcel>();
+//
+//                if(obj != null )
+//                {
+//                    for (Parcel p : obj) {
+//
+//                        if (p.getRecipientPhoneNumber().equals(user.getPhoneNumber())) {
+//                            roomUpdateParcels.add(p);
+//                        }
+//                    }
+//                }
+//                homeViewModel.deleteAllNotes();
+//                for(Parcel p: roomUpdateParcels)
+//                    homeViewModel.insert(p);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Exception exception) {
+//                Toast.makeText(getContext(), "error to get parcel list\n" + exception.toString(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
         btn_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -344,8 +344,4 @@ public class HomeFragment extends Fragment {
                 } });
         }
     }
-
-
-
-
 }

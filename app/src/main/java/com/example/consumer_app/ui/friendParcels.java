@@ -47,8 +47,7 @@ public class friendParcels extends Fragment
                 {
                     parcels=obj;
                     friendsParcelsList=new ArrayList<Parcel>();
-
-                    if(parcels != null)
+                    if(parcels != null && user.getFriendsList() != null)
                         for(String phone : user.getFriendsList())
                             for (Parcel parcel : parcels)
                                 if(phone.equals(parcel.getRecipientPhoneNumber()))
