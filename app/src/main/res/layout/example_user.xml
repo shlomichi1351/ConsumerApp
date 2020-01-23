@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 <LinearLayout
@@ -23,7 +23,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="36dp"
         android:layout_marginRight="20dp"
 
         android:orientation="vertical">
@@ -37,7 +37,7 @@
             android:text="דניאל בידרמן"/>
 
         <TextView android:id="@+id/user_details"
-            android:layout_width="wrap_content"
+            android:layout_width="164dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/heebo_regular"
             android:layout_below="@id/user_name_exmaple_card"
@@ -50,25 +50,19 @@
 
 
 
-</LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="20dp"
-        android:orientation="vertical">
+
     <Button
         android:id="@+id/not_friend"
         android:layout_width="80dp"
         android:text="הוסף"
         android:textSize="12dp"
         android:textColor="#ffffff"
+        android:layout_marginTop="55dp"
+        android:layout_marginRight="10dp"
         android:fontFamily="@font/heebo_medium"
         android:layout_height="28dp"
         android:background="@drawable/rounded_add_freind"
         android:layout_alignParentLeft="true"/>
+</LinearLayout>
 
-
-
-    </LinearLayout>
 </RelativeLayout>

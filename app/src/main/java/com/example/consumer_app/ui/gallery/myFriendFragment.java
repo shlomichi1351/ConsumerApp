@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,7 @@ public class myFriendFragment extends Fragment {
     List<User> userList;
     private RecyclerView userRecyclerView;
     View view;
-    ImageButton addFriend;
+    Button addFriend;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel = ViewModelProviders.of(this).get(myFriendViewModel.class);
@@ -149,7 +150,7 @@ public class myFriendFragment extends Fragment {
 
             holder.name_user.setText(user.getFirstName() + " " + user.getLastName());
             user.setAddress(user.getAddress());
-            holder.details_user.setText(", 0 חברים משותפים" + user.getAddress());
+            holder.details_user.setText(user.getAddress());
 
         }
 
