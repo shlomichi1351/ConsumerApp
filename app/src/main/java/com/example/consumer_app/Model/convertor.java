@@ -2,6 +2,10 @@ package com.example.consumer_app.Model;
 
 import androidx.room.TypeConverter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class convertor
 {
     @TypeConverter
@@ -50,4 +54,24 @@ public class convertor
             return Parcel.Type.LargePackage;
         return Parcel.Type.SmallPackage;
     }
+
+    @TypeConverter
+    public static String suggestersToString(ArrayList<String> s)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (String user : s)
+        {
+            sb.append(user);
+            sb.append("|");
+        }
+        return sb.toString();
+    }
+
+
+    @TypeConverter
+    public static List<String> StringToSuggesters(String s)
+    {
+        return new ArrayList<String>(Arrays.asList(s.split("|")));
+    }
+
 }

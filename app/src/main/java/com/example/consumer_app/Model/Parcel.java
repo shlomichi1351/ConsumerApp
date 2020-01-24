@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,14 +25,14 @@ public class Parcel {
     private String recipientAddress;
     private String recipientName;
     private String recipientPhoneNumber;
-    //List<User> suggesters;
+    List<String> suggesters;
 
     @PrimaryKey
     @NonNull
     private String parcelId;
 
     //ctor
-    public Parcel(Type type, Boolean isFragile, double weight, String distributionCenterAddress, String recipientAddress, String recipientName, String recipientPhoneNumber, String parcelId) {
+    public Parcel(Type type, Boolean isFragile, double weight, String distributionCenterAddress, String recipientAddress, String recipientName, String recipientPhoneNumber, String parcelId, List<String> parcels) {
 
         this.type = type;
         this.isFragile = isFragile;
@@ -41,9 +42,10 @@ public class Parcel {
         this.recipientName = recipientName;
         this.recipientPhoneNumber = recipientPhoneNumber;
         this.parcelId = parcelId;
+        this.suggesters=parcels;
     }
     //default ctor for firebasse utilities.
-    public Parcel() {this(null , false , 0 ,"","", "","","");}
+    public Parcel() {this(null , false , 0 ,"","", "","","", new ArrayList<String>());}
 
 
     //getters
