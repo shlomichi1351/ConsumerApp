@@ -1,16 +1,16 @@
-package com.example.consumer_app.ui.send;
+package com.example.consumer_app.ui.myFriend;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class friendParcelsViewModel extends ViewModel {
+public class myFriendViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public friendParcelsViewModel() {
+    public myFriendViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is send fragment");
+        mText.setValue("This is gallery fragment");
     }
 
     public LiveData<String> getText() {

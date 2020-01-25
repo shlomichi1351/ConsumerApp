@@ -147,7 +147,6 @@
             android:id="@+id/parcel_type"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_phone"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/other_details"
 
@@ -160,7 +159,6 @@
             android:layout_marginBottom="15dp"
             android:textColor="#A71B45"
             android:textSize="15dp"
-            android:text="fvffv"
             android:id="@+id/other_details"
             android:fontFamily="@font/heebo_regular"
             android:layout_height="wrap_content"

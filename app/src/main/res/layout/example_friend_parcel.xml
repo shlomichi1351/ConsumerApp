@@ -15,60 +15,6 @@
         android:layout_margin="2dp">
 
 
-        <LinearLayout
-            android:background="@drawable/rounded_headline"
-            android:id="@+id/idparcel"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:paddingHorizontal="12dp"
-            android:paddingBottom="5dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/id_parcel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/heebo_bold"
-                android:textColor="#0B0863"
-                android:layout_marginEnd="1dp"
-                android:text="מספר החבילה: "
-                android:layout_marginRight="1dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/namesender"
-            android:layout_width="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/idparcel"
-            android:layout_marginRight="4dp"
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true">
-
-            <TextView
-                android:id="@+id/name_sender"
-                android:layout_width="wrap_content"
-                android:textColor="#0B0863"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:fontFamily="@font/heebo_bold"
-                android:textColor="#000000"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="שם הנמען: "
-                android:layout_marginLeft="5dp"/>
-
-        </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -76,7 +22,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:id="@+id/phonenumber"
-            android:layout_below="@id/namesender"
             android:layout_marginRight="4dp"
             android:orientation="horizontal"
             android:layout_alignParentRight="true">
@@ -128,47 +73,23 @@
 
         </LinearLayout>
 
-
         <LinearLayout
-            android:id="@+id/details_parcel_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/addressparcel"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="4dp"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-
-
-
-            <ImageView
-                android:id="@+id/parcel_type"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_phone"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/other_details"
-
-                android:layout_gravity="center"
-                android:layout_alignParentBottom="true"/>
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/Profile_Image_recycle"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/user"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginBottom="15dp"
-                android:textColor="#A71B45"
-                android:textSize="15dp"
-                android:text="fvffv"
-                android:id="@+id/other_details"
-                android:fontFamily="@font/heebo_regular"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
-                android:layout_alignParentBottom="true"/>
-
-
-
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </RelativeLayout>

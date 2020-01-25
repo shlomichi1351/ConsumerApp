@@ -1,9 +1,5 @@
 package com.example.consumer_app.ui.home;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,9 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_app.Model.Action;
@@ -34,9 +28,7 @@ import com.example.consumer_app.Model.Parcel;
 import com.example.consumer_app.Model.ParcelRepository;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
-import com.example.consumer_app.ui.MapsActivity.MapsActivity;
 import com.example.consumer_app.ui.UserMenu;
-import com.example.consumer_app.ui.login.login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -277,6 +269,11 @@ public class HomeFragment extends Fragment {
             holder.nameTextView.setText(parcel.getRecipientName());
 
 
+            if(parcel.getType()== Parcel.Type.Envelope)
+                holder.type_package.setImageResource(R.drawable.envelope);
+            else
+                holder.type_package.setImageResource(R.drawable.img_package);
+
             holder.phoneTextView.setText(parcel.getRecipientPhoneNumber());
             holder.address.setText(parcel.getRecipientAddress());
             holder.id.setText(String.valueOf(position+1));
@@ -303,11 +300,13 @@ public class HomeFragment extends Fragment {
         TextView other_details;
         TextView address;
         TextView id;
+        ImageButton type_package;
 
         ParcelViewHolder(View itemView)
         {
             super(itemView);
 
+            type_package=itemView.findViewById(R.id.parcel_type);
             id= itemView.findViewById(R.id.id_parcel);
             address = itemView.findViewById(R.id.address_parcel);
             other_details = itemView.findViewById(R.id.other_details);

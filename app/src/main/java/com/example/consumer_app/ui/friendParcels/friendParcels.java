@@ -1,4 +1,4 @@
-package com.example.consumer_app.ui.send;
+package com.example.consumer_app.ui.friendParcels;
 
 import android.os.Bundle;
 import android.view.ContextMenu;
