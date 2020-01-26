@@ -59,7 +59,7 @@ public class OfferedParcels extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         offeredParcelsViewModel = ViewModelProviders.of(this).get(OfferedParcelsViewModel.class);
-        View view = inflater.inflate(R.layout.fragment_tools, container, false);
+        View view = inflater.inflate(R.layout.fragment_offered_parcels, container, false);
 
         user=((UserMenu)getActivity()).getUser();
         parcelRecyclerView=view.findViewById(R.id.offered_parcels_List);

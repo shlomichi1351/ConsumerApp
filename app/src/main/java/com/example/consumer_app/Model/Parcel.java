@@ -25,7 +25,7 @@ public class Parcel {
     private String recipientAddress;
     private String recipientName;
     private String recipientPhoneNumber;
-    List<String> suggesters;
+    ArrayList<String> suggesters;
     String phoneDeliver;
 
     @PrimaryKey
@@ -33,7 +33,7 @@ public class Parcel {
     private String parcelId;
 
     //ctor
-    public Parcel(Type type, Boolean isFragile, double weight, String distributionCenterAddress, String recipientAddress, String recipientName, String recipientPhoneNumber, String parcelId, List<String> parcels, String phoneDeliver) {
+    public Parcel(Type type, Boolean isFragile, double weight, String distributionCenterAddress, String recipientAddress, String recipientName, String recipientPhoneNumber, String parcelId, ArrayList<String> parcels, String phoneDeliver) {
 
         this.type = type;
         this.isFragile = isFragile;
@@ -94,7 +94,7 @@ public class Parcel {
         return suggesters;
     }
 
-    public void setSuggesters(List<String> suggesters) {
+    public void setSuggesters(ArrayList<String> suggesters) {
         this.suggesters = suggesters;
     }
 

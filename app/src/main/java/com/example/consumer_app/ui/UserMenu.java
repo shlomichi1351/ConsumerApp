@@ -6,6 +6,8 @@ import android.os.Bundle;
 import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
+import com.example.consumer_app.ui.home.HomeFragment;
+import com.example.consumer_app.ui.home.HomeViewModel;
 import com.example.consumer_app.ui.login.login;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -42,7 +44,7 @@ public class UserMenu extends AppCompatActivity {
 
     ImageView imageView;
     private FirebaseAuth mAuth;
-    User user;
+    public static User user;
     FirebaseUser userFireBase;
     String temp_phone_user;
 
@@ -50,11 +52,12 @@ public class UserMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation_drawer);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        imageView=findViewById(R.id.image_user);
+
+
+
+
+
         mAuth = FirebaseAuth.getInstance();
         userFireBase = mAuth.getCurrentUser();
 
@@ -68,15 +71,23 @@ public class UserMenu extends AppCompatActivity {
             temp_phone_user=userFireBase.getPhoneNumber();
             temp_phone_user=temp_phone_user.substring(4);
             temp_phone_user="0"+temp_phone_user;
-            Query query = Firebase_DBManager_User.usersRef.orderByChild("phoneNumber");
+            Query query =  Firebase_DBManager_User.usersRef
+                    .orderByChild("phoneNumber");
             query.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren())
                     {
-                        if(child.getValue(User.class).getPhoneNumber().equals(temp_phone_user))
+
+                        if(child.getValue(User.class).getPhoneNumber().equals(temp_phone_user)) {
                             user = child.getValue(User.class);
+                            navigationStart();
+                            break;
+                        }
+
                     }
+
+
                 }
 
                 @Override
@@ -85,31 +96,39 @@ public class UserMenu extends AppCompatActivity {
                 }
             });
 
-            FloatingActionButton fab = findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
-            DrawerLayout drawer = findViewById(R.id.drawer_layout);
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            // Passing each menu ID as a set of Ids because each
-            // menu should be considered as top level destinations.
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                    R.id.nav_tools, R.id.nav_share, R.id.nav_send)
-                    .setDrawerLayout(drawer)
-                    .build();
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-            NavigationUI.setupWithNavController(navigationView, navController);
         }
 
     }
 
+    public void navigationStart()
+    {
+        setContentView(R.layout.activity_navigation_drawer);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        imageView=findViewById(R.id.image_user);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
+                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                .setDrawerLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+    }
 
     @Override
     public boolean onSupportNavigateUp()
@@ -137,12 +156,9 @@ public class UserMenu extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
     public User getUser()
     {
+
         return user;
     }
-
-
 }

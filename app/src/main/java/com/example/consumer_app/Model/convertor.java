@@ -69,7 +69,7 @@ public class convertor
 
 
     @TypeConverter
-    public static List<String> StringToSuggesters(String s)
+    public static ArrayList<String> StringToSuggesters(String s)
     {
         return new ArrayList<String>(Arrays.asList(s.split("|")));
     }

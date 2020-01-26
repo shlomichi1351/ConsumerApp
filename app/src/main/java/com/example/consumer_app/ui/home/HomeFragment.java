@@ -12,12 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.consumer_app.Model.Action;
@@ -62,67 +65,73 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         search=view.findViewById(R.id.search);
+        parcelRecyclerView=view.findViewById(R.id.parcelsList);
+        parcelRecyclerView.setHasFixedSize(true);
+
+        parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         btn_test=view.findViewById(R.id.button_test);
 
         parcels=new ArrayList<Parcel>();
 
         mAuth = FirebaseAuth.getInstance();
-        user = new User();
-        user=((UserMenu)getActivity()).getUser();
+        userFireBase = mAuth.getCurrentUser();
+        temp_phone_user=userFireBase.getPhoneNumber();
+        temp_phone_user=temp_phone_user.substring(4);
+        temp_phone_user="0"+temp_phone_user;
 
 
 
+        homeViewModel.getAllParcel().observe(this, new Observer<List<Parcel>>() {
+            @Override
+            public void onChanged(List<Parcel> p) {
+                // TODO here is the data loading
+                //noteAdapter.setNotes(notes);
+                roomUpdateParcels=p;
+                // load data to adapter.
+                if (parcelRecyclerView.getAdapter() == null) {
+                    parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
+                }
+                else {
 
-//        homeViewModel.getAllParcel().observe(this, new Observer<List<Parcel>>() {
-//            @Override
-//            public void onChanged(List<Parcel> p) {
-//                // TODO here is the data loading
-//                //noteAdapter.setNotes(notes);
-//                parcels=p;
-//                // load data to adapter.
-//                if (parcelRecyclerView.getAdapter() == null) {
-//                    parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
-//                }
-//                else {
-//
-//                    parcelRecyclerView.getAdapter().notifyDataSetChanged();
-//                }
-//
-//            }
-//        });
-//
-//
-//        parcelRecyclerView=view.findViewById(R.id.parcelsList);
-//        parcelRecyclerView.setHasFixedSize(true);
-//        parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        Firebase_DBManager_Parcel.notifyToParcelList(new NotifyDataChange<List<Parcel>>()
-//        {
-//            @Override
-//            public void OnDataChanged(List<Parcel> obj)
-//            {
-//                roomUpdateParcels=new ArrayList<Parcel>();
-//
-//                if(obj != null )
-//                {
-//                    for (Parcel p : obj) {
-//
-//                        if (p.getRecipientPhoneNumber().equals(user.getPhoneNumber())) {
-//                            roomUpdateParcels.add(p);
-//                        }
-//                    }
-//                }
-//                homeViewModel.deleteAllNotes();
-//                for(Parcel p: roomUpdateParcels)
-//                    homeViewModel.insert(p);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Exception exception) {
-//                Toast.makeText(getContext(), "error to get parcel list\n" + exception.toString(), Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
+                    parcelRecyclerView.getAdapter().notifyDataSetChanged();
+                }
+
+            }
+        });
+
+
+       //parcelRecyclerView=view.findViewById(R.id.parcelsList);
+        //parcelRecyclerView.setHasFixedSize(true);
+        //parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Firebase_DBManager_Parcel.notifyToParcelList(new NotifyDataChange<List<Parcel>>()
+        {
+            @Override
+            public void OnDataChanged(List<Parcel> obj)
+            {
+                roomUpdateParcels=new ArrayList<Parcel>();
+
+                if(obj != null )
+                {
+                    for (Parcel p : obj) {
+
+                        if (p.getRecipientPhoneNumber().equals(temp_phone_user)) {
+                            roomUpdateParcels.add(p);
+                        }
+                    }
+                }
+                homeViewModel.deleteAllNotes();
+                for(Parcel p: roomUpdateParcels)
+                    homeViewModel.insert(p);
+
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                Toast.makeText(getContext(), "error to get parcel list\n" + exception.toString(), Toast.LENGTH_LONG).show();
+
+            }
+        });
         btn_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,7 +310,7 @@ public class HomeFragment extends Fragment {
         TextView other_details;
         TextView address;
         TextView id;
-        ImageButton type_package;
+        ImageView type_package;
         TextView status;
 
         ParcelViewHolder(View itemView)
@@ -314,7 +323,7 @@ public class HomeFragment extends Fragment {
             address = itemView.findViewById(R.id.address_parcel);
             other_details = itemView.findViewById(R.id.other_details);
             nameTextView = itemView.findViewById(R.id.name_sender);
-            phoneTextView = itemView.findViewById(R.id.phone_number);
+            phoneTextView = itemView.findViewById(R.id.phone_namber_parcel);
 
             // itemView.setOnClickListener();
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {

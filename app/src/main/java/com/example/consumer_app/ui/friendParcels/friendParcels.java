@@ -48,7 +48,7 @@ public class friendParcels extends Fragment
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_send, container, false);
+        View view = inflater.inflate(R.layout.fragment_freind_parcels, container, false);
 
         user=((UserMenu)getActivity()).getUser();
         parcelRecyclerView=view.findViewById(R.id.parcelsFreindList);
