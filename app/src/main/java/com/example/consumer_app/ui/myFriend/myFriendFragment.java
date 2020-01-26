@@ -1,5 +1,9 @@
 package com.example.consumer_app.ui.myFriend;
 
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -142,7 +147,7 @@ public class myFriendFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull final UserViewHolder holder, final int position)
         {
-            User user = userList.get(position);
+            final User user = userList.get(position);
 
             if (user.getImageFirebaseUrl() == null)
                 Glide.with(getContext())
@@ -160,25 +165,54 @@ public class myFriendFragment extends Fragment {
             user.setAddress(user.getAddress());
             holder.details_user.setText(user.getAddress());
 
-
+            if(UserMenu.user.getFriendsList().contains(user.getPhoneNumber()))
+                holder.addOrDelete.setText("הסר");
+            else
+                holder.addOrDelete.setText("הוסף");
 
             holder.addOrDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    //User a = new User(); //
+                public void onClick(View v)
+                {
                     boolean flag=false;
                     ArrayList<String> updateFriends = new ArrayList<String>();
+
                     for (String s : UserMenu.user.getFriendsList())
-                        if(userList.get(position).getPhoneNumber().equals(s)) {
+                        updateFriends.add(s);
+
+
+                    for (String s : UserMenu.user.getFriendsList()) {
+                        if (userList.get(position).getPhoneNumber().equals(s))
+                        {
                             flag = true;
-                            Toast.makeText(getContext(),"החבר כבר קיים",Toast.LENGTH_LONG).show();
-                            break;
+
+                            updateFriends.remove(s);
+                            UserMenu.user.setFriendsList(updateFriends);
+                            Firebase_DBManager_User.updateUser(UserMenu.user, new Action<String>() {
+
+
+                                @Override
+                                public void onSuccess(String obj) {
+                                    Toast.makeText(getContext(),"החבר התווסף",Toast.LENGTH_LONG).show();
+                                    notifyDataSetChanged();
+                                    return;
+                                }
+
+                                @Override
+                                public void onFailure(Exception exception) {
+                                    Toast.makeText(getContext(),"החבר לא התווסף",Toast.LENGTH_LONG);
+
+                                }
+
+                                @Override
+                                public void onProgress(String status, double percent) {
+                                }
+                            });
                         }
+                    }
 
                     if(!flag)
                     {
-                        updateFriends.add(userList.get(position).getPhoneNumber());
-
                         updateFriends.add(userList.get(position).getPhoneNumber());
                         UserMenu.user.setFriendsList(updateFriends);
                         Firebase_DBManager_User.updateUser(UserMenu.user, new Action<String>() {
@@ -187,13 +221,13 @@ public class myFriendFragment extends Fragment {
                             @Override
                             public void onSuccess(String obj) {
                                 Toast.makeText(getContext(),"החבר התווסף",Toast.LENGTH_LONG).show();
-                                holder.addOrDelete.setText("הסר");
                                 notifyDataSetChanged();
+                                return;
                             }
 
                             @Override
                             public void onFailure(Exception exception) {
-                                Toast.makeText(getContext(),"החבר לאאא התווסף",Toast.LENGTH_LONG);
+                                Toast.makeText(getContext(),"החבר לא התווסף",Toast.LENGTH_LONG);
 
                             }
 
@@ -202,6 +236,33 @@ public class myFriendFragment extends Fragment {
                             }
                         });
                     }
+
+                }
+            });
+
+            holder.address_friend_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        List<Double>points=getLocationFromAddress(user.getAddress());
+
+                        String uri = "http://maps.google.com/maps?daddr=" + points.get(0) + "," + points.get(1);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        intent.setPackage("com.google.android.apps.maps");
+                        startActivity(intent);
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(getContext(),"אין אפשרות להמיר את הכתובת לקווי אורך ורוחב", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            });
+
+            holder.phone_friend_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   startActivity(UserMenu.newPhoneCallIntent(user.getPhoneNumber()));
                 }
             });
 
@@ -220,17 +281,48 @@ public class myFriendFragment extends Fragment {
         TextView details_user;
         CircleImageView profile_image_recycle;
         Button addOrDelete;
+        Button phone_friend_button , address_friend_button;
+
 
 
         UserViewHolder(View itemView) {
             super(itemView);
-
+            phone_friend_button=itemView.findViewById(R.id.phone_friend_button);
+            address_friend_button=itemView.findViewById(R.id.address_friend_button);
             name_user = itemView.findViewById(R.id.user_name_exmaple_card);
             details_user = itemView.findViewById(R.id.user_details);
             profile_image_recycle = itemView.findViewById(R.id.Profile_Image_recycle);
             addOrDelete = itemView.findViewById(R.id.add_or_delete_friend);
 
         }
+    }
+
+    public List<Double> getLocationFromAddress(String strAddress){
+
+        Geocoder coder = new Geocoder(getContext());
+        List<Address> address;
+        List<Double> list_points = Arrays.asList();
+
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) {
+                return null;
+            }
+            Address location=address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            list_points.add((double) (location.getLatitude() * 1E6));
+            list_points.add((double) (location.getLongitude() * 1E6));
+
+            return list_points;
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getContext(),"אין אפשרות להמיר את הכתובת לקווי אורך ורוחב", Toast.LENGTH_LONG);
+        }
+        return null;
     }
 }
 

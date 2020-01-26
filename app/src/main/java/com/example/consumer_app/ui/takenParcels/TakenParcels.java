@@ -240,35 +240,6 @@ public class TakenParcels extends Fragment {
             phone_recipient_button=itemView.findViewById(R.id.phone_recipient_taken_parcel);
             address_recipient_button=itemView.findViewById(R.id.adress_recipient_taken_parcel);
 
-            // itemView.setOnClickListener();
-            itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                @Override
-                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                    menu.setHeaderTitle("אפשרויות");
-                    MenuItem delete = menu.add(Menu.NONE, 1, 1, "מחיקה");
-                    delete.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            int position = getAdapterPosition();
-                            String id = parcels.get(position).getParcelId();
-                            Firebase_DBManager_Parcel.removeParcel(parcels.get(position).getRecipientPhoneNumber()+"/"+id, new Action<String>() {
-
-
-                                @Override
-                                public void onSuccess(String obj) {
-
-                                }
-
-                                @Override
-                                public void onFailure(Exception exception) {                     }
-                                @Override
-                                public void onProgress(String status, double percent) {                      }                 });
-                            return true;
-
-                        }
-                    });
-                } });
-
         }
 
     }

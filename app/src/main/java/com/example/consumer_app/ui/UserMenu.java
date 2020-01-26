@@ -1,6 +1,7 @@
 package com.example.consumer_app.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.consumer_app.Model.Firebase_DBManager_User;
@@ -78,16 +79,12 @@ public class UserMenu extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren())
                     {
-
                         if(child.getValue(User.class).getPhoneNumber().equals(temp_phone_user)) {
                             user = child.getValue(User.class);
                             navigationStart();
                             break;
                         }
-
                     }
-
-
                 }
 
                 @Override
@@ -160,5 +157,11 @@ public class UserMenu extends AppCompatActivity {
     {
 
         return user;
+    }
+
+    public static Intent newPhoneCallIntent(String phoneNumber){
+        Intent callintent = new Intent(Intent.ACTION_DIAL);
+        callintent.setData(Uri.parse("tel:"+phoneNumber));
+        return callintent;
     }
 }

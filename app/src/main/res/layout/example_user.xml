@@ -12,8 +12,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/Profile_Image_recycle"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:src="@drawable/user"
@@ -23,18 +23,36 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
 
         android:orientation="vertical">
 
-        <TextView android:id="@+id/user_name_exmaple_card"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/heebo_medium"
-            android:textSize="18dp"
-            android:textColor="#000000"
-            android:text="דניאל בידרמן"/>
+            android:orientation="horizontal">
+            <TextView android:id="@+id/user_name_exmaple_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/heebo_medium"
+                android:textSize="18dp"
+                android:textColor="#000000"
+                android:text="דניאל בידרמן"/>
+            <Button
+                android:id="@+id/phone_friend_button"
+                android:layout_width="30dp"
+                android:background="@drawable/phone_button"
+                android:layout_height="30dp"
+                android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/address_friend_button"
+                android:layout_width="30dp"
+                android:background="@drawable/maps_button"
+                android:layout_height="30dp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
 
         <TextView android:id="@+id/user_details"
             android:layout_width="164dp"
@@ -51,18 +69,19 @@
 
 
 
+
+</LinearLayout>
     <Button
         android:id="@+id/add_or_delete_friend"
         android:layout_width="80dp"
         android:text=""
         android:textSize="12dp"
         android:textColor="#ffffff"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="55dp"
-        android:layout_marginRight="10dp"
         android:fontFamily="@font/heebo_medium"
         android:layout_height="28dp"
+        android:layout_centerVertical="true"
         android:background="@drawable/rounded_add_freind"
         android:layout_alignParentLeft="true"/>
-</LinearLayout>
-
 </RelativeLayout>

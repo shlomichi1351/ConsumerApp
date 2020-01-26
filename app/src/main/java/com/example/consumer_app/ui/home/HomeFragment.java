@@ -165,18 +165,27 @@ public class HomeFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 if(s.toString().equals(""))
                 {
-                    Firebase_DBManager_Parcel.notifyToParcelList(new NotifyDataChange<List<Parcel>>() {
+                    Firebase_DBManager_Parcel.notifyToParcelList(new NotifyDataChange<List<Parcel>>()
+                    {
                         @Override
-                        public void OnDataChanged(List<Parcel> obj) {
-                            parcels = obj;
-                            parcelsCopy = obj;
+                        public void OnDataChanged(List<Parcel> obj)
+                        {
+                            roomUpdateParcels=new ArrayList<Parcel>();
 
-                            if (parcelRecyclerView.getAdapter() == null) {
-                                parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
+                            if(obj != null )
+                            {
+                                for (Parcel p : obj) {
+
+                                    if (p.getRecipientPhoneNumber().equals(temp_phone_user)) {
+                                        roomUpdateParcels.add(p);
+                                    }
+                                }
+                                homeViewModel.deleteAllNotes();
+                                for(Parcel p: roomUpdateParcels)
+                                    homeViewModel.insert(p);
                             }
-                            else {
-                                parcelRecyclerView.getAdapter().notifyDataSetChanged();
-                            }
+
+
                         }
 
                         @Override
@@ -187,12 +196,14 @@ public class HomeFragment extends Fragment {
                     });
                 }
                 else {
-                    parcels = new ArrayList<>();
-
+                    parcelsCopy = new ArrayList<Parcel>();
+                    for(Parcel p:roomUpdateParcels)
+                        parcelsCopy.add(p);
+                    roomUpdateParcels=new ArrayList<Parcel>();
                     for (Parcel p : parcelsCopy)
                     {
                         if (p.getRecipientAddress().contains(search.getText().toString()) || p.getRecipientName().contains(search.getText().toString()) || p.getRecipientPhoneNumber().contains(search.getText().toString()))
-                            parcels.add(p);
+                            roomUpdateParcels.add(p);
                     }
                     Firebase_DBManager_Parcel.stopNotifyToParcelList();
                     parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());

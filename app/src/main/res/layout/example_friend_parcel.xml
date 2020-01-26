@@ -148,29 +148,29 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true">
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/Profile_Image_recycle"
+                android:id="@+id/profil_image_friend_parcel"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/user"
                 />
-
-            <TextView
-                android:id="@+id/lname_friend_parcel"
-                android:layout_width="80dp"
-                android:text="שלומיחי"
-                android:textColor="#030B2C"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
             <TextView
                 android:id="@+id/fname_friend_parcel"
                 android:layout_width="80dp"
-                android:text="נגרי"
+                android:text=""
                 android:textColor="#030B2C"
                 android:gravity="center"
                 android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/lname_friend_parcel"
+                android:layout_width="80dp"
+                android:text=""
+                android:textColor="#030B2C"
+                android:gravity="center"
+                android:layout_height="wrap_content"/>
+
+
 
         </LinearLayout>
 

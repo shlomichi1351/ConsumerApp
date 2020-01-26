@@ -22,16 +22,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.consumer_app.Model.Action;
 import com.example.consumer_app.Model.Firebase_DBManager_Parcel;
+import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.NotifyDataChange;
 import com.example.consumer_app.Model.Parcel;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.UserMenu;
+import com.example.consumer_app.ui.home.HomeFragment;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -45,6 +48,8 @@ public class friendParcels extends Fragment
     List<Parcel>   friendsParcelsList;
     User user;
     private RecyclerView parcelRecyclerView;
+    int mExpandedPosition = -1;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +71,14 @@ public class friendParcels extends Fragment
                         for (Parcel parcel : parcels)
                             if(phone.equals(parcel.getRecipientPhoneNumber()) && parcel.getStatus().equals(Parcel.Status.Registered))
                                 friendsParcelsList.add(parcel);
+
+                if (parcelRecyclerView.getAdapter() == null) {
+                    parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
+                }
+                else {
+
+                    parcelRecyclerView.getAdapter().notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -88,16 +101,15 @@ public class friendParcels extends Fragment
         @Override
         public ParcelViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View v = LayoutInflater.from(getContext()).inflate(R.layout.example_parcel, parent,false);
+            View v = LayoutInflater.from(getContext()).inflate(R.layout.example_friend_parcel, parent,false);
             return new ParcelViewHolder(v);
         }
 
 
         @Override
-        public void onBindViewHolder(@NonNull ParcelViewHolder holder, final int position) {
-            Parcel parcel = friendsParcelsList.get(position);
+        public void onBindViewHolder(@NonNull final ParcelViewHolder holder, final int position) {
+            final Parcel parcel = friendsParcelsList.get(position);
             final User[] recipientUser = new User[1];
-            final int[] mExpandedPosition = {-1};
 
             String[] allName = parcel.getRecipientName().split(" ");
             if(allName.length == 1)
@@ -117,59 +129,83 @@ public class friendParcels extends Fragment
 
 
 
-
-            DatabaseReference ref = FirebaseDatabase.getInstance("https://warehouse-d61f5.firebaseio.com/").getReference("users");
-            ref.child(parcel.getRecipientPhoneNumber());
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            Query query =  Firebase_DBManager_User.usersRef
+                    .orderByChild("phoneNumber");
+            query.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot)
-                {
-                    recipientUser[0] = (User) dataSnapshot.getValue();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot child : dataSnapshot.getChildren())
+                    {
 
+                        if(child.getValue(User.class).getPhoneNumber().equals(parcel.getRecipientPhoneNumber())) {
+                            recipientUser[0] = child.getValue(User.class);
+                            break;
+                        }
+
+                    }
+                    if (recipientUser[0].getImageFirebaseUrl()== null)
+                        Glide.with(getContext())
+                                .load(R.drawable.user)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.profile_image_friend_parcel);
+
+                    else
+                        Glide.with(getContext())
+                                .load(recipientUser[0].getImageFirebaseUrl())
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.profile_image_friend_parcel);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    return;
-                }
 
+                }
             });
 
-
-            if (!recipientUser[0].getImageFirebaseUrl().equals(""))
-                Glide.with(getContext())
-                        .load(recipientUser[0].getImageFirebaseUrl())
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(holder.profile_image_friend_parcel);
-            else
-                Glide.with(getContext())
-                        .load(R.drawable.user)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(holder.profile_image_friend_parcel);
 
 
 
             // handle expendable
-//            final boolean isExpanded = position == mExpandedPosition[0];
-//            holder.subItem.setVisibility(isExpanded?View.VISIBLE:View.GONE);
-//            holder.itemView.setActivated(isExpanded);
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mExpandedPosition[0] = isExpanded ? -1:position;
-//                    TransitionManager.beginDelayedTransition(parcelsRecycleView);
-//                    notifyDataSetChanged();
-//                }
-//            });
+            final boolean isExpanded = position == mExpandedPosition;
+            holder.subItem.setVisibility(isExpanded?View.VISIBLE:View.GONE);
+            holder.itemView.setActivated(isExpanded);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mExpandedPosition = isExpanded ? -1:position;
+                    TransitionManager.beginDelayedTransition(parcelRecyclerView);
+                    notifyDataSetChanged();
+                }
+            });
 
             holder.takeParcel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    parcels.get(position).setStatus(Parcel.Status.CollectionOffered);
-                    friendsParcelsList.remove(position);
-                    parcelRecyclerView.removeViewAt(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, friendsParcelsList.size());
+                    Parcel p;
+                    p=friendsParcelsList.get(position);
+                    p.setStatus(Parcel.Status.CollectionOffered);
+
+                    Firebase_DBManager_Parcel.updateParcel(p, new Action<String>() {
+                        @Override
+                        public void onSuccess(String obj) {
+                            Toast.makeText(getContext(),"לקחת את החבילה!", Toast.LENGTH_LONG).show();
+
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+
+                        }
+
+                        @Override
+                        public void onProgress(String status, double percent) {
+
+                        }
+                    });
+//                    friendsParcelsList.remove(position);
+//                    parcelRecyclerView.removeViewAt(position);
+//                    notifyItemRemoved(position);
+//                    notifyItemRangeChanged(position, friendsParcelsList.size());
                 }
             });
         }
@@ -205,6 +241,8 @@ public class friendParcels extends Fragment
             fname_friend_parcel = itemView.findViewById(R.id.fname_friend_parcel);
             phone_friend_parcel = itemView.findViewById(R.id.phone_namber_friend_parcel);
             takeParcel=itemView.findViewById(R.id.take_parcel_button);
+            subItem=itemView.findViewById(R.id.subitem);
+            profile_image_friend_parcel=itemView.findViewById(R.id.profil_image_friend_parcel);
 
 
             // itemView.setOnClickListener();
