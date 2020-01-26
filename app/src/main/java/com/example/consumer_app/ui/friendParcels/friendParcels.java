@@ -50,7 +50,7 @@ public class friendParcels extends Fragment
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_freind_parcels, container, false);
 
-        user=((UserMenu)getActivity()).getUser();
+        user=UserMenu.user;
         parcelRecyclerView=view.findViewById(R.id.parcelsFreindList);
         parcelRecyclerView.setHasFixedSize(true);
         parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

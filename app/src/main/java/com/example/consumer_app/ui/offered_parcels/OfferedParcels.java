@@ -61,7 +61,7 @@ public class OfferedParcels extends Fragment {
         offeredParcelsViewModel = ViewModelProviders.of(this).get(OfferedParcelsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_offered_parcels, container, false);
 
-        user=((UserMenu)getActivity()).getUser();
+        user=UserMenu.user;
         parcelRecyclerView=view.findViewById(R.id.offered_parcels_List);
         parcelRecyclerView.setHasFixedSize(true);
         parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
