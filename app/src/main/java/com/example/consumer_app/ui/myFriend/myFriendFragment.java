@@ -143,10 +143,16 @@ public class myFriendFragment extends Fragment {
         public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
             User user = userList.get(position);
 
-            Glide.with(getContext())
-                    .load(user.getImageFirebaseUrl())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(holder.profile_image_recycle);
+            if (!user.getImageFirebaseUrl().equals(""))
+                Glide.with(getContext())
+                        .load(user.getImageFirebaseUrl())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(holder.profile_image_recycle);
+            else
+                Glide.with(getContext())
+                        .load(R.drawable.user)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(holder.profile_image_recycle);
 
             holder.name_user.setText(user.getFirstName() + " " + user.getLastName());
             user.setAddress(user.getAddress());

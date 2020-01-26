@@ -1,4 +1,4 @@
-package com.example.consumer_app.ui.friendParcels;
+package com.example.consumer_app.ui.takenParcels;
 
 import android.os.Bundle;
 import android.transition.TransitionManager;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +28,6 @@ import com.example.consumer_app.Model.Parcel;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
 import com.example.consumer_app.ui.UserMenu;
-import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,16 +39,22 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class friendParcels extends Fragment
-{
-    private List<Parcel> parcels;
-    List<Parcel>   friendsParcelsList;
-    User user;
-    private RecyclerView parcelRecyclerView;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_send, container, false);
+public class TakenParcels extends Fragment {
+
+    String explain="חבילות שאני לקחתי ועדיין לא מסרתי";
+
+
+    User user;
+    private List<Parcel> parcels;
+    List<Parcel>   takenParcelsList;
+    private RecyclerView parcelRecyclerView;
+    int mExpandedPosition=-1;
+    private TakenParcelsViewModel takenParcelsViewModel;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        takenParcelsViewModel = ViewModelProviders.of(this).get(TakenParcelsViewModel.class);
+        View view = inflater.inflate(R.layout.fragment_taken_parcels, container, false);
 
         user=((UserMenu)getActivity()).getUser();
         parcelRecyclerView=view.findViewById(R.id.parcelsFreindList);
@@ -60,12 +66,12 @@ public class friendParcels extends Fragment
             public void OnDataChanged(List<Parcel> obj)
             {
                 parcels=obj;
-                friendsParcelsList=new ArrayList<Parcel>();
-                if(parcels != null && user.getFriendsList() != null)
-                    for(String phone : user.getFriendsList())
-                        for (Parcel parcel : parcels)
-                            if(phone.equals(parcel.getRecipientPhoneNumber()) && parcel.getStatus().equals(Parcel.Status.Registered))
-                                friendsParcelsList.add(parcel);
+                takenParcelsList=new ArrayList<Parcel>();
+                if(parcels != null)
+                    for (Parcel parcel : parcels)
+                        if(parcel.getPhoneDeliver().equals(user.getPhoneNumber()) && parcel.getStatus().equals(Parcel.Status.OnTheWay))
+                            takenParcelsList.add(parcel);
+
             }
 
             @Override
@@ -74,13 +80,11 @@ public class friendParcels extends Fragment
 
             }
         });
+
+
+
         return view;
     }
-
-
-
-
-
 
     public class ParcelRecycleViewAdapter extends RecyclerView.Adapter<ParcelViewHolder>
     {
@@ -88,32 +92,25 @@ public class friendParcels extends Fragment
         @Override
         public ParcelViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View v = LayoutInflater.from(getContext()).inflate(R.layout.example_parcel, parent,false);
+            View v = LayoutInflater.from(getContext()).inflate(R.layout.example_taken_parcel, parent,false);
             return new ParcelViewHolder(v);
         }
-
-
         @Override
-        public void onBindViewHolder(@NonNull ParcelViewHolder holder, final int position) {
-            Parcel parcel = friendsParcelsList.get(position);
+        public void onBindViewHolder(@NonNull final ParcelViewHolder holder, final int position) {
+            final Parcel parcel = takenParcelsList.get(position);
             final User[] recipientUser = new User[1];
-            final int[] mExpandedPosition = {-1};
 
             String[] allName = parcel.getRecipientName().split(" ");
             if(allName.length == 1)
-                holder.fname_friend_parcel.setText(allName[0]);
+                holder.fname_taken_parcel.setText(allName[0]);
             else
             {
-                holder.fname_friend_parcel.setText(allName[0]);
-                holder.lname_friend_parcel.setText(allName[1]);
+                holder.fname_taken_parcel.setText(allName[0]);
+                holder.fname_taken_parcel.setText(allName[1]);
             }
 
-            holder.phone_friend_parcel.setText(parcel.getRecipientPhoneNumber());
-            holder.address_friend_parcel.setText(parcel.getDistributionCenterAddress());
-
-            if(parcel.getFragile())
-                holder.other_details_friend_parcel.setText(" החבילה היא מסוג " + parcel.getType().toString()+ "," +" ומכילה תוכן שביר! ");
-            else holder.other_details_friend_parcel.setText(" החבילה היא מסוג " + parcel.getType().toString()+ "," +" ואינה מכילה תוכן שביר! ");
+            holder.phone_taken_parcel.setText(parcel.getRecipientPhoneNumber());
+            holder.address_taken_parcel.setText(parcel.getRecipientAddress());
 
 
 
@@ -126,6 +123,17 @@ public class friendParcels extends Fragment
                 {
                     recipientUser[0] = (User) dataSnapshot.getValue();
 
+
+                    if (!recipientUser[0].getImageFirebaseUrl().equals(""))
+                        Glide.with(getContext())
+                                .load(recipientUser[0].getImageFirebaseUrl())
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.profile_image_taken_parcel);
+                    else
+                        Glide.with(getContext())
+                                .load(R.drawable.user)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.profile_image_taken_parcel);
                 }
 
                 @Override
@@ -136,40 +144,32 @@ public class friendParcels extends Fragment
             });
 
 
-            if (!recipientUser[0].getImageFirebaseUrl().equals(""))
-                Glide.with(getContext())
-                        .load(recipientUser[0].getImageFirebaseUrl())
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(holder.profile_image_friend_parcel);
-            else
-                Glide.with(getContext())
-                        .load(R.drawable.user)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(holder.profile_image_friend_parcel);
 
 
 
             // handle expendable
-//            final boolean isExpanded = position == mExpandedPosition[0];
-//            holder.subItem.setVisibility(isExpanded?View.VISIBLE:View.GONE);
-//            holder.itemView.setActivated(isExpanded);
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mExpandedPosition[0] = isExpanded ? -1:position;
-//                    TransitionManager.beginDelayedTransition(parcelsRecycleView);
-//                    notifyDataSetChanged();
-//                }
-//            });
+
+            final boolean isExpanded = position == mExpandedPosition;
+            holder.subItem_taken_parcel.setVisibility(isExpanded?View.VISIBLE:View.GONE);
+            holder.itemView.setActivated(isExpanded);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mExpandedPosition = isExpanded ? -1:position;
+                    TransitionManager.beginDelayedTransition(parcelRecyclerView);
+                    notifyDataSetChanged();
+                }
+            });
+
 
             holder.takeParcel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    parcels.get(position).setStatus(Parcel.Status.CollectionOffered);
-                    friendsParcelsList.remove(position);
+                    parcel.setStatus(Parcel.Status.Delivered);
+                    takenParcelsList.remove(position);
                     parcelRecyclerView.removeViewAt(position);
                     notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, friendsParcelsList.size());
+                    notifyItemRangeChanged(position, takenParcelsList.size());
                 }
             });
         }
@@ -177,21 +177,20 @@ public class friendParcels extends Fragment
         @Override
         public int getItemCount()
         {
-            return friendsParcelsList.size();
+            return takenParcelsList.size();
         }
     }
 
     //represent the information in every card in the recycle view
     class ParcelViewHolder extends RecyclerView.ViewHolder
     {
-        TextView lname_friend_parcel;
-        TextView fname_friend_parcel;
+        TextView lname_taken_parcel;
+        TextView fname_taken_parcel;
 
-        TextView phone_friend_parcel;
-        TextView other_details_friend_parcel;
-        TextView address_friend_parcel;
-        CircleImageView profile_image_friend_parcel;
-        LinearLayout subItem;
+        TextView phone_taken_parcel;
+        TextView address_taken_parcel;
+        CircleImageView profile_image_taken_parcel;
+        LinearLayout subItem_taken_parcel;
         Button takeParcel;
 
 
@@ -199,11 +198,10 @@ public class friendParcels extends Fragment
         {
             super(itemView);
 
-            address_friend_parcel = itemView.findViewById(R.id.address_friend_parcel);
-            other_details_friend_parcel = itemView.findViewById(R.id.type_friend_parcel);
-            lname_friend_parcel = itemView.findViewById(R.id.lname_friend_parcel);
-            fname_friend_parcel = itemView.findViewById(R.id.fname_friend_parcel);
-            phone_friend_parcel = itemView.findViewById(R.id.phone_namber_friend_parcel);
+            address_taken_parcel = itemView.findViewById(R.id.address_taken_parcel);
+            lname_taken_parcel = itemView.findViewById(R.id.lname_taken_parcel);
+            fname_taken_parcel = itemView.findViewById(R.id.fname_taken_parcel);
+            phone_taken_parcel = itemView.findViewById(R.id.phone_namber_taken_parcel);
             takeParcel=itemView.findViewById(R.id.take_parcel_button);
 
 

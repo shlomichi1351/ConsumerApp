@@ -34,15 +34,15 @@
 
     <fragment
         android:id="@+id/nav_tools"
-        android:name="com.example.consumer_app.ui.tools.ToolsFragment"
+        android:name="com.example.consumer_app.ui.offered_parcels.OfferedParcels"
         android:label="@string/menu_information_package"
         tools:layout="@layout/fragment_tools" />
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.example.consumer_app.ui.share.ShareFragment"
+        android:name="com.example.consumer_app.ui.takenParcels.TakenParcels"
         android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        tools:layout="@layout/fragment_taken_parcels" />
 
     <fragment
         android:id="@+id/nav_send"

@@ -56,7 +56,7 @@ public class convertor
     }
 
     @TypeConverter
-    public static String suggestersToString(ArrayList<String> s)
+    public static String SuggestersToString(ArrayList<String> s)
     {
         StringBuilder sb = new StringBuilder();
         for (String user : s)

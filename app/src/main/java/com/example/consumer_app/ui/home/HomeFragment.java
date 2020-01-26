@@ -269,7 +269,7 @@ public class HomeFragment extends Fragment {
             holder.nameTextView.setText(parcel.getRecipientName());
 
 
-            if(parcel.getType()== Parcel.Type.Envelope)
+            if(parcel.getType().equals(Parcel.Type.Envelope))
                 holder.type_package.setImageResource(R.drawable.envelope);
             else
                 holder.type_package.setImageResource(R.drawable.img_package);
@@ -311,7 +311,7 @@ public class HomeFragment extends Fragment {
             address = itemView.findViewById(R.id.address_parcel);
             other_details = itemView.findViewById(R.id.other_details);
             nameTextView = itemView.findViewById(R.id.name_sender);
-            phoneTextView = itemView.findViewById(R.id.phone_);
+            phoneTextView = itemView.findViewById(R.id.phone_number);
 
             // itemView.setOnClickListener();
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {

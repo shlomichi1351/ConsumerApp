@@ -26,13 +26,14 @@ public class Parcel {
     private String recipientName;
     private String recipientPhoneNumber;
     List<String> suggesters;
+    String phoneDeliver;
 
     @PrimaryKey
     @NonNull
     private String parcelId;
 
     //ctor
-    public Parcel(Type type, Boolean isFragile, double weight, String distributionCenterAddress, String recipientAddress, String recipientName, String recipientPhoneNumber, String parcelId, List<String> parcels) {
+    public Parcel(Type type, Boolean isFragile, double weight, String distributionCenterAddress, String recipientAddress, String recipientName, String recipientPhoneNumber, String parcelId, List<String> parcels, String phoneDeliver) {
 
         this.type = type;
         this.isFragile = isFragile;
@@ -43,13 +44,15 @@ public class Parcel {
         this.recipientPhoneNumber = recipientPhoneNumber;
         this.parcelId = parcelId;
         this.suggesters=parcels;
+        this.phoneDeliver=phoneDeliver;
     }
+
+
     //default ctor for firebasse utilities.
-    public Parcel() {this(null , false , 0 ,"","", "","","", new ArrayList<String>());}
+    public Parcel() {this(null , false , 0 ,"","", "","","", new ArrayList<String>(), "");}
 
 
     //getters
-
     public Status getStatus() {
         return status;
     }
@@ -84,6 +87,23 @@ public class Parcel {
 
     public String getParcelId() {
         return parcelId;
+    }
+
+
+    public List<String> getSuggesters() {
+        return suggesters;
+    }
+
+    public void setSuggesters(List<String> suggesters) {
+        this.suggesters = suggesters;
+    }
+
+    public String getPhoneDeliver() {
+        return phoneDeliver;
+    }
+
+    public void setPhoneDeliver(String phoneDeliver) {
+        this.phoneDeliver = phoneDeliver;
     }
 
     //setters

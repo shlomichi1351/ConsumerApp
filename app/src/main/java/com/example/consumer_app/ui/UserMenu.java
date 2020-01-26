@@ -68,8 +68,7 @@ public class UserMenu extends AppCompatActivity {
             temp_phone_user=userFireBase.getPhoneNumber();
             temp_phone_user=temp_phone_user.substring(4);
             temp_phone_user="0"+temp_phone_user;
-            Query query =  Firebase_DBManager_User.usersRef
-                    .orderByChild("phoneNumber");
+            Query query = Firebase_DBManager_User.usersRef.orderByChild("phoneNumber");
             query.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -78,8 +77,6 @@ public class UserMenu extends AppCompatActivity {
                         if(child.getValue(User.class).getPhoneNumber().equals(temp_phone_user))
                             user = child.getValue(User.class);
                     }
-
-
                 }
 
                 @Override
@@ -140,8 +137,12 @@ public class UserMenu extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
     public User getUser()
     {
         return user;
     }
+
+
 }

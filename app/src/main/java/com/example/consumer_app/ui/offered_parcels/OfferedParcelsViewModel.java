@@ -1,16 +1,16 @@
-package com.example.consumer_app.ui.share;
+package com.example.consumer_app.ui.offered_parcels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ShareViewModel extends ViewModel {
+public class OfferedParcelsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ShareViewModel() {
+    public OfferedParcelsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is share fragment");
+        mText.setValue("This is tools fragment");
     }
 
     public LiveData<String> getText() {
