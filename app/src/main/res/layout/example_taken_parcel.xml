@@ -45,6 +45,7 @@
                 android:text="מספר פלאפון:  "
                 android:layout_marginRight="1dp" />
             <Button
+                android:id="@+id/phone_recipient_taken_parcel"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"/>
@@ -83,6 +84,7 @@
                 android:layout_marginRight="1dp" />
 
             <Button
+                android:id="@+id/adress_recipient_taken_parcel"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"/>

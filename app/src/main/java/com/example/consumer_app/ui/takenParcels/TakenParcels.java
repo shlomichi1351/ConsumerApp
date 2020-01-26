@@ -1,5 +1,9 @@
 package com.example.consumer_app.ui.takenParcels;
 
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.transition.TransitionManager;
 import android.view.ContextMenu;
@@ -35,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -172,6 +177,34 @@ public class TakenParcels extends Fragment {
                     notifyItemRangeChanged(position, takenParcelsList.size());
                 }
             });
+
+            holder.address_recipient_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        List<Double>points=getLocationFromAddress(parcel.getRecipientAddress());
+
+                        String uri = "http://maps.google.com/maps?daddr=" + points.get(0) + "," + points.get(1);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        intent.setPackage("com.google.android.apps.maps");
+                        startActivity(intent);
+                    }
+                    catch (Exception e)
+                    {
+                        Toast.makeText(getContext(),"אין אפשרות להמיר את הכתובת לקווי אורך ורוחב", Toast.LENGTH_LONG);
+                    }
+
+                }
+            });
+
+            holder.phone_recipient_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse(parcel.getRecipientPhoneNumber()));
+                    startActivity(callIntent);
+                }
+            });
         }
 
         @Override
@@ -192,6 +225,7 @@ public class TakenParcels extends Fragment {
         CircleImageView profile_image_taken_parcel;
         LinearLayout subItem_taken_parcel;
         Button takeParcel;
+        Button phone_recipient_button , address_recipient_button;
 
 
         ParcelViewHolder(View itemView)
@@ -203,7 +237,8 @@ public class TakenParcels extends Fragment {
             fname_taken_parcel = itemView.findViewById(R.id.fname_taken_parcel);
             phone_taken_parcel = itemView.findViewById(R.id.phone_namber_taken_parcel);
             takeParcel=itemView.findViewById(R.id.take_parcel_button);
-
+            phone_recipient_button=itemView.findViewById(R.id.phone_recipient_taken_parcel);
+            address_recipient_button=itemView.findViewById(R.id.adress_recipient_taken_parcel);
 
             // itemView.setOnClickListener();
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
@@ -236,5 +271,33 @@ public class TakenParcels extends Fragment {
 
         }
 
+    }
+
+    public List<Double> getLocationFromAddress(String strAddress){
+
+        Geocoder coder = new Geocoder(getContext());
+        List<Address> address;
+        List<Double> list_points = Arrays.asList();
+
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address==null) {
+                return null;
+            }
+            Address location=address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            list_points.add((double) (location.getLatitude() * 1E6));
+            list_points.add((double) (location.getLongitude() * 1E6));
+
+            return list_points;
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getContext(),"אין אפשרות להמיר את הכתובת לקווי אורך ורוחב", Toast.LENGTH_LONG);
+        }
+        return null;
     }
 }
