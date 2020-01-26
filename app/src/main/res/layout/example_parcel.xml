@@ -125,7 +125,34 @@
                 android:layout_marginEnd="1dp"
                 android:text="כתובת החבילה: "
                 android:layout_marginRight="1dp" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/status_parcel_layout"
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addressparcel"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="4dp"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/status_parcel"
+                android:layout_width="wrap_content"
+                android:textColor="#0B0863"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/heebo_bold"
+                android:textColor="#B60505"
+                android:layout_marginEnd="1dp"
+                android:text="סטטוס חבילה: "
+                android:layout_marginRight="1dp" />
         </LinearLayout>
 
 

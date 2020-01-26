@@ -282,6 +282,7 @@ public class HomeFragment extends Fragment {
                 holder.other_details.setText(" החבילה היא מסוג " + parcel.getType().toString()+ "," +" והיא מכילה תוכן שביר! ");
             else holder.other_details.setText(" החבילה היא מסוג " + parcel.getType().toString()+ "," +" ואינה מכילה תוכן שביר! ");
 
+            holder.status.setText(parcel.getStatus().toString());
 
         }
 
@@ -301,11 +302,13 @@ public class HomeFragment extends Fragment {
         TextView address;
         TextView id;
         ImageButton type_package;
+        TextView status;
 
         ParcelViewHolder(View itemView)
         {
             super(itemView);
 
+            status=itemView.findViewById(R.id.status_parcel);
             type_package=itemView.findViewById(R.id.parcel_type);
             id= itemView.findViewById(R.id.id_parcel);
             address = itemView.findViewById(R.id.address_parcel);
