@@ -73,7 +73,7 @@ public class UserMenu extends AppCompatActivity {
             temp_phone_user="0"+temp_phone_user;
             Query query =  Firebase_DBManager_User.usersRef
                     .orderByChild("phoneNumber");
-            query.addValueEventListener(new ValueEventListener() {
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren())

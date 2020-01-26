@@ -158,9 +158,9 @@ public class Firebase_DBManager_User {
                 public void onChildChanged(DataSnapshot dataSnapshot, String s)
                 {
 
-                    for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren())
-                    {
-                        User user = uniqueKeySnapshot.getValue(User.class);
+                   // for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren())
+                    //{
+                        User user = dataSnapshot.getValue(User.class);
                         boolean flag = true;
                         for (int i = 0; i < userList.size(); i++) {
                             if (userList.get(i).getPhoneNumber().equals(user.getPhoneNumber())) {
@@ -171,7 +171,7 @@ public class Firebase_DBManager_User {
                         }
                         if (flag)
                             userList.add(user);
-                    }
+                    //}
 
                     notifyDataChange.OnDataChanged(userList);
                 }

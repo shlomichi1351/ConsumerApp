@@ -21,6 +21,7 @@ import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.NotifyDataChange;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
+import com.example.consumer_app.ui.UserMenu;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -37,7 +38,6 @@ public class myFriendFragment extends Fragment {
     List<User> userList;
     private RecyclerView userRecyclerView;
     View view;
-    Button addOrDelete;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -140,7 +140,8 @@ public class myFriendFragment extends Fragment {
 
 
         @Override
-        public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final UserViewHolder holder, final int position)
+        {
             User user = userList.get(position);
 
             if (user.getImageFirebaseUrl() == null)
@@ -159,6 +160,52 @@ public class myFriendFragment extends Fragment {
             user.setAddress(user.getAddress());
             holder.details_user.setText(user.getAddress());
 
+
+
+            holder.addOrDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //User a = new User(); //
+                    boolean flag=false;
+                    ArrayList<String> updateFriends = new ArrayList<String>();
+                    for (String s : UserMenu.user.getFriendsList())
+                        if(userList.get(position).getPhoneNumber().equals(s)) {
+                            flag = true;
+                            Toast.makeText(getContext(),"החבר כבר קיים",Toast.LENGTH_LONG).show();
+                            break;
+                        }
+
+                    if(!flag)
+                    {
+                        updateFriends.add(userList.get(position).getPhoneNumber());
+
+                        updateFriends.add(userList.get(position).getPhoneNumber());
+                        UserMenu.user.setFriendsList(updateFriends);
+                        Firebase_DBManager_User.updateUser(UserMenu.user, new Action<String>() {
+
+
+                            @Override
+                            public void onSuccess(String obj) {
+                                Toast.makeText(getContext(),"החבר התווסף",Toast.LENGTH_LONG).show();
+                                holder.addOrDelete.setText("הסר");
+                                notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onFailure(Exception exception) {
+                                Toast.makeText(getContext(),"החבר לאאא התווסף",Toast.LENGTH_LONG);
+
+                            }
+
+                            @Override
+                            public void onProgress(String status, double percent) {
+                            }
+                        });
+                    }
+                }
+            });
+
+
         }
 
         @Override
@@ -172,6 +219,8 @@ public class myFriendFragment extends Fragment {
         TextView name_user;
         TextView details_user;
         CircleImageView profile_image_recycle;
+        Button addOrDelete;
+
 
         UserViewHolder(View itemView) {
             super(itemView);
@@ -180,36 +229,6 @@ public class myFriendFragment extends Fragment {
             details_user = itemView.findViewById(R.id.user_details);
             profile_image_recycle = itemView.findViewById(R.id.Profile_Image_recycle);
             addOrDelete = itemView.findViewById(R.id.add_or_delete_friend);
-
-
-            addOrDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    User a = new User(); //
-                    int position = getAdapterPosition();
-                    ArrayList<String> updateFriends = new ArrayList<String>();
-                    for (String s : a.getFriendsList())
-                        updateFriends.add(s);
-                    updateFriends.add(userList.get(position).getPhoneNumber());
-                    a.setFriendsList(updateFriends);
-                    Firebase_DBManager_User.updateUser(a, new Action<String>() {
-
-
-                        @Override
-                        public void onSuccess(String obj) {
-
-                        }
-
-                        @Override
-                        public void onFailure(Exception exception) {
-                        }
-
-                        @Override
-                        public void onProgress(String status, double percent) {
-                        }
-                    });
-                }
-            });
 
         }
     }
