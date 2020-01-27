@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.User;
 import com.example.consumer_app.R;
@@ -38,25 +40,27 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserMenu extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    ImageView imageView;
+    CircleImageView circleImageView;
     private FirebaseAuth mAuth;
     public static User user;
     FirebaseUser userFireBase;
     String temp_phone_user;
+    TextView userName;
+    TextView subtitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-
-
-
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -85,6 +89,7 @@ public class UserMenu extends AppCompatActivity {
                             break;
                         }
                     }
+
                 }
 
                 @Override
@@ -95,6 +100,8 @@ public class UserMenu extends AppCompatActivity {
 
         }
 
+
+
     }
 
     public void navigationStart()
@@ -102,18 +109,30 @@ public class UserMenu extends AppCompatActivity {
         setContentView(R.layout.activity_navigation_drawer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        imageView=findViewById(R.id.image_user);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+
+        circleImageView=headerView.findViewById(R.id.image_user_navigation);
+        userName=headerView.findViewById(R.id.name_user);
+        subtitle=headerView.findViewById(R.id.subtitle_navigation);
+        subtitle.setText(user.getAddress());
+        userName.setText(user.getFirstName() + " " + user.getLastName());
+
+
+        if(user.getImageFirebaseUrl() == null)
+            Glide.with(getBaseContext())
+                    .load(R.drawable.user)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(circleImageView);
+        else
+            Glide.with(getBaseContext())
+                    .load(user.getImageFirebaseUrl())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(circleImageView);
+
+
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -124,6 +143,7 @@ public class UserMenu extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
 
     }
 

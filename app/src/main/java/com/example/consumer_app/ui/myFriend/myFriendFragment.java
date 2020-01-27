@@ -49,29 +49,7 @@ public class myFriendFragment extends Fragment {
         galleryViewModel = ViewModelProviders.of(this).get(myFriendViewModel.class);
         view = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-        final ArrayList<String> phoneList=new ArrayList<String>();
-        Query query =  Firebase_DBManager_User.usersRef
-                .orderByChild("phoneNumber");
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User value = new User();
-                for (DataSnapshot child : dataSnapshot.getChildren()){
-                    value = child.getValue(User.class);
-                    phoneList.add(value.getPhoneNumber());
-                }
 
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        userList = new ArrayList<User>();
         userRecyclerView = view.findViewById(R.id.userList);
         userRecyclerView.setHasFixedSize(true);
         userRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -82,7 +60,12 @@ public class myFriendFragment extends Fragment {
             @Override
             public void OnDataChanged(List<User> obj)
             {
-                userList=obj;
+                userList=new ArrayList<User>();
+
+                for(User u : obj)
+                    if(!u.getPhoneNumber().equals(UserMenu.user.getPhoneNumber()))
+                        userList.add(u);
+
                 if (userRecyclerView.getAdapter() == null) {
                     userRecyclerView.setAdapter(new UserRecycleViewAdapter());
                 }
@@ -103,9 +86,7 @@ public class myFriendFragment extends Fragment {
         return view;
     }
 
-    private void filteringFriendsParcels(String phone) {
 
-    }
 
     public void getFriendsList() {
         Query query = Firebase_DBManager_User.usersRef
@@ -227,7 +208,7 @@ public class myFriendFragment extends Fragment {
 
                             @Override
                             public void onFailure(Exception exception) {
-                                Toast.makeText(getContext(),"החבר לא התווסף",Toast.LENGTH_LONG);
+                                Toast.makeText(getContext(),"החבר לא התווסף",Toast.LENGTH_LONG).show();
 
                             }
 
@@ -235,25 +216,6 @@ public class myFriendFragment extends Fragment {
                             public void onProgress(String status, double percent) {
                             }
                         });
-                    }
-
-                }
-            });
-
-            holder.address_friend_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        List<Double>points=getLocationFromAddress(user.getAddress());
-
-                        String uri = "http://maps.google.com/maps?daddr=" + points.get(0) + "," + points.get(1);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                        intent.setPackage("com.google.android.apps.maps");
-                        startActivity(intent);
-                    }
-                    catch (Exception e)
-                    {
-                        Toast.makeText(getContext(),"אין אפשרות להמיר את הכתובת לקווי אורך ורוחב", Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -281,14 +243,13 @@ public class myFriendFragment extends Fragment {
         TextView details_user;
         CircleImageView profile_image_recycle;
         Button addOrDelete;
-        Button phone_friend_button , address_friend_button;
+        Button phone_friend_button ;
 
 
 
         UserViewHolder(View itemView) {
             super(itemView);
             phone_friend_button=itemView.findViewById(R.id.phone_friend_button);
-            address_friend_button=itemView.findViewById(R.id.address_friend_button);
             name_user = itemView.findViewById(R.id.user_name_exmaple_card);
             details_user = itemView.findViewById(R.id.user_details);
             profile_image_recycle = itemView.findViewById(R.id.Profile_Image_recycle);
@@ -297,33 +258,7 @@ public class myFriendFragment extends Fragment {
         }
     }
 
-    public List<Double> getLocationFromAddress(String strAddress){
 
-        Geocoder coder = new Geocoder(getContext());
-        List<Address> address;
-        List<Double> list_points = Arrays.asList();
-
-
-        try {
-            address = coder.getFromLocationName(strAddress,5);
-            if (address==null) {
-                return null;
-            }
-            Address location=address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
-            list_points.add((double) (location.getLatitude() * 1E6));
-            list_points.add((double) (location.getLongitude() * 1E6));
-
-            return list_points;
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(getContext(),"אין אפשרות להמיר את הכתובת לקווי אורך ורוחב", Toast.LENGTH_LONG);
-        }
-        return null;
-    }
 }
 
 

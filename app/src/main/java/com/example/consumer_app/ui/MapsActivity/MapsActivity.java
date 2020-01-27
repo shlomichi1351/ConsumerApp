@@ -90,6 +90,7 @@ public class MapsActivity extends FragmentActivity implements
         {
             checkUserLocationPermission();
         }
+        progressBar.setVisibility(View.GONE);
 
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +99,8 @@ public class MapsActivity extends FragmentActivity implements
                 addUser();
             }
         });
+        progressBar.setVisibility(View.GONE);
+
     }
 
 
@@ -117,6 +120,8 @@ public class MapsActivity extends FragmentActivity implements
             {
                 @Override
                 public void onSuccess(String obj) {
+                    progressBar.setVisibility(View.GONE);
+                    signup_btn.setVisibility(View.VISIBLE);
                     Toast.makeText(getBaseContext(),"נרשמת בהצלחה!", Toast.LENGTH_LONG).show();
                     Intent it = new Intent(MapsActivity.this, login.class);
                     startActivity(it);
@@ -125,14 +130,16 @@ public class MapsActivity extends FragmentActivity implements
 
                 @Override
                 public void onFailure(Exception exception) {
+                    progressBar.setVisibility(View.GONE);
+                    signup_btn.setVisibility(View.VISIBLE);
                     Toast.makeText(getBaseContext(), "Error \n" + exception.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
 
                 @Override
                 public void onProgress(String status, double percent) {
-
-
+                    progressBar.setVisibility(View.VISIBLE);
+                    signup_btn.setVisibility(View.GONE);
                 }
             });
         } catch (Exception e) {

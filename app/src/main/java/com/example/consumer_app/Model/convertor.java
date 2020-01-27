@@ -13,6 +13,8 @@ public class convertor
     {
         if(type.equals(Parcel.Type.LargePackage))
             return "LargePackage";
+        if(type.equals((Parcel.Type.Envelope)))
+            return "Envelope";
 
         return "SmallPackage";
     }
@@ -52,6 +54,8 @@ public class convertor
     {
         if(string.equals( "LargePackage"))
             return Parcel.Type.LargePackage;
+        if(string.equals("Envelope"))
+            return  Parcel.Type.Envelope;
         return Parcel.Type.SmallPackage;
     }
 

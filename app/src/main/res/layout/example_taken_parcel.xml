@@ -18,7 +18,6 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:id="@+id/phone_namber_taken_parcel_layout"
@@ -26,13 +25,6 @@
             android:orientation="horizontal"
             android:layout_alignParentRight="true">
 
-            <TextView
-                android:id="@+id/phone_namber_taken_parcel"
-                android:textColor="#030B2C"
-                android:layout_width="180dp"
-                android:textSize="15dp"
-
-                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,6 +36,14 @@
 
                 android:text="מספר פלאפון:  "
                 android:layout_marginRight="1dp" />
+            <TextView
+                android:id="@+id/phone_namber_taken_parcel"
+                android:textColor="#030B2C"
+                android:layout_width="180dp"
+                android:textSize="15dp"
+
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/phone_recipient_taken_parcel"
                 android:layout_width="30dp"

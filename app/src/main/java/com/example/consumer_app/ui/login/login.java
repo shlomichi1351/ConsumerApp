@@ -112,7 +112,7 @@ public class login extends AppCompatActivity implements TextWatcher {
         }
         getSupportActionBar().hide();
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-       // this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        // this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         final TextView textView = findViewById(R.id.sup);
         textView.setTypeface(Typeface.DEFAULT);
@@ -148,7 +148,6 @@ public class login extends AppCompatActivity implements TextWatcher {
         /*Parcel parcel=new Parcel(Parcel.Type.LargePackage,false,3.5,"haifa","jerus","moshe","0584647888","07508");
         viewModelLogin.insert(parcel);
         final TextView parc=findViewById(R.id.parcel);
-
         viewModelLogin.getAllparcels().observe(this, new Observer<List<Parcel>>()
         {
             @Override
@@ -219,40 +218,40 @@ public class login extends AppCompatActivity implements TextWatcher {
                             if (child.getValue(User.class).getPhoneNumber().equals(phone.getText().toString()))
                                 user_exist = true;
                         }
-                            if(user_exist)
-                            {
-                                passwordUser.setVisibility(View.VISIBLE);
-                                //btn.setText("Sign In!");
-                                new CountDownTimer(30000, 1000) {
-                                    public void onTick(long millisUntilFinished) {
-                                        //remember to check what the user choose!!!!!!!!!!!
-                                        sendpss.setEnabled(false);
-                                        sendpss.setTypeface(null, Typeface.NORMAL);
-                                        sendpss.setText("We've sent you Email/SMS with the password.\nPlease enter the code below.\nYou will be able to request the password again in " + millisUntilFinished / 1000);
-                                    }
-
-                                    public void onFinish() {
-                                        sendpss.setEnabled(true);
-                                        sendpss.setText("send me the password again!");
-                                    }
-                                }.start();
-
-
-                                if (mAuth.getCurrentUser() == null) {
-                                    try {
-                                        String t = phone.getText().toString();
-                                        sendVerificationCode(t);
-                                    } catch (Exception e) {
-                                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-
-                                    Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getPhoneNumber(), Toast.LENGTH_SHORT).show();
+                        if(user_exist)
+                        {
+                            passwordUser.setVisibility(View.VISIBLE);
+                            //btn.setText("Sign In!");
+                            new CountDownTimer(30000, 1000) {
+                                public void onTick(long millisUntilFinished) {
+                                    //remember to check what the user choose!!!!!!!!!!!
+                                    sendpss.setEnabled(false);
+                                    sendpss.setTypeface(null, Typeface.NORMAL);
+                                    sendpss.setText("We've sent you Email/SMS with the password.\nPlease enter the code below.\nYou will be able to request the password again in " + millisUntilFinished / 1000);
                                 }
 
-                            } else
-                                Toast.makeText(getApplicationContext(), "משתמש לא קיים", Toast.LENGTH_SHORT).show();
-                        }
+                                public void onFinish() {
+                                    sendpss.setEnabled(true);
+                                    sendpss.setText("שלחו לי את הסיסמא שוב");
+                                }
+                            }.start();
+
+
+                            if (mAuth.getCurrentUser() == null) {
+                                try {
+                                    String t = phone.getText().toString();
+                                    sendVerificationCode(t);
+                                } catch (Exception e) {
+                                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+
+                                Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getPhoneNumber(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        } else
+                            Toast.makeText(getApplicationContext(), "משתמש לא קיים", Toast.LENGTH_SHORT).show();
+                    }
 
 
                     @Override
@@ -293,7 +292,7 @@ public class login extends AppCompatActivity implements TextWatcher {
             {
                 mAuth.signInWithCredential(phoneAuthCredential);
                 signInWithPhoneAuthCredential(phoneAuthCredential);
-             //   Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getPhoneNumber() + "התחברתי בלי סיסמא!", Toast.LENGTH_LONG);
+                //   Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getPhoneNumber() + "התחברתי בלי סיסמא!", Toast.LENGTH_LONG);
             }
         }
 
@@ -337,7 +336,7 @@ public class login extends AppCompatActivity implements TextWatcher {
                     // String phone_number=user.getPhoneNumber();
                     Intent it= new Intent(login.this, UserMenu.class);
                     startActivity(it);
-
+                    finish();
                 }
                 else {
                     // Sign in failed, display a message and update the UI

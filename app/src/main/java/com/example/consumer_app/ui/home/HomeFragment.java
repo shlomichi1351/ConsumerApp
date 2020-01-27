@@ -1,5 +1,7 @@
 package com.example.consumer_app.ui.home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -80,6 +82,8 @@ public class HomeFragment extends Fragment {
 
 
 
+
+
         homeViewModel.getAllParcel().observe(this, new Observer<List<Parcel>>() {
             @Override
             public void onChanged(List<Parcel> p) {
@@ -87,11 +91,11 @@ public class HomeFragment extends Fragment {
                 //noteAdapter.setNotes(notes);
                 roomUpdateParcels=p;
                 // load data to adapter.
-                if (parcelRecyclerView.getAdapter() == null) {
+                if (parcelRecyclerView.getAdapter() == null)
+                {
                     parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
                 }
                 else {
-
                     parcelRecyclerView.getAdapter().notifyDataSetChanged();
                 }
 
@@ -292,4 +296,5 @@ public class HomeFragment extends Fragment {
 
         }
     }
+
 }

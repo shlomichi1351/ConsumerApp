@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.consumer_app.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="החבילות שלי"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/offered_parcels"
@@ -35,18 +35,18 @@
     <fragment
         android:id="@+id/nav_tools"
         android:name="com.example.consumer_app.ui.offered_parcels.OfferedParcels"
-        android:label="@string/menu_information_package"
+        android:label="חבילות מוצעות"
         tools:layout="@layout/fragment_tools" />
 
     <fragment
         android:id="@+id/nav_share"
         android:name="com.example.consumer_app.ui.takenParcels.TakenParcels"
-        android:label="@string/menu_share"
+        android:label="חבילות שאני צריך למסור"
         tools:layout="@layout/fragment_taken_parcels" />
 
     <fragment
         android:id="@+id/nav_send"
         android:name="com.example.consumer_app.ui.friendParcels.friendParcels"
-        android:label="@string/menu_send"
+        android:label="חבילות של חבריי"
         tools:layout="@layout/fragment_send" />
 </navigation>

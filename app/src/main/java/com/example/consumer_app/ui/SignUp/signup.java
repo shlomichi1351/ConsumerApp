@@ -79,6 +79,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
         scrollView = findViewById(R.id.scroll);
 
 
+
         user=new User();
         ProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +169,7 @@ public class signup extends AppCompatActivity implements TextWatcher {
                 it.putExtra("phone", phone.getText().toString());
                 it.putExtra("imageUri", resultUri.toString());
                 startActivity(it);
+                finish();
             }
         });
     }
