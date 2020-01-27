@@ -17,7 +17,7 @@ public class Parcel {
     public enum Status{
         Registered, CollectionOffered, OnTheWay, Delivered
     }
-    private Status status= Status.Registered;
+    private Status status;
     private Type type;
     private Boolean isFragile;
     private double weight;

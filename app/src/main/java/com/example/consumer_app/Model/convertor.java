@@ -11,7 +11,7 @@ public class convertor
     @TypeConverter
     public static String TypeToString(Parcel.Type type)
     {
-        if(type== Parcel.Type.LargePackage)
+        if(type.equals(Parcel.Type.LargePackage))
             return "LargePackage";
 
         return "SmallPackage";
@@ -20,13 +20,13 @@ public class convertor
     @TypeConverter
     public static String StatusToString(Parcel.Status status)
     {
-        if(status == Parcel.Status.CollectionOffered)
+        if(status.equals( Parcel.Status.CollectionOffered))
             return "CollectionOffered";
 
-        if(status == Parcel.Status.Delivered)
+        if(status.equals(Parcel.Status.Delivered))
             return "Delivered";
 
-        if(status == Parcel.Status.OnTheWay)
+        if(status.equals(Parcel.Status.OnTheWay))
             return "OnTheWay";
 
         return "Registered";
@@ -35,13 +35,13 @@ public class convertor
     @TypeConverter
     public static Parcel.Status StringToStatus(String string)
     {
-        if(string == "CollectionOffered")
+        if(string.equals("CollectionOffered"))
             return Parcel.Status.CollectionOffered;
 
-        if(string == "Delivered")
+        if(string.equals( "Delivered"))
             return Parcel.Status.Delivered;
 
-        if(string == "OnTheWay")
+        if(string.equals( "OnTheWay"))
             return Parcel.Status.OnTheWay;
 
         return Parcel.Status.Registered;
@@ -50,7 +50,7 @@ public class convertor
     @TypeConverter
     public static Parcel.Type StringToType(String string)
     {
-        if(string == "LargePackage")
+        if(string.equals( "LargePackage"))
             return Parcel.Type.LargePackage;
         return Parcel.Type.SmallPackage;
     }

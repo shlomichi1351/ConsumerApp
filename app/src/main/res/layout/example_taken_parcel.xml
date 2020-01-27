@@ -139,7 +139,7 @@
             <TextView
                 android:id="@+id/lname_taken_parcel"
                 android:layout_width="80dp"
-                android:text="שלומיחי"
+                android:text=""
                 android:textColor="#030B2C"
                 android:gravity="center"
                 android:layout_height="wrap_content"/>
@@ -147,7 +147,7 @@
             <TextView
                 android:id="@+id/fname_taken_parcel"
                 android:layout_width="80dp"
-                android:text="נגרי"
+                android:text=""
                 android:textColor="#030B2C"
                 android:gravity="center"
                 android:layout_height="wrap_content"/>

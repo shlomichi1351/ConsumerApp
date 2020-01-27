@@ -197,37 +197,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public void  addUser(User a)
-    {
-        try
-        {
-            Firebase_DBManager_User.addUserToFirebase(a, new Action<String>()
-            {
-                @Override
-                public void onSuccess(String obj) {
 
-
-
-                    Toast.makeText(getContext(),obj, Toast.LENGTH_LONG).show();
-
-                }
-
-                @Override
-                public void onFailure(Exception exception) {
-                    Toast.makeText(getContext(), "Error \n" + exception.getMessage(), Toast.LENGTH_LONG).show();
-
-                }
-
-                @Override
-                public void onProgress(String status, double percent) {
-
-
-                }
-            });
-        } catch (Exception e) {
-            Toast.makeText(getContext(),e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
 
     public void getFriendsList(String user,final ArrayList<String> returnedList)
     {

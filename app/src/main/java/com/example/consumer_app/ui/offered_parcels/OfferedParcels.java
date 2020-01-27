@@ -7,6 +7,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -149,11 +150,13 @@ public class OfferedParcels extends Fragment {
                     }
 
 
-                    String[] array_texts = new String[texts.size()];
-                    for(int i = 0; i < texts.size(); i++) array_texts[i] = texts.get(i);
+                    String[] array_texts = new String[texts.size()+1];
+                    array_texts[0]="";
+                    for(int i = 0; i < texts.size(); i++) array_texts[i+1] = texts.get(i);
 
-                    String[] array_images = new String[images.size()];
-                    for(int i = 0; i < images.size(); i++) array_images[i] = images.get(i);
+                    String[] array_images = new String[images.size()+1];
+                    array_images[0]="first";
+                    for(int i = 0; i < images.size(); i++) array_images[i+1] = images.get(i);
 
 
                     holder.spinner.setAdapter(new SpinnerAdapter(getContext(), 0, array_texts, array_images));
@@ -167,30 +170,34 @@ public class OfferedParcels extends Fragment {
                 }
             });
 
+
+
             holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    User chosen = offers.get(position);
-                    parcel.setPhoneDeliver(chosen.getPhoneNumber());
-                    parcel.setStatus(Parcel.Status.OnTheWay);
-                    parcel.setSuggesters(new ArrayList<String>());
-                    Firebase_DBManager_Parcel.updateParcel(parcel, new Action<String>() {
-                        @Override
-                        public void onSuccess(String obj) {
-                            Toast.makeText(getContext(), "חברך נבחר בהצלחה!", Toast.LENGTH_LONG).show();
+                    if(position !=0) {
+                        User chosen = offers.get(position-1);
+                        parcel.setPhoneDeliver(chosen.getPhoneNumber());
+                        parcel.setStatus(Parcel.Status.OnTheWay);
+                        parcel.setSuggesters(new ArrayList<String>());
+                        Firebase_DBManager_Parcel.updateParcel(parcel, new Action<String>() {
+                            @Override
+                            public void onSuccess(String obj) {
+                                Toast.makeText(getContext(), "חברך נבחר בהצלחה!", Toast.LENGTH_LONG).show();
 
-                        }
+                            }
 
-                        @Override
-                        public void onFailure(Exception exception) {
+                            @Override
+                            public void onFailure(Exception exception) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onProgress(String status, double percent) {
+                            @Override
+                            public void onProgress(String status, double percent) {
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
 
                 @Override
@@ -223,33 +230,7 @@ public class OfferedParcels extends Fragment {
            spinner=itemView.findViewById(R.id.offers_spinner);
 
             // itemView.setOnClickListener();
-            itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                @Override
-                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                    menu.setHeaderTitle("אפשרויות");
-                    MenuItem delete = menu.add(Menu.NONE, 1, 1, "מחיקה");
-                    delete.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            int position = getAdapterPosition();
-                            String id = parcels.get(position).getParcelId();
-                            Firebase_DBManager_Parcel.removeParcel(parcels.get(position).getRecipientPhoneNumber()+"/"+id, new Action<String>() {
 
-
-                                @Override
-                                public void onSuccess(String obj) {
-
-                                }
-
-                                @Override
-                                public void onFailure(Exception exception) {                     }
-                                @Override
-                                public void onProgress(String status, double percent) {                      }                 });
-                            return true;
-
-                        }
-                    });
-                } });
 
         }
 
@@ -290,20 +271,23 @@ public class OfferedParcels extends Fragment {
             textView.setText(contentArray[position]);
 
             CircleImageView imageView = row.findViewById(R.id.spinnerImages);
+            if(position != 0) {
 
-            Integer dra=new Integer(R.drawable.user);
-            Integer pos=new Integer(Integer.parseInt(imageArray[position]));
-
-            if(dra.equals(pos))
-                Glide.with(getContext())
-                        .load(R.drawable.user)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(imageView);
+                try {
+                    new Integer(Integer.parseInt(imageArray[position]));
+                    Glide.with(getContext())
+                            .load(R.drawable.user)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(imageView);
+                } catch (Exception e) {
+                    Glide.with(getContext())
+                            .load(imageArray[position])
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(imageView);
+                }
+            }
             else
-                Glide.with(getContext())
-                        .load(imageArray[position])
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(imageView);
+                imageView.setVisibility(View.GONE);
             return row;
         }
     }
