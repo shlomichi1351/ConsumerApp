@@ -193,7 +193,7 @@ public class friendParcels extends Fragment
                     Firebase_DBManager_Parcel.updateParcel(p, new Action<String>() {
                         @Override
                         public void onSuccess(String obj) {
-                            Toast.makeText(getContext(),"לקחת את החבילה!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(),"התווספת לרשימת המועמדים!", Toast.LENGTH_LONG).show();
 
                         }
 
