@@ -206,24 +206,7 @@ public class TakenParcels extends Fragment {
                 }
             });
 
-            holder.address_recipient_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        List<Double>points=getLocationFromAddress(parcel.getRecipientAddress());
 
-                        String uri = "http://maps.google.com/maps?daddr=" + points.get(0) + "," + points.get(1);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                        intent.setPackage("com.google.android.apps.maps");
-                        startActivity(intent);
-                    }
-                    catch (Exception e)
-                    {
-                        Toast.makeText(getContext(),"אין אפשרות להמיר את הכתובת לקווי אורך ורוחב", Toast.LENGTH_LONG);
-                    }
-
-                }
-            });
 
             holder.phone_recipient_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -250,7 +233,7 @@ public class TakenParcels extends Fragment {
         CircleImageView profile_image_taken_parcel;
         LinearLayout subItem_taken_parcel;
         Button takeParcel;
-        Button phone_recipient_button , address_recipient_button;
+        Button phone_recipient_button ;
 
 
         ParcelViewHolder(View itemView)
@@ -263,7 +246,6 @@ public class TakenParcels extends Fragment {
             phone_taken_parcel = itemView.findViewById(R.id.phone_namber_taken_parcel);
             takeParcel=itemView.findViewById(R.id.taken_parcel_button);
             phone_recipient_button=itemView.findViewById(R.id.phone_recipient_taken_parcel);
-            address_recipient_button=itemView.findViewById(R.id.adress_recipient_taken_parcel);
             subItem_taken_parcel=itemView.findViewById(R.id.subitem_taken_parcel);
             profile_image_taken_parcel=itemView.findViewById(R.id.Profile_image_taken_parcel);
 
