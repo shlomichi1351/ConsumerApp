@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment {
     EditText search;
     static boolean  updateFlag;
     String temp_phone_user;
-    Button btn_test;
     ParcelRepository repository;
     User user;
     FirebaseUser userFireBase;
@@ -70,7 +69,6 @@ public class HomeFragment extends Fragment {
 
         parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        btn_test=view.findViewById(R.id.button_test);
 
         parcels=new ArrayList<Parcel>();
 
@@ -132,22 +130,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        btn_test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*
-                ArrayList<String> kuku=new ArrayList<String>();
-                getFriendsList("dandan",kuku);
-                */
 
-
-                ArrayList<String> array_test=new ArrayList<String>();
-                array_test.add("yossi");
-                array_test.add("dandan");
-                User a=new User("dana","bid","dahnad", "1234", "0522222222", array_test);
-                addUser(a);
-             }
-        });
         search.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -299,8 +282,8 @@ public class HomeFragment extends Fragment {
             holder.id.setText(String.valueOf(position+1));
 
             if(parcel.getFragile())
-                holder.other_details.setText(" החבילה היא מסוג " + parcel.getType().toString()+ "," +" והיא מכילה תוכן שביר! ");
-            else holder.other_details.setText(" החבילה היא מסוג " + parcel.getType().toString()+ "," +" ואינה מכילה תוכן שביר! ");
+                holder.other_details.setText("החבילה מכילה תוכן שביר! ");
+            else holder.other_details.setText( "החבילה אינה מכילה תוכן שביר ");
 
             holder.status.setText(parcel.getStatus().toString());
 
@@ -336,34 +319,7 @@ public class HomeFragment extends Fragment {
             nameTextView = itemView.findViewById(R.id.name_sender);
             phoneTextView = itemView.findViewById(R.id.phone_namber_parcel);
 
-            // itemView.setOnClickListener();
-            itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                @Override
-                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                    menu.setHeaderTitle("אפשרויות");
-                    MenuItem delete = menu.add(Menu.NONE, 1, 1, "מחיקה");
-                    delete.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            int position = getAdapterPosition();
-                            String id = parcels.get(position).getParcelId();
-                            Firebase_DBManager_Parcel.removeParcel(parcels.get(position).getRecipientPhoneNumber()+"/"+id, new Action<String>() {
 
-
-                                @Override
-                                public void onSuccess(String obj) {
-
-                                }
-
-                                @Override
-                                public void onFailure(Exception exception) {                     }
-                                @Override
-                                public void onProgress(String status, double percent) {                      }                 });
-                            return true;
-
-                        }
-                    });
-                } });
         }
     }
 }

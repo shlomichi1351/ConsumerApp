@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.consumer_app.Model.Action;
 import com.example.consumer_app.Model.Firebase_DBManager_Parcel;
+import com.example.consumer_app.Model.Firebase_DBManager_User;
 import com.example.consumer_app.Model.NotifyDataChange;
 import com.example.consumer_app.Model.Parcel;
 import com.example.consumer_app.Model.User;
@@ -36,6 +37,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -76,6 +78,13 @@ public class TakenParcels extends Fragment {
                     for (Parcel parcel : parcels)
                         if(parcel.getPhoneDeliver().equals(user.getPhoneNumber()) && parcel.getStatus().equals(Parcel.Status.OnTheWay))
                             takenParcelsList.add(parcel);
+                if (parcelRecyclerView.getAdapter() == null) {
+                    parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
+                }
+                else {
+
+                    parcelRecyclerView.getAdapter().notifyDataSetChanged();
+                }
 
             }
 
@@ -118,36 +127,38 @@ public class TakenParcels extends Fragment {
             holder.address_taken_parcel.setText(parcel.getRecipientAddress());
 
 
-
-
-            DatabaseReference ref = FirebaseDatabase.getInstance("https://warehouse-d61f5.firebaseio.com/").getReference("users");
-            ref.child(parcel.getRecipientPhoneNumber());
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            Query query =  Firebase_DBManager_User.usersRef
+                    .orderByChild("phoneNumber");
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot)
-                {
-                    recipientUser[0] = (User) dataSnapshot.getValue();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot child : dataSnapshot.getChildren())
+                    {
 
+                        if(child.getValue(User.class).getPhoneNumber().equals(parcel.getRecipientPhoneNumber())) {
+                            recipientUser[0] = child.getValue(User.class);
+                            break;
+                        }
 
-                    if (!recipientUser[0].getImageFirebaseUrl().equals(""))
-                        Glide.with(getContext())
-                                .load(recipientUser[0].getImageFirebaseUrl())
-                                .apply(RequestOptions.circleCropTransform())
-                                .into(holder.profile_image_taken_parcel);
-                    else
+                    }
+                    if (recipientUser[0].getImageFirebaseUrl()== null)
                         Glide.with(getContext())
                                 .load(R.drawable.user)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.profile_image_taken_parcel);
+
+                    else
+                        Glide.with(getContext())
+                                .load(recipientUser[0].getImageFirebaseUrl())
                                 .apply(RequestOptions.circleCropTransform())
                                 .into(holder.profile_image_taken_parcel);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    return;
+
                 }
-
             });
-
 
 
 
@@ -175,6 +186,23 @@ public class TakenParcels extends Fragment {
                     parcelRecyclerView.removeViewAt(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, takenParcelsList.size());
+                    Firebase_DBManager_Parcel.updateParcel(parcel, new Action<String>() {
+                        @Override
+                        public void onSuccess(String obj) {
+                            Toast.makeText(getContext(),"החבילה הגיעה ליעדה", Toast.LENGTH_LONG).show();
+
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+
+                        }
+
+                        @Override
+                        public void onProgress(String status, double percent) {
+
+                        }
+                    });
                 }
             });
 
@@ -200,9 +228,7 @@ public class TakenParcels extends Fragment {
             holder.phone_recipient_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse(parcel.getRecipientPhoneNumber()));
-                    startActivity(callIntent);
+                    startActivity(UserMenu.newPhoneCallIntent(parcel.getRecipientPhoneNumber()));
                 }
             });
         }
@@ -219,7 +245,6 @@ public class TakenParcels extends Fragment {
     {
         TextView lname_taken_parcel;
         TextView fname_taken_parcel;
-
         TextView phone_taken_parcel;
         TextView address_taken_parcel;
         CircleImageView profile_image_taken_parcel;
@@ -236,9 +261,12 @@ public class TakenParcels extends Fragment {
             lname_taken_parcel = itemView.findViewById(R.id.lname_taken_parcel);
             fname_taken_parcel = itemView.findViewById(R.id.fname_taken_parcel);
             phone_taken_parcel = itemView.findViewById(R.id.phone_namber_taken_parcel);
-            takeParcel=itemView.findViewById(R.id.take_parcel_button);
+            takeParcel=itemView.findViewById(R.id.taken_parcel_button);
             phone_recipient_button=itemView.findViewById(R.id.phone_recipient_taken_parcel);
             address_recipient_button=itemView.findViewById(R.id.adress_recipient_taken_parcel);
+            subItem_taken_parcel=itemView.findViewById(R.id.subitem_taken_parcel);
+            profile_image_taken_parcel=itemView.findViewById(R.id.Profile_image_taken_parcel);
+
 
         }
 

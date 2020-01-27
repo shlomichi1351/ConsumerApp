@@ -21,12 +21,6 @@
         android:inputType="text"
         android:padding="7dp"
         android:textColor="#040E69" />
-    <Button
-        android:id="@+id/button_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="תלחץ עליי בשביל להוסיף חבר"
-        />
 
 
     <androidx.recyclerview.widget.RecyclerView

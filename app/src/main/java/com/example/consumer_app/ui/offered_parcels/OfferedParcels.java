@@ -74,9 +74,15 @@ public class OfferedParcels extends Fragment {
                 offeredParcelsList=new ArrayList<Parcel>();
                 if(parcels != null)
                     for (Parcel parcel : parcels)
-                        if(parcel.getRecipientPhoneNumber().equals(user.getPhoneNumber()) && parcel.getSuggesters() != null && parcel.getSuggesters().size()>0)
+                        if(parcel.getRecipientPhoneNumber().equals(user.getPhoneNumber()) && parcel.getStatus().equals(Parcel.Status.CollectionOffered))
                             offeredParcelsList.add(parcel);
+                if (parcelRecyclerView.getAdapter() == null) {
+                    parcelRecyclerView.setAdapter(new ParcelRecycleViewAdapter());
+                }
+                else {
 
+                    parcelRecyclerView.getAdapter().notifyDataSetChanged();
+                }
             }
             @Override
             public void onFailure(Exception exception) {
@@ -104,8 +110,8 @@ public class OfferedParcels extends Fragment {
         public void onBindViewHolder(@NonNull final ParcelViewHolder holder, final int position) {
             final Parcel parcel = offeredParcelsList.get(position);
             final List<User> offers=new ArrayList<>();
-            List<String>images=new ArrayList<>();
-            List<String> texts=new ArrayList<>();
+            final List<String>images=new ArrayList<>();
+            final List<String> texts=new ArrayList<>();
 
             if (parcel.getType() == Parcel.Type.Envelope)
                 holder.details_package.setText("החבילה היא " + parcel.getType().toString() + "ונמצאת כרגע ב" + parcel.getDistributionCenterAddress());
@@ -113,23 +119,46 @@ public class OfferedParcels extends Fragment {
                 holder.details_package.setText("החבילה היא " + parcel.getType().toString() + "עם משקל של " + parcel.getWeight()+ " ונמצאת כרגע ב" + parcel.getDistributionCenterAddress());
 
 
+            final User[] suggester = new User[1];
             Query query =  Firebase_DBManager_User.usersRef
                     .orderByChild("phoneNumber");
-            query.addValueEventListener(new ValueEventListener() {
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                {
                     for (DataSnapshot child : dataSnapshot.getChildren())
                     {
                         for(String phone:parcel.getSuggesters())
                         {
                             if(child.getValue(User.class).getPhoneNumber().equals(phone)) {
-                                user = child.getValue(User.class);
+                                suggester[0] = child.getValue(User.class);
+                                offers.add(suggester[0]);
                                 break;
                             }
-
                         }
-                        offers.add(user);
                     }
+
+
+                    for(User user : offers)
+                    {
+                        if(user.getImageFirebaseUrl() != null)
+                            images.add(user.getImageFirebaseUrl());
+                        else
+                            images.add(String.valueOf(R.drawable.user));
+                        texts.add(user.getFirstName() + " " + user.getLastName() + " ," + user.getAddress());
+                    }
+
+
+                    String[] array_texts = new String[texts.size()];
+                    for(int i = 0; i < texts.size(); i++) array_texts[i] = texts.get(i);
+
+                    String[] array_images = new String[images.size()];
+                    for(int i = 0; i < images.size(); i++) array_images[i] = images.get(i);
+
+
+                    holder.spinner.setAdapter(new SpinnerAdapter(getContext(), 0, array_texts, array_images));
+
+
                 }
 
                 @Override
@@ -138,30 +167,30 @@ public class OfferedParcels extends Fragment {
                 }
             });
 
-            for(User user : offers)
-            {
-                if(user.getImageFirebaseUrl() != null)
-                    images.add(user.getImageFirebaseUrl());
-                else
-                    images.add(String.valueOf(R.drawable.user));
-                texts.add(user.getFirstName() + " " + user.getLastName() + " ," + user.getAddress());
-            }
-
-
-            String[] array_texts = new String[texts.size()];
-            for(int i = 0; i < texts.size(); i++) array_texts[i] = texts.get(i);
-
-            String[] array_images = new String[images.size()];
-            for(int i = 0; i < images.size(); i++) array_images[i] = images.get(i);
-
-
-            holder.spinner.setAdapter(new SpinnerAdapter(getContext(), 0, array_texts, array_images));
-
             holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //אchange the parcel status
-                //clear offer list and refresh recycleview
+                    User chosen = offers.get(position);
+                    parcel.setPhoneDeliver(chosen.getPhoneNumber());
+                    parcel.setStatus(Parcel.Status.OnTheWay);
+                    parcel.setSuggesters(new ArrayList<String>());
+                    Firebase_DBManager_Parcel.updateParcel(parcel, new Action<String>() {
+                        @Override
+                        public void onSuccess(String obj) {
+                            Toast.makeText(getContext(), "חברך נבחר בהצלחה!", Toast.LENGTH_LONG).show();
+
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+
+                        }
+
+                        @Override
+                        public void onProgress(String status, double percent) {
+
+                        }
+                    });
                 }
 
                 @Override
@@ -169,6 +198,7 @@ public class OfferedParcels extends Fragment {
 
                 }
             });
+
         }
 
         @Override
@@ -190,7 +220,7 @@ public class OfferedParcels extends Fragment {
             super(itemView);
 
            details_package=itemView.findViewById(R.id.parcel_details_offer);
-           spinner=itemView.findViewById(R.id.offered_parcels_List);
+           spinner=itemView.findViewById(R.id.offers_spinner);
 
             // itemView.setOnClickListener();
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {

@@ -131,7 +131,7 @@ public class friendParcels extends Fragment
 
             Query query =  Firebase_DBManager_User.usersRef
                     .orderByChild("phoneNumber");
-            query.addValueEventListener(new ValueEventListener() {
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren())
@@ -183,6 +183,11 @@ public class friendParcels extends Fragment
                 public void onClick(View v) {
                     Parcel p;
                     p=friendsParcelsList.get(position);
+                    ArrayList<String> temp_phones=new ArrayList<>();
+                    for(String parc: p.getSuggesters())
+                        temp_phones.add(parc);
+                    temp_phones.add(UserMenu.user.getPhoneNumber());
+                    p.setSuggesters(temp_phones);
                     p.setStatus(Parcel.Status.CollectionOffered);
 
                     Firebase_DBManager_Parcel.updateParcel(p, new Action<String>() {
