@@ -103,9 +103,7 @@ public class HomeFragment extends Fragment {
         });
 
 
-       //parcelRecyclerView=view.findViewById(R.id.parcelsList);
-        //parcelRecyclerView.setHasFixedSize(true);
-        //parcelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         Firebase_DBManager_Parcel.notifyToParcelList(new NotifyDataChange<List<Parcel>>()
         {
             @Override

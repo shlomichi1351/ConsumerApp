@@ -86,6 +86,7 @@ public class login extends AppCompatActivity implements TextWatcher {
         mAuth = FirebaseAuth.getInstance();
         singIn = findViewById(R.id.singIn);
 
+
         singIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
